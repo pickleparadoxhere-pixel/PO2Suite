@@ -2114,12 +2114,15 @@ const CATEGORY_MAP = {
   learning: { title: "Learning & Certifications", icon: "🗺" }
 };
 
-function renderSidebarResources() {
-  const pillBadge = document.getElementById("resource-hub-pill-badge");
-  if (pillBadge) {
-    pillBadge.textContent = `${RESOURCES.length} Verified`;
+function scrollToEstimator(e) {
+  if (e && e.preventDefault) e.preventDefault();
+  const el = document.getElementById("estimator");
+  if (el) {
+    el.scrollIntoView({ behavior: "smooth", block: "start" });
   }
+}
 
+function renderSidebarResources() {
   const container = document.getElementById("sidebar-categories-tree");
   if (!container) return;
 
@@ -2167,7 +2170,21 @@ function renderSidebarResources() {
 
 function toggleSidebarCategory(catKey) {
   const el = document.getElementById(`cat-acc-${catKey}`);
-  if (el) el.classList.toggle("open");
+  if (!el) return;
+  const isOpening = !el.classList.contains("open");
+  
+  // Collapse other categories so the active category gets maximum vertical space
+  document.querySelectorAll(".sidebar-cat-accordion").forEach(acc => {
+    if (acc !== el) acc.classList.remove("open");
+  });
+  
+  el.classList.toggle("open");
+  
+  if (isOpening) {
+    setTimeout(() => {
+      el.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }, 60);
+  }
 }
 
 function openResourceSidebar() {
