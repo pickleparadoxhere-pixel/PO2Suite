@@ -2114,14 +2114,6 @@ const CATEGORY_MAP = {
   learning: { title: "Learning & Certifications", icon: "🗺" }
 };
 
-function scrollToEstimator(e) {
-  if (e && e.preventDefault) e.preventDefault();
-  const el = document.getElementById("estimator");
-  if (el) {
-    el.scrollIntoView({ behavior: "smooth", block: "start" });
-  }
-}
-
 function renderSidebarResources() {
   const container = document.getElementById("sidebar-categories-tree");
   if (!container) return;
