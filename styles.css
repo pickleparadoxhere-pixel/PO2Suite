@@ -2971,27 +2971,32 @@ dialog.native-dialog::backdrop {
   gap: 1.25rem;
 }
 
-/* Avatar: Wrapper, Photo Support & Muted Gradient Fallback */
-.advisory-avatar-wrapper {
-  position: relative;
-  width: 56px;
-  height: 56px;
+/* Avatar: Circular Photo with subtle drop shadow & hover interaction */
+.advisory-avatar-link {
+  display: inline-block;
+  border-radius: 50%;
   flex-shrink: 0;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
+}
+
+.advisory-avatar-link:hover {
+  transform: scale(1.03);
 }
 
 .advisory-avatar-img {
-  width: 56px;
-  height: 56px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   object-fit: cover;
-  border: 1px solid #D9D9D9;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   flex-shrink: 0;
+  display: block;
 }
 
 .advisory-avatar {
-  width: 56px;
-  height: 56px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   background: linear-gradient(135deg, #0F3D75 0%, #1B5EB8 100%);
   color: #FFFFFF;
@@ -3016,6 +3021,17 @@ dialog.native-dialog::backdrop {
   color: #32363A;
   margin: 0 0 0.15rem 0;
   line-height: 1.2;
+}
+
+.advisory-name-link {
+  color: #32363A;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.advisory-name-link:hover {
+  color: #0070F2;
+  text-decoration: none;
 }
 
 .advisory-profile-role {
@@ -3131,7 +3147,7 @@ dialog.native-dialog::backdrop {
 }
 
 .btn-advisory-secondary:hover {
-  background: #FFFFFF;
+  background: #F5F9FF;
   border-color: #0070F2;
   color: #0070F2;
   text-decoration: none;
