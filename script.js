@@ -866,6 +866,15 @@ function setupEventListeners() {
       renderSidebarResources();
     });
   }
+
+  window.addEventListener("beforeprint", () => {
+    state._savedDocTitle = document.title;
+    document.title = `PO2Suite_Migration_Effort_Estimator_${state.currency || 'USD'}_${new Date().toISOString().split("T")[0]}`;
+  });
+
+  window.addEventListener("afterprint", () => {
+    if (state._savedDocTitle) document.title = state._savedDocTitle;
+  });
 }
 
 // ==========================================

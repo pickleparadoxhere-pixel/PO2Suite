@@ -2821,18 +2821,26 @@ dialog.native-dialog::backdrop {
 }
 
 @media print {
-  /* 1. Page & Body Setup */
+  /* 1. Page & Body Setup - Single Page Enforcement */
   @page {
-    margin: 1.2cm 1.5cm;
-    size: auto;
+    size: A4 portrait;
+    margin: 0.5cm 0.7cm;
   }
 
-  body {
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  html, body {
     background: #ffffff !important;
     color: #1a1a1a !important;
-    font-size: 10pt !important;
+    font-size: 9pt !important;
     padding: 0 !important;
     margin: 0 !important;
+    height: 100% !important;
+    max-height: 100% !important;
+    overflow: hidden !important;
   }
 
   main {
@@ -2875,7 +2883,7 @@ dialog.native-dialog::backdrop {
     visibility: hidden !important;
   }
 
-  /* 4. Format Migration Effort & Budget Estimator Section (#estimator) Exclusively */
+  /* 4. Format Migration Effort & Budget Estimator (#estimator) as Single-Page Document */
   #estimator {
     display: block !important;
     visibility: visible !important;
@@ -2883,6 +2891,11 @@ dialog.native-dialog::backdrop {
     padding: 0 !important;
     width: 100% !important;
     background: transparent !important;
+    page-break-after: avoid !important;
+    page-break-before: avoid !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    break-after: avoid !important;
   }
 
   #estimator .container {
@@ -2892,83 +2905,139 @@ dialog.native-dialog::backdrop {
   }
 
   .section-head {
-    margin-bottom: 1rem !important;
+    margin-bottom: 0.35rem !important;
     text-align: left !important;
   }
 
-  .section-title {
-    font-size: 1.6rem !important;
-    color: #000000 !important;
-    margin-bottom: 0.35rem !important;
-  }
-
   .section-tagline {
-    font-size: 0.8rem !important;
+    font-size: 0.68rem !important;
     color: #0070F2 !important;
     font-weight: 700 !important;
     text-transform: uppercase !important;
+    margin-bottom: 1px !important;
+  }
+
+  .section-title {
+    font-size: 1.25rem !important;
+    color: #000000 !important;
+    margin-bottom: 0.15rem !important;
+    font-weight: 800 !important;
   }
 
   .section-description {
-    font-size: 0.85rem !important;
+    font-size: 0.68rem !important;
     color: #444444 !important;
-    margin-bottom: 1rem !important;
+    margin-bottom: 0.35rem !important;
+    line-height: 1.2 !important;
   }
 
   .print-currency-badge {
     display: inline-block !important;
+    font-size: 0.72rem !important;
+    padding: 2px 6px !important;
   }
 
+  /* Compact Baseline Assumptions Card */
   .assumptions-log-card {
     border: 1px solid #d9d9d9 !important;
     background: #fafafa !important;
-    padding: 0.85rem !important;
-    margin-bottom: 1.25rem !important;
+    padding: 0.35rem 0.55rem !important;
+    margin-bottom: 0.45rem !important;
     page-break-inside: avoid !important;
   }
 
+  .assumptions-log-header {
+    margin-bottom: 0.2rem !important;
+  }
+
+  .assumptions-log-title {
+    font-size: 0.72rem !important;
+  }
+
+  .assumptions-grid {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 0.4rem !important;
+  }
+
+  .assumption-item {
+    padding: 0 !important;
+  }
+
+  .assumption-item-title {
+    font-size: 0.64rem !important;
+    font-weight: 700 !important;
+    margin-bottom: 1px !important;
+  }
+
+  .assumption-item-text {
+    font-size: 0.58rem !important;
+    color: #555555 !important;
+    line-height: 1.15 !important;
+  }
+
+  /* Compact 2-Column Calculator Box to fit 1 page */
   .calculator-box {
     border: 1px solid #d9d9d9 !important;
     box-shadow: none !important;
-    padding: 1.25rem !important;
+    padding: 0.55rem 0.75rem !important;
     background: #ffffff !important;
-    page-break-inside: auto !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
   }
 
   .calc-dual-grid {
-    gap: 1.25rem !important;
+    display: grid !important;
+    grid-template-columns: 1fr 1.05fr !important;
+    gap: 0.65rem !important;
+  }
+
+  .calc-inputs-column {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.45rem !important;
+  }
+
+  .calc-inputs-column h3 {
+    font-size: 0.82rem !important;
+    margin-bottom: 0.2rem !important;
   }
 
   .calc-spreadsheet-wrap {
     border: 1px solid #d9d9d9 !important;
     box-shadow: none !important;
-    margin-bottom: 1rem !important;
+    margin-bottom: 0.35rem !important;
     page-break-inside: avoid !important;
     overflow: visible !important;
   }
 
-  .calc-sheet-table,
-  .clean-table {
+  .calc-sheet-table {
     width: 100% !important;
     min-width: 100% !important;
     border-collapse: collapse !important;
-    font-size: 8.5pt !important;
+    font-size: 0.68rem !important;
   }
 
-  .calc-sheet-table th,
-  .clean-table th {
+  .calc-sheet-table th {
     background: #f0f2f5 !important;
     color: #222222 !important;
     border: 1px solid #d9d9d9 !important;
-    padding: 5px 8px !important;
+    padding: 3px 4px !important;
     font-weight: bold !important;
+    font-size: 0.66rem !important;
   }
 
-  .calc-sheet-table td,
-  .clean-table td {
+  .calc-sheet-table td {
     border: 1px solid #e5e5e5 !important;
-    padding: 5px 8px !important;
+    padding: 3px 4px !important;
     color: #222222 !important;
+    font-size: 0.68rem !important;
+  }
+
+  .calc-sheet-table td:nth-child(2) {
+    font-size: 0.58rem !important;
+    line-height: 1.1 !important;
+    max-width: 130px !important;
   }
 
   .calc-sheet-input,
@@ -2979,41 +3048,103 @@ dialog.native-dialog::backdrop {
     color: #000000 !important;
     padding: 0 !important;
     text-align: right !important;
-    font-size: 9pt !important;
+    font-size: 0.75rem !important;
     box-shadow: none !important;
+    width: 48px !important;
+  }
+
+  .calc-inputs-column h4 {
+    font-size: 0.76rem !important;
+    margin-bottom: 0.2rem !important;
   }
 
   .calc-overhead-dense-bar {
     border: 1px solid #d9d9d9 !important;
     background: #fafafa !important;
-    padding: 0.75rem !important;
+    padding: 0.35rem 0.55rem !important;
+    gap: 0.5rem !important;
+    page-break-inside: avoid !important;
+    margin-bottom: 0.35rem !important;
+  }
+
+  .calc-overhead-dense-bar label {
+    font-size: 0.68rem !important;
+  }
+
+  .calc-overhead-dense-bar span {
+    font-size: 0.68rem !important;
+  }
+
+  .calc-overhead-dense-bar > div > div:nth-child(2) {
+    font-size: 0.58rem !important;
+    margin-bottom: 2px !important;
+  }
+
+  .effort-scope-explanation {
+    border: 1px solid #d9d9d9 !important;
+    background: #fafafa !important;
+    padding: 0.35rem 0.55rem !important;
+    margin-top: 0 !important;
     page-break-inside: avoid !important;
   }
 
+  .scope-title-badge {
+    font-size: 0.68rem !important;
+    margin-bottom: 0.15rem !important;
+  }
+
+  .effort-scope-explanation p {
+    font-size: 0.58rem !important;
+    margin-bottom: 0.2rem !important;
+    line-height: 1.15 !important;
+  }
+
+  .effort-scope-explanation > div:last-child {
+    font-size: 0.56rem !important;
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 2px !important;
+  }
+
+  /* Right Column: Results & Matrix */
   .calc-results-column {
-    background: #ffffff !important;
+    background: #fafafa !important;
     border: 1px solid #d9d9d9 !important;
-    padding: 1rem !important;
-    page-break-inside: auto !important;
+    padding: 0.45rem 0.65rem !important;
+    gap: 0.45rem !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  .results-top-bar h3 {
+    font-size: 0.82rem !important;
+    margin: 0 !important;
   }
 
   .kpi-cards-grid {
     display: grid !important;
     grid-template-columns: repeat(5, 1fr) !important;
-    gap: 0.5rem !important;
-    margin-bottom: 1rem !important;
+    gap: 0.25rem !important;
+    margin-bottom: 0.25rem !important;
     page-break-inside: avoid !important;
   }
 
   .kpi-stat-card {
     border: 1px solid #d9d9d9 !important;
-    background: #fafafa !important;
-    padding: 0.5rem !important;
+    background: #ffffff !important;
+    padding: 0.25rem 0.35rem !important;
     page-break-inside: avoid !important;
+    text-align: center !important;
   }
 
   .kpi-stat-number {
-    font-size: 1.15rem !important;
+    font-size: 0.88rem !important;
+    margin-bottom: 0 !important;
+    line-height: 1.1 !important;
+  }
+
+  .kpi-stat-label {
+    font-size: 0.55rem !important;
   }
 
   .table-scroll-wrap {
@@ -3022,10 +3153,26 @@ dialog.native-dialog::backdrop {
     margin: 0 !important;
   }
 
-  .effort-scope-explanation {
+  .clean-table {
+    width: 100% !important;
+    min-width: 100% !important;
+    border-collapse: collapse !important;
+    font-size: 0.64rem !important;
+  }
+
+  .clean-table th {
+    background: #f0f2f5 !important;
+    color: #222222 !important;
     border: 1px solid #d9d9d9 !important;
-    background: #fafafa !important;
-    padding: 0.75rem !important;
-    page-break-inside: avoid !important;
+    padding: 2.5px 4px !important;
+    font-weight: bold !important;
+    font-size: 0.62rem !important;
+  }
+
+  .clean-table td {
+    border: 1px solid #e5e5e5 !important;
+    padding: 2.5px 4px !important;
+    color: #222222 !important;
+    font-size: 0.64rem !important;
   }
 }
