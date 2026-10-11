@@ -351,11 +351,11 @@ const RESOURCES = [
     id: "video-cpi-playlist",
     category: "videos",
     categoryLabel: "Video Masterclass",
-    title: "SAP Technology – Cloud Integration Developer Video Series",
-    description: "Hands-on developer video tutorials covering fundamental iFlow building blocks, script execution, message mappings, adapter configs, and security stores.",
-    topic: "Core CPI Developer Enablement",
-    tags: ["Cloud Integration", "iFlow", "Groovy Scripting"],
-    link: "https://www.youtube.com/playlist?list=PLkzo92owKnVwZ_hL-3aNn47qXF6cM37"
+    title: "SAP Developers – Cloud Integration & Modernization Series",
+    description: "Official SAP Developers video channel and playlists covering Cloud Integration development, API management, and integration modernization tutorials.",
+    topic: "Developer Enablement & Video Series",
+    tags: ["Cloud Integration", "iFlow", "Groovy Scripting", "SAP Developers"],
+    link: "https://www.youtube.com/@sapdevs"
   },
   {
     id: "video-migration-overview",
@@ -479,7 +479,7 @@ let STARTING_STEPS = [
       "Run the automated Integration Suite Booster in SAP BTP Cockpit",
       "Configure custom Identity Provider (IAS) role collections for integration developers"
     ],
-    link: "https://help.sap.com/docs/integration-suite",
+    link: "https://help.sap.com/docs/integration-suite/sap-integration-suite",
     icon: "☁️"
   },
   {
@@ -496,7 +496,7 @@ let STARTING_STEPS = [
       "Formulate protocol governance: sunset legacy RFC/SOAP in favor of REST/OData APIs",
       "Publish design guidelines for asynchronous queuing and exception handling"
     ],
-    link: "https://www.sap.com/services/integration-solution-advisory-methodology.html",
+    link: "https://help.sap.com/docs/integration-suite/sap-integration-suite/integration-assessment",
     icon: "📐"
   },
   {
@@ -513,7 +513,7 @@ let STARTING_STEPS = [
       "Implement automated payload diff and schema comparison pipelines",
       "Prepare unit and regression test suites for Wave 0 pilot interfaces"
     ],
-    link: "https://help.sap.com/docs/integration-suite",
+    link: "https://help.sap.com/docs/integration-suite/sap-integration-suite",
     icon: "🧪"
   },
   {
@@ -2148,15 +2148,16 @@ function renderSidebarResources() {
         <div class="sidebar-cat-body">
           ${items.length === 0 ? '<div style="font-size:0.75rem; color:var(--text-muted); padding:0.4rem;">No matching items</div>' : ''}
           ${items.map(item => `
-            <div class="sidebar-item-row">
+            <a href="${item.link}" target="_blank" rel="noopener noreferrer" class="sidebar-item-row" title="Open: ${escapeHtml(item.title)}">
               <div class="sidebar-item-title">
-                <span>${item.number ? `#${item.number}: ` : ''}${item.title}</span>
-                <a href="${item.link}" target="_blank" rel="noopener noreferrer" style="color:var(--sap-blue);" title="Open link">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
-                </a>
+                <span>${item.number ? `#${item.number}: ` : ''}${escapeHtml(item.title)}</span>
+                <span class="sidebar-item-link-icon" style="color:var(--sap-blue); display:flex; align-items:center; flex-shrink:0; margin-left:0.5rem;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                </span>
               </div>
-              <div class="sidebar-item-sub">${item.topic}</div>
-            </div>
+              <div class="sidebar-item-sub">${escapeHtml(item.topic || item.description)}</div>
+              ${item.category === 'notes' ? '<span class="sidebar-note-auth-hint">🔐 Requires SAP S-User / Universal ID</span>' : ''}
+            </a>
           `).join("")}
         </div>
       </div>

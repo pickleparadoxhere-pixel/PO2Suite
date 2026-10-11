@@ -103,7 +103,7 @@
         "Run the automated Integration Suite Booster in SAP BTP Cockpit",
         "Configure custom Identity Provider (IAS) role collections for integration developers"
       ],
-      "link": "https://help.sap.com/docs/integration-suite",
+      "link": "https://help.sap.com/docs/integration-suite/sap-integration-suite",
       "icon": "☁️"
     },
     {
@@ -120,7 +120,7 @@
         "Formulate protocol governance: sunset legacy RFC/SOAP in favor of REST/OData APIs",
         "Publish design guidelines for asynchronous queuing and exception handling"
       ],
-      "link": "https://www.sap.com/services/integration-solution-advisory-methodology.html",
+      "link": "https://help.sap.com/docs/integration-suite/sap-integration-suite/integration-assessment",
       "icon": "📐"
     },
     {
@@ -137,7 +137,7 @@
         "Implement automated payload diff and schema comparison pipelines",
         "Prepare unit and regression test suites for Wave 0 pilot interfaces"
       ],
-      "link": "https://help.sap.com/docs/integration-suite",
+      "link": "https://help.sap.com/docs/integration-suite/sap-integration-suite",
       "icon": "🧪"
     },
     {
