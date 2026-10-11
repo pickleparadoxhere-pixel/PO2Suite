@@ -760,6 +760,8 @@ const state = {
   cutoverStatus: JSON.parse(localStorage.getItem("po2suite_cutover_status") || "{}"),
   savedResourceIds: JSON.parse(localStorage.getItem("po2suite_saved_resources") || "[]"),
   sidebarSearchQuery: "",
+  activeArchScenario: "ground-to-ground",
+  activeArchTab: "scenarios",
 
   // Sizing inputs (SAP Migration Assessment T-Shirt Sizing)
   calc: {
@@ -964,154 +966,447 @@ function clearGlobalSearch() {
   input?.focus();
 }
 
-const ARCH_TOPOLOGIES = {
-  target: [
-    {
-      title: "SAP Cloud Integration",
-      badge: "Multi-Tenant Cloud",
-      badgeType: "target",
-      icon: "☁️",
-      desc: "Elastic, multi-tenant enterprise integration runtime on SAP BTP. Supports decoupled message processing, Camel-based enterprise integration patterns (EIP), and automatic scale-out.",
-      specs: [
-        { key: "Runtime", val: "Cloud Foundry / K8s BTP" },
-        { key: "Scripting Engine", val: "Groovy 3.x / JavaScript" },
-        { key: "Security Posture", val: "OAuth 2.0 / mTLS / Credential Store" },
-        { key: "Queuing Protocol", val: "SAP Event Mesh / Enterprise JMS" }
-      ]
+const ARCH_SCENARIOS = [
+  {
+    id: "ground-to-ground",
+    icon: "🏭",
+    name: "Ground-to-Ground & Edge",
+    subtitle: "Plant MES, Shop Floor, SCADA, Low-Latency Local DBs",
+    targetTopology: "Edge Integration Cell (Kubernetes)",
+    targetBadge: "Edge Integration Cell",
+    badgeType: "edge",
+    treatment5R: "Replatform / Local Runtime",
+    treatmentBadge: "5R: Replatform",
+    feasibilityScore: 75,
+    feasibilityText: "High (~75% Automated)",
+    feasibilityNote: "ICOs convert via Wizard; requires local K8s cluster (SUSE Rancher, OpenShift) setup.",
+    problemStatement: "High-volume, sub-second latency communications between on-premise systems (e.g. Shop Floor / MES to ERP, automated warehouse sorting) where traffic must never hairpin to the public cloud.",
+    decisionCriteria: [
+      { label: "Data Sovereignty", text: "Mandatory regulatory / compliance requirement to keep raw payloads inside private corporate network." },
+      { label: "Latency Profile", text: "Sub-millisecond or low-latency roundtrips required for real-time manufacturing or physical automation." },
+      { label: "Offline Resilience", text: "Factory line must continue executing even during WAN or public internet outages." },
+      { label: "Bandwidth & Egress", text: "Eliminates high internet egress fees associated with streaming continuous IoT/sensor telemetry to cloud." }
+    ],
+    shiftComparison: {
+      legacy: {
+        title: "Legacy SAP PO 7.5 Approach",
+        points: [
+          "Local Advanced Adapter Engine (AAE) running on NetWeaver Java VM instances",
+          "Decentralized Adapter Engines (non-central AAE) requiring separate patch lifecycles and SLD registration",
+          "Synchronous RFC/SOAP endpoints tightly coupled with on-premise firewalls"
+        ]
+      },
+      target: {
+        title: "Target SAP Integration Suite Blueprint",
+        points: [
+          "Edge Integration Cell running as containerized microservices in customer private K8s (SUSE Rancher, Red Hat OpenShift, Amazon EKS Anywhere)",
+          "Single pane of glass: centrally designed, governed, and deployed from SAP BTP Cloud Integration Web UI",
+          "Decoupled local execution: runs autonomously even when disconnected from BTP control plane"
+        ]
+      }
     },
-    {
-      title: "Edge Integration Cell",
-      badge: "Local Ground-to-Ground",
-      badgeType: "edge",
-      icon: "🛡️",
-      desc: "Containerized deployment of Cloud Integration runtime operating locally in the customer private Kubernetes cluster. Keeps local traffic on-premise for sub-millisecond latency and data sovereignty.",
-      specs: [
-        { key: "Infrastructure", val: "Customer K8s (SUSE Rancher, OpenShift)" },
-        { key: "Latency Profile", val: "Sub-millisecond Ground-to-Ground" },
-        { key: "Offline Isolation", val: "Autonomous Local Processing" },
-        { key: "Control Plane", val: "Centrally governed from SAP BTP" }
-      ]
+    protocols: {
+      legacy: "RFC, SOAP, Flat Files, JDBC",
+      target: "REST/OData, Kafka/JMS, Webhooks, Edge JDBC"
     },
-    {
-      title: "SAP Integration Advisor & TPM",
-      badge: "AI-Assisted B2B",
-      badgeType: "target",
-      icon: "🤖",
-      desc: "Crowdsourced machine learning intelligence delivering standardized Message Implementation Guidelines (MIGs) and Mapping Guidelines (MAGs). Built-in Trading Partner Management (TPM).",
-      specs: [
-        { key: "Standards Supported", val: "EDIFACT, ASC X12, cXML, UBL, EANCOM" },
-        { key: "Mapping Acceleration", val: "60–80% automated B2B mapping" },
-        { key: "Partner Directory", val: "Centralized B2B Partner Metadata" },
-        { key: "Lifecycle Flow", val: "Automated iFlow generation from MAGs" }
-      ]
+    governanceRule: "Deploy Edge Integration Cell strictly for ground-to-ground or data sovereignty workloads. Route all SaaS, B2B, and cross-enterprise traffic through BTP Multi-Tenant Cloud Integration to avoid managing unnecessary edge infrastructure."
+  },
+  {
+    id: "hybrid-a2a",
+    icon: "☁️",
+    name: "Hybrid Enterprise A2A",
+    subtitle: "S/4HANA & ECC Core to Cloud SaaS (Ariba, Salesforce, Workday)",
+    targetTopology: "SAP Cloud Integration + SAP Cloud Connector",
+    targetBadge: "Multi-Tenant BTP + Cloud Connector",
+    badgeType: "target",
+    treatment5R: "Replatform (Migration Wizard)",
+    treatmentBadge: "5R: Replatform",
+    feasibilityScore: 85,
+    feasibilityText: "Very High (~85% Automated)",
+    feasibilityNote: "Standard ICOs auto-extracted via SAP Migration Wizard; destination endpoints re-pointed to Cloud Connector.",
+    problemStatement: "Bi-directional integration connecting core on-premise transactional systems (SAP ECC 6.0, S/4HANA On-Prem) with public cloud SaaS applications (Salesforce, Workday, Coupa, ServiceNow).",
+    decisionCriteria: [
+      { label: "Security Posture", text: "Requires zero inbound ports opened in the corporate firewall to protect SAP core ERP from external threats." },
+      { label: "Principal Propagation", text: "Identity federation exchanging Cloud JWT tokens to on-premise X.509 certificates for strict user auditing." },
+      { label: "Elastic Scaling", text: "Elastic compute on SAP BTP handles sudden enterprise traffic spikes without provisioning on-premise VMs." },
+      { label: "Maintenance Free", text: "Automated zero-downtime SAP kernel updates, OS patching, and hyperscaler disaster recovery." }
+    ],
+    shiftComparison: {
+      legacy: {
+        title: "Legacy SAP PO 7.5 Approach",
+        points: [
+          "Inbound DMZ Reverse Proxies (SAP Web Dispatcher) requiring external firewall holes opened",
+          "Static technical user credentials shared across integration channels in NWA Keystore",
+          "Heavy on-premise NetWeaver memory consumption during large XML payload transformations"
+        ]
+      },
+      target: {
+        title: "Target SAP Integration Suite Blueprint",
+        points: [
+          "SAP Cloud Connector reverse-proxy establishing encrypted outbound-only TLS tunnel from intranet to BTP",
+          "Fine-grained Resource Whitelisting restricting which specific BAPIs, RFCs, and URL paths cloud iFlows can invoke",
+          "Cloud Integration multi-tenant worker nodes automatically scale compute based on message queue volume"
+        ]
+      }
     },
-    {
-      title: "SAP Cloud Connector",
-      badge: "Secure Hybrid Tunnel",
-      badgeType: "target",
-      icon: "🔒",
-      desc: "Reverse-proxy TLS tunnel establishing outbound-only secure connections between SAP BTP and on-premise systems (ECC, S/4HANA, RFC, Database). Zero inbound firewall holes required.",
-      specs: [
-        { key: "Firewall Rule", val: "Zero Inbound Ports Opened" },
-        { key: "Protocols", val: "RFC, HTTP(S), JDBC, LDAP, SNC" },
-        { key: "HA Cluster", val: "Active / Cold Standby redundancy" },
-        { key: "Principal Propagation", val: "JWT to X.509 Certificate Exchange" }
-      ]
-    }
-  ],
-  legacy: [
-    {
-      title: "ABAP Integration Engine",
-      badge: "Monolithic Dual-Stack",
-      badgeType: "legacy",
-      icon: "⚙️",
-      desc: "Classic NetWeaver dual-stack messaging pipeline executing on ABAP application servers. Uses Integration Engine pipelines (Inbound, Receiver Determination, Interface Determination, Mapping).",
-      specs: [
-        { key: "Maintenance Status", val: "End of Standard Support 2027 (Ext 2030)" },
-        { key: "Resource Model", val: "Heavy DB & Dialog Work Process load" },
-        { key: "Mapping Engines", val: "ABAP Mapping, XSLT, Java RFC" },
-        { key: "Hardware Footprint", val: "High on-premise server TCO" }
-      ]
+    protocols: {
+      legacy: "IDoc over tRFC/qRFC, SOAP HTTP, XI 3.0",
+      target: "OData v2/v4, REST JSON, SOAP over Cloud Connector, SAP Event Mesh"
     },
-    {
-      title: "Java Adapter Engine (AAE)",
-      badge: "On-Premise Single-Stack",
-      badgeType: "legacy",
-      icon: "🔌",
-      desc: "Java EE application runtime hosting communication channel adapters (SOAP, File, JDBC, IDoc_AAE, JMS). Bound to legacy NetWeaver Java 7.5 kernel and obsolete custom adapter modules.",
-      specs: [
-        { key: "Adapter Modules", val: "Custom EJB / Java 6-8 modules" },
-        { key: "Scalability", val: "Vertical scaling on VM instances" },
-        { key: "Security", val: "Local NWA Keystore / J2EE User Store" },
-        { key: "High Availability", val: "SCS / ERS clustering" }
-      ]
+    governanceRule: "Always configure High Availability (Master / Shadow) on SAP Cloud Connector and enforce Principal Propagation instead of shared generic service accounts for compliance."
+  },
+  {
+    id: "b2b-edi",
+    icon: "🤝",
+    name: "B2B & EDI Trading Partner",
+    subtitle: "UN/EDIFACT, ANSI X12, AS2, OFTP2, cXML Partner Exchanges",
+    targetTopology: "SAP Integration Advisor (MIG/MAG) + TPM",
+    targetBadge: "AI-Assisted B2B + TPM",
+    badgeType: "target",
+    treatment5R: "Refactor / Modernize",
+    treatmentBadge: "5R: Refactor",
+    feasibilityScore: 65,
+    feasibilityText: "Medium (~65% Accelerated)",
+    feasibilityNote: "Integration Advisor accelerates mappings by 60-80%; partner certificates and AS2 parameters migrated to TPM.",
+    problemStatement: "Exchanging critical purchase orders, invoices, ASNs, and customs declarations with hundreds of external vendors, 3PL logistics carriers, and retail partners.",
+    decisionCriteria: [
+      { label: "EDI Standards Library", text: "Access to comprehensive global standard schemas (ASC X12, UN/EDIFACT, ODETTE, VDA, cXML, UBL)." },
+      { label: "Partner Agility", text: "Onboard new trading partners in hours instead of weeks without writing custom mapping code from scratch." },
+      { label: "Decoupled Governance", text: "Centralized Partner Directory separates partner-specific routing, identifiers, and certificates from runtime iFlows." },
+      { label: "Security & Non-Repudiation", text: "Native AS2 MDN signing, SHA-256 digital signatures, and certificate lifecycle management." }
+    ],
+    shiftComparison: {
+      legacy: {
+        title: "Legacy SAP PO 7.5 Approach",
+        points: [
+          "B2B Add-on 1.0 SP08+ requiring local license modules, TPM tables, and manual split/merge configurations",
+          "Brittle graphical message mappings with hundreds of custom Java UDFs for EDI qualifier lookups",
+          "Hardcoded partner routing rules inside Integrated Configurations (ICOs)"
+        ]
+      },
+      target: {
+        title: "Target SAP Integration Suite Blueprint",
+        points: [
+          "SAP Integration Advisor with machine-learning crowdsourced Message Implementation Guidelines (MIG) & Mapping Guidelines (MAG)",
+          "Trading Partner Management (TPM) application managing agreements, AS2/OFTP2 parameters, and interchanges",
+          "Automated push-button generation of runtime iFlows directly from approved MAG mappings"
+        ]
+      }
     },
-    {
-      title: "ccBPM / NW BPM",
-      badge: "Stateful Orchestration",
-      badgeType: "legacy",
-      icon: "⏳",
-      desc: "Heavy stateful business process management orchestrations executing sync/async correlation bridges and long-running human approval workflows directly on the integration server.",
-      specs: [
-        { key: "Persistence", val: "Heavy database table bloat (SWWWIHEAD)" },
-        { key: "Latency", val: "High context switching overhead" },
-        { key: "Modern Alternative", val: "SAP Build Process Automation" },
-        { key: "Migration Effort", val: "Extra Large (25.5 Days / Redesign)" }
-      ]
+    protocols: {
+      legacy: "AS2, OFTP2, SFTP, EDIFACT, ANSI X12, IDoc",
+      target: "AS2 with SHA-256, Cloud SFTP, TPM Partner Directory, AI-Generated MAGs"
     },
-    {
-      title: "System Landscape Directory (SLD)",
-      badge: "Legacy Governance",
-      badgeType: "legacy",
-      icon: "🗄️",
-      desc: "Centralized CIM repository storing Technical Systems and Business Systems. Requires manual synchronization across DEV, QAS, and PRD environments via CTS+ transports.",
-      specs: [
-        { key: "Repository", val: "CIM Model / Data Supplier" },
-        { key: "Transport System", val: "Classic CTS+ transport tracks" },
-        { key: "Modern Alternative", val: "BTP Destination Service & Service Registry" },
-        { key: "Disaster Recovery", val: "Manual export/import sync" }
-      ]
-    }
-  ]
-};
+    governanceRule: "Do not replicate legacy 1-to-1 partner iFlows. Consolidate B2B interfaces into generic parameter-driven orchestration pipelines fed by the BTP Trading Partner Management (TPM) directory."
+  },
+  {
+    id: "sync-apis",
+    icon: "⚡",
+    name: "Synchronous APIs & Gateways",
+    subtitle: "Mobile Apps, Customer Portals, Third-Party Webhooks",
+    targetTopology: "SAP API Management + Cloud Integration",
+    targetBadge: "API Management + CPI",
+    badgeType: "target",
+    treatment5R: "Replace / Expose API",
+    treatmentBadge: "5R: Replace with API",
+    feasibilityScore: 80,
+    feasibilityText: "High (~80% Standardized)",
+    feasibilityNote: "Replace point-to-point SOAP endpoints with REST/OData API proxies; apply standard security policies.",
+    problemStatement: "External client applications, digital customer portals, or SaaS webhooks requiring instant synchronous responses (sub-500ms) with strict rate limiting, monetization, or API governance.",
+    decisionCriteria: [
+      { label: "Traffic Shaping & DDoS", text: "Protect backend ERP from traffic spikes using Spike Arrest, Rate Limiting, and Quota policies." },
+      { label: "Standardized Authentication", text: "OAuth 2.0 Client Credentials / Authorization Code flow, API Keys, and JWT token validation at the edge." },
+      { label: "API Lifecycle & Catalog", text: "Expose self-service Developer Portal with Swagger / OpenAPI 3.0 documentation for internal and partner developers." },
+      { label: "Protocol Mediation", text: "Convert legacy SOAP XML backends into lightweight JSON REST / OData endpoints consumed by modern frontends." }
+    ],
+    shiftComparison: {
+      legacy: {
+        title: "Legacy SAP PO 7.5 Approach",
+        points: [
+          "Direct point-to-point SOAP/HTTP calls into PO without API rate limiting or traffic throttling",
+          "Backend ECC work processes exhausted during external traffic spikes, degrading core ERP performance",
+          "No developer portal; API specifications exchanged via manual PDF/Word interface documentation"
+        ]
+      },
+      target: {
+        title: "Target SAP Integration Suite Blueprint",
+        points: [
+          "SAP API Management edge facade enforcing OAuth 2.0, IP filtering, caching, and Spike Arrest policies",
+          "Cloud Integration invoked only when complex message orchestration, multi-system aggregation, or protocol conversion is needed",
+          "Native integration with SAP Business Accelerator Hub for pre-packaged standard SAP enterprise APIs"
+        ]
+      }
+    },
+    protocols: {
+      legacy: "SOAP HTTP 1.1, RFC Web Services",
+      target: "OpenAPI 3.0, REST JSON, OData v4, GraphQL, OAuth 2.0"
+    },
+    governanceRule: "Never expose Cloud Integration endpoints directly to public internet consumers without an API Management gateway facade for authentication, rate limiting, and threat protection."
+  },
+  {
+    id: "stateful-bpm",
+    icon: "⏳",
+    name: "Stateful BPM & Orchestrations",
+    subtitle: "ccBPM, NetWeaver BPM, Long-Running Human Approvals",
+    targetTopology: "SAP Build Process Automation + Stateless iFlows",
+    targetBadge: "SAP Build + Event-Driven",
+    badgeType: "warning",
+    treatment5R: "Re-architect (Manual Redesign)",
+    treatmentBadge: "5R: Re-architect",
+    feasibilityScore: 20,
+    feasibilityText: "Low (~20% Auto-Feasible)",
+    feasibilityNote: "100% manual re-architecture required. Migration Wizard cannot convert stateful BPM processes.",
+    problemStatement: "Multi-step orchestrations with correlation sets, synchronous-to-asynchronous message bridges, human task approvals, or long-running workflows with multi-day wait timers.",
+    decisionCriteria: [
+      { label: "Statelessness Requirement", text: "SAP Cloud Integration is strictly stateless and cannot persist intermediate process instance states in memory." },
+      { label: "Human Workflow Tasks", text: "Processes requiring user interaction, task inboxes, and managerial approval hierarchies belong in SAP Build." },
+      { label: "Correlation Bridges", text: "Sync/Async correlation patterns must be decoupled using asynchronous queues or webhook callbacks." },
+      { label: "Database Bloat Prevention", text: "Eliminates legacy NetWeaver BPM database table bloat (SWWWIHEAD) and costly server lockups." }
+    ],
+    shiftComparison: {
+      legacy: {
+        title: "Legacy SAP PO 7.5 Approach",
+        points: [
+          "ccBPM (Integration Server) or NetWeaver BPM (Java EE) holding process states in heavy database tables",
+          "Complex correlation sets waiting hours or days for asynchronous acknowledgement messages",
+          "High memory overhead and fragile process recovery when server restarts unexpectedly"
+        ]
+      },
+      target: {
+        title: "Target SAP Integration Suite Blueprint",
+        points: [
+          "Human approvals and multi-step business logic moved to low-code SAP Build Process Automation",
+          "Technical integration steps decoupled into lightweight, stateless Cloud Integration iFlows",
+          "Asynchronous event correlation managed via SAP Event Mesh or Data Store / JMS temporary queues"
+        ]
+      }
+    },
+    protocols: {
+      legacy: "BPEL, ccBPM Correlation Sets, XI Sync/Async Bridge",
+      target: "SAP Build Process Automation, CloudEvents, Event Mesh, Stateless JMS"
+    },
+    governanceRule: "Do not attempt to replicate ccBPM state machines inside Cloud Integration with looping or wait timers. Always separate business workflow (SAP Build) from data integration (Cloud Integration)."
+  },
+  {
+    id: "batch-file",
+    icon: "📦",
+    name: "High-Volume Batch & Heavy Files",
+    subtitle: "Large SFTP Dumps, 100MB+ Payloads, Periodic Batch Transfers",
+    targetTopology: "Event-Driven Streaming + Object Store / SFTP",
+    targetBadge: "Streaming iFlows + Event Mesh",
+    badgeType: "info",
+    treatment5R: "Refactor / Stream",
+    treatmentBadge: "5R: Refactor",
+    feasibilityScore: 70,
+    feasibilityText: "Good (~70% Standardized)",
+    feasibilityNote: "Replace polling channels with event triggers; configure Camel streaming splitter to prevent memory bloat.",
+    problemStatement: "Periodic batch data drops, 50MB to 500MB+ flat files, large inventory extracts, or legacy SFTP scheduled polling between enterprise systems.",
+    decisionCriteria: [
+      { label: "JVM Memory Safety", text: "Loading entire multi-hundred MB XML/CSV files into memory causes JVM Out-Of-Memory (OOM) fatal crashes." },
+      { label: "Event vs Polling", text: "Replace aggressive 60-second directory polling with event-driven file notifications (Webhooks / Event Mesh)." },
+      { label: "Parallel Chunking", text: "Stream and split payloads into manageable message chunks (5,000-10,000 records) processed concurrently." },
+      { label: "Cloud Object Storage", text: "Leverage hyperscaler object stores (AWS S3, Azure Blob, Google Cloud Storage) with presigned URLs for raw data." }
+    ],
+    shiftComparison: {
+      legacy: {
+        title: "Legacy SAP PO 7.5 Approach",
+        points: [
+          "File/FTP Adapter polling NFS shares every 60 seconds with OS-level lock files",
+          "Massive XML payloads held in Java heap during DOM tree parsing and graphical mapping",
+          "Batch failures require entire multi-hour file re-processing from scratch"
+        ]
+      },
+      target: {
+        title: "Target SAP Integration Suite Blueprint",
+        points: [
+          "Cloud Integration SFTP / Object Store adapter with Camel Streaming XML/CSV Splitter",
+          "Iterative chunk processing committing records in batches to JMS queue or target endpoint",
+          "Failed chunks route to Dead Letter Queue (DLQ) without failing the rest of the batch"
+        ]
+      }
+    },
+    protocols: {
+      legacy: "NFS, FTP/SFTP Polling, Large XML DOM",
+      target: "Streaming SFTP, AWS S3/Azure Blob Adapters, Camel Streaming Splitter, JMS DLQ"
+    },
+    governanceRule: "Always activate 'Streaming' in the General Splitter step and avoid DOM-based parsers (like XPath or XML-to-JSON with full buffer) for payloads exceeding 40MB."
+  }
+];
 
 function initArchBlueprint() {
-  switchArchView('target');
+  renderArchScenarioChips();
+  renderArchDecisionCard(state.activeArchScenario || "ground-to-ground");
 }
 
-function switchArchView(view) {
-  const btnTarget = document.getElementById("arch-btn-target");
-  const btnLegacy = document.getElementById("arch-btn-legacy");
-  const container = document.getElementById("arch-diagram-grid");
+function renderArchScenarioChips() {
+  const container = document.getElementById("arch-scenario-chips-grid");
   if (!container) return;
 
-  if (view === 'target') {
-    if (btnTarget) btnTarget.classList.add("active");
-    if (btnLegacy) btnLegacy.classList.remove("active");
-  } else {
-    if (btnLegacy) btnLegacy.classList.add("active");
-    if (btnTarget) btnTarget.classList.remove("active");
-  }
-
-  const items = ARCH_TOPOLOGIES[view] || ARCH_TOPOLOGIES.target;
-
-  container.innerHTML = items.map(c => `
-    <div class="arch-card">
-      <div class="arch-card-header">
-        <div class="arch-card-title">${c.icon} ${c.title}</div>
-        <span class="arch-card-badge ${c.badgeType}">${c.badge}</span>
+  container.innerHTML = ARCH_SCENARIOS.map(s => {
+    const isActive = s.id === (state.activeArchScenario || "ground-to-ground");
+    return `
+      <div class="arch-scenario-chip ${isActive ? 'active' : ''}" onclick="selectArchScenario('${s.id}')" role="button" tabindex="0">
+        <div class="arch-chip-top">
+          <span class="arch-chip-icon">${s.icon}</span>
+          <span class="arch-chip-badge ${s.badgeType}">${s.targetBadge}</span>
+        </div>
+        <div class="arch-chip-title">${escapeHtml(s.name)}</div>
+        <div class="arch-chip-sub">${escapeHtml(s.subtitle)}</div>
       </div>
-      <div class="arch-card-body">${c.desc}</div>
-      <div class="arch-card-specs">
-        ${c.specs.map(s => `
-          <div class="arch-spec-item">
-            <span class="arch-spec-key">${s.key}:</span>
-            <span class="arch-spec-val">${s.val}</span>
+    `;
+  }).join("");
+}
+
+function selectArchScenario(scenarioId) {
+  state.activeArchScenario = scenarioId;
+  const chips = document.querySelectorAll(".arch-scenario-chip");
+  chips.forEach((c, idx) => {
+    if (ARCH_SCENARIOS[idx] && ARCH_SCENARIOS[idx].id === scenarioId) {
+      c.classList.add("active");
+    } else {
+      c.classList.remove("active");
+    }
+  });
+  renderArchDecisionCard(scenarioId);
+}
+
+function renderArchDecisionCard(scenarioId) {
+  const container = document.getElementById("arch-active-decision-box");
+  if (!container) return;
+
+  const scenario = ARCH_SCENARIOS.find(s => s.id === scenarioId) || ARCH_SCENARIOS[0];
+
+  const fillWidth = scenario.feasibilityScore + "%";
+  const fillColor = scenario.feasibilityScore >= 75 ? "var(--status-positive)" : (scenario.feasibilityScore >= 50 ? "var(--sap-blue)" : "var(--status-critical)");
+
+  container.innerHTML = `
+    <!-- Top Executive Banner -->
+    <div class="arch-decision-banner">
+      <div class="arch-db-left">
+        <span class="arch-db-scenario-tag">${scenario.icon} Scenario Architecture Evaluation</span>
+        <h3 class="arch-db-title">${escapeHtml(scenario.name)}</h3>
+        <p class="arch-db-prob">${escapeHtml(scenario.problemStatement)}</p>
+      </div>
+      <div class="arch-db-right">
+        <div class="arch-db-target-pill">
+          <span>Target Architecture:</span>
+          <strong>${escapeHtml(scenario.targetTopology)}</strong>
+        </div>
+        <div class="arch-feasibility-meter">
+          <span>Tooling Feasibility:</span>
+          <div class="arch-feas-bar-bg" title="${escapeHtml(scenario.feasibilityText)}">
+            <div class="arch-feas-bar-fill" style="width: ${fillWidth}; background: ${fillColor};"></div>
           </div>
-        `).join("")}
+          <span style="font-weight: 700; color: #FFFFFF;">${scenario.feasibilityScore}%</span>
+        </div>
       </div>
     </div>
-  `).join("");
+
+    <!-- 3-Column Decision Breakdown Grid -->
+    <div class="arch-decision-grid">
+      <!-- Col 1: Decision Drivers & Rationale -->
+      <div class="arch-dcol">
+        <div class="arch-dcol-header">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          <span>Key Decision Rationale</span>
+        </div>
+        <div class="arch-criteria-list">
+          ${scenario.decisionCriteria.map(c => `
+            <div class="arch-crit-item">
+              <span class="arch-crit-key">${escapeHtml(c.label)}</span>
+              <span class="arch-crit-text">${escapeHtml(c.text)}</span>
+            </div>
+          `).join("")}
+        </div>
+      </div>
+
+      <!-- Col 2: Architectural Transition Shift -->
+      <div class="arch-dcol">
+        <div class="arch-dcol-header">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          <span>Architecture Shift (Legacy ➔ Target)</span>
+        </div>
+        <div class="arch-shift-block">
+          <div class="arch-shift-box legacy">
+            <div class="arch-shift-box-title">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+              <span>${escapeHtml(scenario.shiftComparison.legacy.title)}</span>
+            </div>
+            <ul class="arch-shift-list">
+              ${scenario.shiftComparison.legacy.points.map(p => `<li>${escapeHtml(p)}</li>`).join("")}
+            </ul>
+          </div>
+          <div class="arch-shift-box target">
+            <div class="arch-shift-box-title">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span>${escapeHtml(scenario.shiftComparison.target.title)}</span>
+            </div>
+            <ul class="arch-shift-list">
+              ${scenario.shiftComparison.target.points.map(p => `<li>${escapeHtml(p)}</li>`).join("")}
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Col 3: Tooling, Protocols & Governance -->
+      <div class="arch-dcol">
+        <div class="arch-dcol-header">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+          <span>5R Treatment & Governance</span>
+        </div>
+        <div class="arch-spec-box">
+          <span class="arch-spec-box-label">5R Strategy Classification</span>
+          <div class="arch-spec-box-content">
+            <strong style="color: var(--sap-blue); font-size: 0.85rem;">${escapeHtml(scenario.treatment5R)}</strong>
+            <p style="margin: 0.2rem 0 0; font-size: 0.72rem; color: var(--text-muted);">${escapeHtml(scenario.feasibilityNote)}</p>
+          </div>
+        </div>
+        <div class="arch-spec-box">
+          <span class="arch-spec-box-label">Protocol Modernization</span>
+          <div class="arch-spec-box-content" style="font-size: 0.74rem;">
+            <div><span style="color: var(--status-critical); font-weight:700;">Legacy:</span> ${escapeHtml(scenario.protocols.legacy)}</div>
+            <div style="margin-top: 0.2rem;"><span style="color: var(--status-positive); font-weight:700;">Target:</span> ${escapeHtml(scenario.protocols.target)}</div>
+          </div>
+        </div>
+        <div class="arch-gov-guardrail">
+          <strong>Architecture Rule:</strong> ${escapeHtml(scenario.governanceRule)}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function switchArchTab(tabId) {
+  state.activeArchTab = tabId;
+  const tabs = ['scenarios', 'matrix', 'blueprint'];
+
+  tabs.forEach(t => {
+    const btn = document.getElementById(`arch-tab-${t}`);
+    const pane = document.getElementById(`arch-pane-${t}`);
+    if (btn) {
+      if (t === tabId) {
+        btn.classList.add("active");
+        btn.setAttribute("aria-selected", "true");
+      } else {
+        btn.classList.remove("active");
+        btn.setAttribute("aria-selected", "false");
+      }
+    }
+    if (pane) {
+      if (t === tabId) {
+        pane.style.display = "block";
+        pane.classList.add("active");
+      } else {
+        pane.style.display = "none";
+        pane.classList.remove("active");
+      }
+    }
+  });
+
+  if (tabId === 'scenarios') {
+    renderArchScenarioChips();
+    renderArchDecisionCard(state.activeArchScenario || "ground-to-ground");
+  }
 }
 
 // ==========================================
