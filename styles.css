@@ -1858,41 +1858,7 @@ a:hover {
   margin-top: 1.5rem;
 }
 
-/* PRINT & EXPORT MEDIA QUERY */
-@media print {
-  body {
-    background: #FFFFFF !important;
-    color: #000000 !important;
-    font-size: 11pt !important;
-  }
-  .header-sticky,
-  .hero-clean-v2,
-  .sidebar-backdrop,
-  .resource-sidebar-drawer,
-  .toast-container,
-  .modal-overlay,
-  .section-menu-row,
-  .results-top-bar button {
-    display: none !important;
-  }
-  .section-wrapper {
-    padding: 1rem 0 !important;
-  }
-  .calculator-box {
-    border: none !important;
-    padding: 0 !important;
-    box-shadow: none !important;
-  }
-  .calc-dual-grid {
-    grid-template-columns: 1fr !important;
-    gap: 1rem !important;
-  }
-  .calc-spreadsheet-wrap,
-  .calc-results-column {
-    border: 1px solid #CCC !important;
-    background: #FFF !important;
-  }
-}
+
 
 /* COLLAPSIBLE SIDEBAR FOR RESOURCE HUB */
 .sidebar-backdrop {
@@ -2823,41 +2789,44 @@ dialog.native-dialog::backdrop {
 @media print {
   /* 1. Page & Body Setup - Single Page Enforcement */
   @page {
-    size: A4 portrait;
-    margin: 0.5cm 0.7cm;
+    size: portrait;
+    margin: 0.35cm 0.5cm;
   }
 
   * {
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
+    box-sizing: border-box !important;
   }
 
   html, body {
     background: #ffffff !important;
     color: #1a1a1a !important;
-    font-size: 9pt !important;
+    font-size: 8pt !important;
     padding: 0 !important;
     margin: 0 !important;
+    width: 100% !important;
     height: 100% !important;
-    max-height: 100% !important;
+    max-height: 100vh !important;
     overflow: hidden !important;
   }
 
-  main {
-    margin: 0 !important;
-    padding: 0 !important;
+  /* 2. Hide everything in body except main */
+  body > *:not(main) {
+    display: none !important;
   }
 
-  /* 2. Hide Global Chrome, Navigation, Headers, Footers, Sidebars, Modals & Buttons */
+  /* 3. Hide all chrome, dialogs, buttons, sidebars */
   header,
+  footer,
+  dialog,
+  .site-footer,
   .header-sticky,
   .header-menu-row,
   .bg-subtle-pattern,
-  .site-footer,
   .sidebar-backdrop,
   .resource-sidebar-drawer,
   .toast-bar,
-  dialog,
   .btn,
   .currency-toggle-strip,
   .global-search-container,
@@ -2865,25 +2834,25 @@ dialog.native-dialog::backdrop {
     display: none !important;
   }
 
-  /* 3. STRICTLY HIDE ALL NON-ESTIMATOR SECTIONS (including Tooling Limitations) */
-  main > section:not(#estimator),
-  .hero-clean-v2,
-  #limitations,
-  #topologies,
-  #architecture,
-  #starting-steps,
-  #roadmap,
-  #case-studies,
-  #best-practices,
-  #factory,
-  #advisory {
+  /* 4. Strictly hide every section in main except #estimator */
+  main {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+  }
+
+  main > *:not(#estimator),
+  section:not(#estimator) {
     display: none !important;
     height: 0 !important;
+    max-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
     overflow: hidden !important;
     visibility: hidden !important;
   }
 
-  /* 4. Format Migration Effort & Budget Estimator (#estimator) as Single-Page Document */
+  /* 5. Format Migration Effort & Budget Estimator (#estimator) as Single-Page Document */
   #estimator {
     display: block !important;
     visibility: visible !important;
@@ -2905,12 +2874,13 @@ dialog.native-dialog::backdrop {
   }
 
   .section-head {
-    margin-bottom: 0.35rem !important;
+    margin-bottom: 2px !important;
     text-align: left !important;
+    padding: 0 !important;
   }
 
   .section-tagline {
-    font-size: 0.68rem !important;
+    font-size: 6.5pt !important;
     color: #0070F2 !important;
     font-weight: 700 !important;
     text-transform: uppercase !important;
@@ -2918,46 +2888,47 @@ dialog.native-dialog::backdrop {
   }
 
   .section-title {
-    font-size: 1.25rem !important;
+    font-size: 11pt !important;
     color: #000000 !important;
-    margin-bottom: 0.15rem !important;
+    margin: 0 0 1px 0 !important;
     font-weight: 800 !important;
   }
 
   .section-description {
-    font-size: 0.68rem !important;
-    color: #444444 !important;
-    margin-bottom: 0.35rem !important;
-    line-height: 1.2 !important;
+    font-size: 6.2pt !important;
+    color: #555555 !important;
+    margin-bottom: 3px !important;
+    line-height: 1.15 !important;
   }
 
   .print-currency-badge {
     display: inline-block !important;
-    font-size: 0.72rem !important;
-    padding: 2px 6px !important;
+    font-size: 6.5pt !important;
+    padding: 1px 4px !important;
   }
 
   /* Compact Baseline Assumptions Card */
   .assumptions-log-card {
     border: 1px solid #d9d9d9 !important;
     background: #fafafa !important;
-    padding: 0.35rem 0.55rem !important;
-    margin-bottom: 0.45rem !important;
+    padding: 3px 5px !important;
+    margin-bottom: 3px !important;
     page-break-inside: avoid !important;
   }
 
   .assumptions-log-header {
-    margin-bottom: 0.2rem !important;
+    margin-bottom: 1px !important;
   }
 
   .assumptions-log-title {
-    font-size: 0.72rem !important;
+    font-size: 6.2pt !important;
+    font-weight: 700 !important;
   }
 
   .assumptions-grid {
     display: grid !important;
     grid-template-columns: repeat(4, 1fr) !important;
-    gap: 0.4rem !important;
+    gap: 3px !important;
   }
 
   .assumption-item {
@@ -2965,22 +2936,22 @@ dialog.native-dialog::backdrop {
   }
 
   .assumption-item-title {
-    font-size: 0.64rem !important;
+    font-size: 5.8pt !important;
     font-weight: 700 !important;
     margin-bottom: 1px !important;
   }
 
   .assumption-item-text {
-    font-size: 0.58rem !important;
+    font-size: 5.2pt !important;
     color: #555555 !important;
-    line-height: 1.15 !important;
+    line-height: 1.1 !important;
   }
 
   /* Compact 2-Column Calculator Box to fit 1 page */
   .calculator-box {
     border: 1px solid #d9d9d9 !important;
     box-shadow: none !important;
-    padding: 0.55rem 0.75rem !important;
+    padding: 4px 6px !important;
     background: #ffffff !important;
     page-break-inside: avoid !important;
     break-inside: avoid !important;
@@ -2988,25 +2959,25 @@ dialog.native-dialog::backdrop {
 
   .calc-dual-grid {
     display: grid !important;
-    grid-template-columns: 1fr 1.05fr !important;
-    gap: 0.65rem !important;
+    grid-template-columns: 1fr 1.08fr !important;
+    gap: 6px !important;
   }
 
   .calc-inputs-column {
     display: flex !important;
     flex-direction: column !important;
-    gap: 0.45rem !important;
+    gap: 3px !important;
   }
 
   .calc-inputs-column h3 {
-    font-size: 0.82rem !important;
-    margin-bottom: 0.2rem !important;
+    font-size: 7.5pt !important;
+    margin-bottom: 1px !important;
   }
 
   .calc-spreadsheet-wrap {
     border: 1px solid #d9d9d9 !important;
     box-shadow: none !important;
-    margin-bottom: 0.35rem !important;
+    margin-bottom: 3px !important;
     page-break-inside: avoid !important;
     overflow: visible !important;
   }
@@ -3015,29 +2986,29 @@ dialog.native-dialog::backdrop {
     width: 100% !important;
     min-width: 100% !important;
     border-collapse: collapse !important;
-    font-size: 0.68rem !important;
+    font-size: 6.5pt !important;
   }
 
   .calc-sheet-table th {
     background: #f0f2f5 !important;
     color: #222222 !important;
     border: 1px solid #d9d9d9 !important;
-    padding: 3px 4px !important;
+    padding: 2px 3px !important;
     font-weight: bold !important;
-    font-size: 0.66rem !important;
+    font-size: 6.2pt !important;
   }
 
   .calc-sheet-table td {
     border: 1px solid #e5e5e5 !important;
-    padding: 3px 4px !important;
+    padding: 2px 3px !important;
     color: #222222 !important;
-    font-size: 0.68rem !important;
+    font-size: 6.5pt !important;
   }
 
   .calc-sheet-table td:nth-child(2) {
-    font-size: 0.58rem !important;
+    font-size: 5.5pt !important;
     line-height: 1.1 !important;
-    max-width: 130px !important;
+    max-width: 125px !important;
   }
 
   .calc-sheet-input,
@@ -3048,103 +3019,104 @@ dialog.native-dialog::backdrop {
     color: #000000 !important;
     padding: 0 !important;
     text-align: right !important;
-    font-size: 0.75rem !important;
+    font-size: 7pt !important;
     box-shadow: none !important;
-    width: 48px !important;
+    width: 44px !important;
   }
 
   .calc-inputs-column h4 {
-    font-size: 0.76rem !important;
-    margin-bottom: 0.2rem !important;
+    font-size: 7pt !important;
+    margin: 2px 0 1px 0 !important;
   }
 
   .calc-overhead-dense-bar {
     border: 1px solid #d9d9d9 !important;
     background: #fafafa !important;
-    padding: 0.35rem 0.55rem !important;
-    gap: 0.5rem !important;
+    padding: 2px 4px !important;
+    gap: 4px !important;
     page-break-inside: avoid !important;
-    margin-bottom: 0.35rem !important;
+    margin-bottom: 3px !important;
   }
 
-  .calc-overhead-dense-bar label {
-    font-size: 0.68rem !important;
-  }
-
+  .calc-overhead-dense-bar label,
   .calc-overhead-dense-bar span {
-    font-size: 0.68rem !important;
+    font-size: 6.2pt !important;
   }
 
   .calc-overhead-dense-bar > div > div:nth-child(2) {
-    font-size: 0.58rem !important;
-    margin-bottom: 2px !important;
+    font-size: 5.2pt !important;
+    margin-bottom: 1px !important;
   }
 
   .effort-scope-explanation {
     border: 1px solid #d9d9d9 !important;
     background: #fafafa !important;
-    padding: 0.35rem 0.55rem !important;
+    padding: 2px 4px !important;
     margin-top: 0 !important;
     page-break-inside: avoid !important;
   }
 
   .scope-title-badge {
-    font-size: 0.68rem !important;
-    margin-bottom: 0.15rem !important;
+    font-size: 6.2pt !important;
+    margin-bottom: 1px !important;
   }
 
   .effort-scope-explanation p {
-    font-size: 0.58rem !important;
-    margin-bottom: 0.2rem !important;
-    line-height: 1.15 !important;
+    font-size: 5.2pt !important;
+    margin-bottom: 1px !important;
+    line-height: 1.1 !important;
   }
 
   .effort-scope-explanation > div:last-child {
-    font-size: 0.56rem !important;
+    font-size: 5pt !important;
     display: grid !important;
     grid-template-columns: 1fr 1fr !important;
-    gap: 2px !important;
+    gap: 1px !important;
   }
 
   /* Right Column: Results & Matrix */
   .calc-results-column {
     background: #fafafa !important;
     border: 1px solid #d9d9d9 !important;
-    padding: 0.45rem 0.65rem !important;
-    gap: 0.45rem !important;
+    padding: 3px 5px !important;
+    gap: 3px !important;
     page-break-inside: avoid !important;
     break-inside: avoid !important;
   }
 
   .results-top-bar h3 {
-    font-size: 0.82rem !important;
+    font-size: 7.5pt !important;
     margin: 0 !important;
   }
 
   .kpi-cards-grid {
     display: grid !important;
     grid-template-columns: repeat(5, 1fr) !important;
-    gap: 0.25rem !important;
-    margin-bottom: 0.25rem !important;
+    gap: 2px !important;
+    margin-bottom: 2px !important;
     page-break-inside: avoid !important;
   }
 
   .kpi-stat-card {
     border: 1px solid #d9d9d9 !important;
     background: #ffffff !important;
-    padding: 0.25rem 0.35rem !important;
+    padding: 2px 3px !important;
     page-break-inside: avoid !important;
     text-align: center !important;
   }
 
   .kpi-stat-number {
-    font-size: 0.88rem !important;
+    font-size: 8pt !important;
     margin-bottom: 0 !important;
-    line-height: 1.1 !important;
+    line-height: 1.05 !important;
   }
 
   .kpi-stat-label {
-    font-size: 0.55rem !important;
+    font-size: 4.8pt !important;
+  }
+
+  #chart-tshirt-bars {
+    height: 7px !important;
   }
 
   .table-scroll-wrap {
@@ -3157,22 +3129,22 @@ dialog.native-dialog::backdrop {
     width: 100% !important;
     min-width: 100% !important;
     border-collapse: collapse !important;
-    font-size: 0.64rem !important;
+    font-size: 6.2pt !important;
   }
 
   .clean-table th {
     background: #f0f2f5 !important;
     color: #222222 !important;
     border: 1px solid #d9d9d9 !important;
-    padding: 2.5px 4px !important;
+    padding: 2px 3px !important;
     font-weight: bold !important;
-    font-size: 0.62rem !important;
+    font-size: 6pt !important;
   }
 
   .clean-table td {
     border: 1px solid #e5e5e5 !important;
-    padding: 2.5px 4px !important;
+    padding: 2px 3px !important;
     color: #222222 !important;
-    font-size: 0.64rem !important;
+    font-size: 6.2pt !important;
   }
 }
