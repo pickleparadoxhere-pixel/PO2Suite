@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PO2Suite — Single Source of Truth for SAP PI/PO to SAP Integration Suite Migration</title>
+  
+  <!-- Modern Clean Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Ambient Subtle Texture -->
+  <div class="bg-subtle-pattern"></div>
+
+  <!-- Sticky Global Header -->
+  <header class="header-sticky">
+    <!-- Top Row: Minimalist Monogram, Centered Global Search, Single Primary Action -->
+    <div class="container header-inner">
+      <a href="#" class="brand-wrapper">
+        <div class="brand-logo-mark">P</div>
+        <div class="brand-title-wrap">
+          <div class="brand-name">
+            <span>PO2Suite</span>
+            <span class="brand-version-pill">Migration Hub</span>
+          </div>
+          <span class="brand-subtitle">SAP PI/PO → SAP Integration Suite Master Reference</span>
+        </div>
+      </a>
+
+      <!-- Global Search Bar in Header -->
+      <div class="global-search-container" id="global-search-container">
+        <div class="global-search-input-wrap">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <input type="text" id="global-search-input" placeholder="Search SAP Notes, guides, tools (e.g. 3093510, B2B)..." autocomplete="off" />
+          <button class="global-search-clear" id="global-search-clear" style="display:none;" onclick="clearGlobalSearch()" title="Clear search">×</button>
+        </div>
+        <div class="global-search-dropdown" id="global-search-dropdown"></div>
+      </div>
+
+      <!-- Single Primary Action in Top Bar -->
+      <div class="header-actions">
+        <a href="#estimator" class="btn btn-primary btn-sm">
+          <span>Calculate Effort</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Second Row: Dedicated Section Navigation Menu (Clean Enterprise Text, No Emojis) -->
+    <div class="header-menu-row">
+      <div class="container menu-row-inner">
+        <nav class="section-menu-nav" aria-label="Section Navigation">
+          <a href="#estimator" class="menu-nav-item">Effort & Budget Estimator</a>
+          <a href="#limitations" class="menu-nav-item">Tooling Limitations</a>
+          <a href="#topologies" class="menu-nav-item">Target Topologies</a>
+          <a href="#architecture" class="menu-nav-item">Architecture Blueprint</a>
+          <a href="#starting-steps" class="menu-nav-item">Readiness Checklist</a>
+          <a href="#roadmap" class="menu-nav-item">6-Phase Roadmap</a>
+          <a href="#case-studies" class="menu-nav-item">Case Studies</a>
+          <a href="#best-practices" class="menu-nav-item">Recommendations</a>
+          <a href="#factory" class="menu-nav-item">Migration Factory</a>
+          <a href="javascript:void(0)" onclick="openResourceSidebar()" class="menu-nav-item">Resource Hub</a>
+          <a href="#advisory" class="menu-nav-item" style="color: var(--sap-blue); font-weight: 700;">Expert Advisory</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- REDESIGNED TOP HERO SECTION - CLEAN EXECUTIVE HERO -->
+    <section class="hero-clean-v2">
+      <div class="container hero-v2-grid">
+        <div>
+          <h1 class="hero-v2-title">
+            Your Definitive Roadmap from SAP PI/PO to <span>SAP Integration Suite</span>.
+          </h1>
+
+          <p class="hero-v2-lead">
+            With SAP Process Orchestration (PI/PO) reaching its end of mainstream maintenance by 2027, transitioning to <strong>SAP Integration Suite</strong> on SAP BTP is an urgent, business-critical imperative. PO2Suite equips integration leaders, enterprise architects, and delivery teams with an authoritative blueprint to navigate this retirement: assess interface readiness, automate dual-stack/single-stack conversions, re-architect custom logic, and execute seamless production cutovers to ensure continuous, future-proof business operations.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 1: EFFORT & BUDGET ESTIMATOR (ELEVATED - SAP MIGRATION ASSESSMENT METHODOLOGY) -->
+    <section class="section-wrapper" id="estimator">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-tagline">SAP Migration Assessment Sizing Framework</div>
+          <h2 class="section-title">Migration Effort & Budget Estimator</h2>
+          <p class="section-description">
+            Anchored around SAP’s T-shirt sizing methodology (Small, Medium, Large, Extra Large) generated by the <strong>SAP Migration Assessment</strong> tool. Calculate interface person-days, fixed landscape setup, management overhead, and approximate billing.
+          </p>
+        </div>
+
+        <!-- Project Estimation Baseline Assumptions Log Card -->
+        <div class="assumptions-log-card">
+          <div class="assumptions-log-header">
+            <div class="assumptions-log-title">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--sap-blue)" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+              <span>Project Estimation Baseline & Scope Assumptions Log</span>
+            </div>
+            <span class="preview-pill" style="color: var(--sap-blue); font-weight: 700;">SAP Sizing Framework Baseline</span>
+          </div>
+          <div class="assumptions-grid" id="assumptions-grid">
+            <div class="assumption-item">
+              <div class="assumption-item-title">Target Architecture Scope</div>
+              <div class="assumption-item-text">Target landscape assumes SAP Integration Suite on SAP BTP with optional Edge Integration Cell for local execution.</div>
+            </div>
+            <div class="assumption-item">
+              <div class="assumption-item-title">Automated Tooling Feasibility</div>
+              <div class="assumption-item-text">Assumes ~70% automated extraction for standard Small/Medium ICOs via Migration Wizard; complex mappings require manual Groovy rebuilds.</div>
+            </div>
+            <div class="assumption-item">
+              <div class="assumption-item-title">Backend Remediations Excluded</div>
+              <div class="assumption-item-text">Excludes backend SAP ECC/S4 custom ABAP remediation, backend IDoc partner profile re-pointing, and corporate network firewall configuration.</div>
+            </div>
+            <div class="assumption-item">
+              <div class="assumption-item-title">Blended Delivery Model</div>
+              <div class="assumption-item-text">Rate reflects a balanced global delivery model (approx. 20% Onshore Lead/Architecture + 80% Offshore Build & QA).</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="calculator-box">
+          <div class="calc-dual-grid">
+            <!-- Left: Dense Spreadsheet-Style Inputs Column -->
+            <div class="calc-inputs-column">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+                <h3 style="font-size: 1.15rem; display: flex; align-items: center; gap: 0.4rem;">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--sap-blue)" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"></rect><line x1="8" y1="6" x2="16" y2="6"></line><line x1="16" y1="14" x2="16" y2="18"></line><path d="M16 10h.01"></path><path d="M12 10h.01"></path><path d="M8 10h.01"></path><path d="M12 14h.01"></path><path d="M8 14h.01"></path><path d="M12 18h.01"></path><path d="M8 18h.01"></path></svg>
+                  1. Interface Inventory (T-Shirt Sizing Matrix)
+                </h3>
+
+                <!-- Currency Switcher Toggle -->
+                <div class="currency-toggle-strip">
+                  <button class="currency-btn active" data-currency="USD">$ USD</button>
+                  <button class="currency-btn" data-currency="EUR">€ EUR</button>
+                </div>
+                <div class="print-currency-badge" style="display: none; font-size: 0.82rem; font-weight: 700; color: var(--sap-blue); border: 1px solid var(--border-light); padding: 0.25rem 0.6rem; border-radius: 4px;">
+                  Active Currency: <span id="print-currency-display">USD ($)</span>
+                </div>
+              </div>
+
+              <!-- Dense Spreadsheet Data Entry Table -->
+              <div class="calc-spreadsheet-wrap">
+                <table class="calc-sheet-table">
+                  <thead>
+                    <tr>
+                      <th>Complexity Tier</th>
+                      <th>Technical Characteristics</th>
+                      <th>Tooling Support</th>
+                      <th style="text-align: right;">Days/Obj</th>
+                      <th style="text-align: right; width: 90px;">Count</th>
+                      <th style="text-align: right;">Subtotal</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!-- Small -->
+                    <tr>
+                      <td>
+                        <strong style="color: var(--text-main);">Small</strong>
+                        <div style="font-size: 0.72rem; color: var(--text-muted);">Simple P2P</div>
+                      </td>
+                      <td style="font-size: 0.76rem; color: var(--text-secondary); max-width: 220px;">
+                        Point-to-point, basic standard adapters (SOAP, REST, HTTP, IDoc), 1:1 graphical mapping, no custom UDFs.
+                      </td>
+                      <td>
+                        <span class="preview-pill" style="color: var(--status-positive); font-weight: 700;">High Auto</span>
+                      </td>
+                      <td style="text-align: right; font-weight: 700; color: var(--text-main);">3.5d</td>
+                      <td style="text-align: right;">
+                        <input type="number" id="calc-small" class="calc-sheet-input" value="40" min="0" />
+                      </td>
+                      <td style="text-align: right; font-weight: 700; color: var(--sap-blue);" id="calc-small-subtotal">140.0d</td>
+                    </tr>
+
+                    <!-- Medium -->
+                    <tr>
+                      <td>
+                        <strong style="color: var(--text-main);">Medium</strong>
+                        <div style="font-size: 0.72rem; color: var(--text-muted);">CBR & Scripting</div>
+                      </td>
+                      <td style="font-size: 0.76rem; color: var(--text-secondary); max-width: 220px;">
+                        Standard routing (multicast, content-based), moderate mapping, standard UDFs converted to Groovy, standard B2B.
+                      </td>
+                      <td>
+                        <span class="preview-pill" style="color: var(--sap-blue); font-weight: 700;">Med Auto</span>
+                      </td>
+                      <td style="text-align: right; font-weight: 700; color: var(--text-main);">7.0d</td>
+                      <td style="text-align: right;">
+                        <input type="number" id="calc-medium" class="calc-sheet-input" value="40" min="0" />
+                      </td>
+                      <td style="text-align: right; font-weight: 700; color: var(--sap-blue);" id="calc-medium-subtotal">280.0d</td>
+                    </tr>
+
+                    <!-- Large -->
+                    <tr>
+                      <td>
+                        <strong style="color: var(--text-main);">Large</strong>
+                        <div style="font-size: 0.72rem; color: var(--text-muted);">Complex Mapping</div>
+                      </td>
+                      <td style="font-size: 0.76rem; color: var(--text-secondary); max-width: 220px;">
+                        Heavy custom Java mappings or XSLT, complex B2B/EDI, external database lookups, unsupported/specialized adapters.
+                      </td>
+                      <td>
+                        <span class="preview-pill" style="color: var(--status-warning); font-weight: 700;">Low Auto</span>
+                      </td>
+                      <td style="text-align: right; font-weight: 700; color: var(--text-main);">14.5d</td>
+                      <td style="text-align: right;">
+                        <input type="number" id="calc-large" class="calc-sheet-input" value="15" min="0" />
+                      </td>
+                      <td style="text-align: right; font-weight: 700; color: var(--sap-blue);" id="calc-large-subtotal">217.5d</td>
+                    </tr>
+
+                    <!-- Extra Large -->
+                    <tr>
+                      <td>
+                        <strong style="color: var(--text-main);">Extra Large</strong>
+                        <div style="font-size: 0.72rem; color: var(--text-muted);">ccBPM / State</div>
+                      </td>
+                      <td style="font-size: 0.76rem; color: var(--text-secondary); max-width: 220px;">
+                        Process orchestration (ccBPM / NW BPM), sync/async bridges, stateful workflows, scattered dependencies.
+                      </td>
+                      <td>
+                        <span class="preview-pill" style="color: var(--status-critical); font-weight: 700;">Manual</span>
+                      </td>
+                      <td style="text-align: right; font-weight: 700; color: var(--text-main);">25.5d</td>
+                      <td style="text-align: right;">
+                        <input type="number" id="calc-xl" class="calc-sheet-input" value="5" min="0" />
+                      </td>
+                      <td style="text-align: right; font-weight: 700; color: var(--sap-blue);" id="calc-xl-subtotal">127.5d</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- Project Overhead & Delivery Rates -->
+              <div>
+                <h4 style="font-size: 0.95rem; margin-bottom: 0.65rem; color: var(--text-main);">2. Project Overhead & Blended Rates</h4>
+
+                <div class="calc-overhead-dense-bar">
+                  <!-- Fixed Setup -->
+                  <div>
+                    <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.25rem;">
+                      <label style="font-size: 0.82rem; font-weight: 700; color: var(--text-main);">Fixed Landscape Setup</label>
+                      <span id="calc-fixed-days-label" style="font-weight: 700; color: var(--sap-blue); font-size: 0.82rem;">40 Days</span>
+                    </div>
+                    <div style="font-size: 0.73rem; color: var(--text-muted); margin-bottom: 0.4rem;">Discovery (15d) + Cloud ALM/Connector (10d) + Frameworks (15d)</div>
+                    <input type="number" id="calc-fixed-setup" class="clean-number-input" style="height: 38px;" value="40" min="20" max="120" />
+                  </div>
+
+                  <!-- Daily Rate -->
+                  <div>
+                    <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.25rem;">
+                      <label style="font-size: 0.82rem; font-weight: 700; color: var(--text-main);" id="rate-currency-label">Blended Daily Rate ($)</label>
+                      <span style="font-size: 0.73rem; color: var(--text-muted);">Typical: $600 – $900</span>
+                    </div>
+                    <div style="font-size: 0.73rem; color: var(--text-muted); margin-bottom: 0.4rem;">Global delivery model (Onshore / Offshore blended rate)</div>
+                    <input type="number" id="calc-dailyrate" class="clean-number-input" style="height: 38px;" value="750" min="400" max="2500" step="25" />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right: Results Column -->
+            <div class="calc-results-column">
+              <div class="results-top-bar">
+                <h3 style="font-size: 1.15rem; color: var(--text-main); display: flex; align-items: center; gap: 0.45rem;">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--sap-blue)" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                  <span>3. Project Estimation Summary & Commercials</span>
+                </h3>
+                <div style="display: flex; gap: 0.4rem;">
+                  <button class="btn btn-secondary btn-sm" onclick="exportEstimatorCSV()" title="Export structured calculation to CSV spreadsheet">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                    <span>Export CSV</span>
+                  </button>
+                  <button class="btn btn-secondary btn-sm" onclick="window.print()" title="Print executive migration report or save as PDF">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+                    <span>Print PDF</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Top KPI Cards -->
+              <div class="kpi-cards-grid">
+                <div class="kpi-stat-card">
+                  <div class="kpi-stat-number" id="kpi-total-interfaces">100</div>
+                  <div class="kpi-stat-label">Total Interfaces</div>
+                </div>
+                <div class="kpi-stat-card">
+                  <div class="kpi-stat-number blue" id="kpi-interface-days">765 Days</div>
+                  <div class="kpi-stat-label">Base Interface Effort</div>
+                </div>
+                <div class="kpi-stat-card">
+                  <div class="kpi-stat-number" id="kpi-fixed-days">40 Days</div>
+                  <div class="kpi-stat-label">Fixed Landscape Setup</div>
+                </div>
+                <div class="kpi-stat-card">
+                  <div class="kpi-stat-number" id="kpi-pm-hypercare">191 Days</div>
+                  <div class="kpi-stat-label">PM & Hypercare (25%)</div>
+                </div>
+                <div class="kpi-stat-card">
+                  <div class="kpi-stat-number green" id="kpi-total-project-days">996 Days</div>
+                  <div class="kpi-stat-label">Total Person-Days</div>
+                </div>
+                <div class="kpi-stat-card">
+                  <div class="kpi-stat-number" id="kpi-approx-billing" style="color:var(--sap-blue);">$747,000</div>
+                  <div class="kpi-stat-label">Approximate Billing</div>
+                </div>
+              </div>
+
+              <!-- Visual Effort Distribution by Tier -->
+              <div style="background: var(--bg-surface); padding: 1rem 1.25rem; border-radius: var(--radius-sm); border: 1px solid var(--border-light);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.65rem;">
+                  <span style="font-size: 0.78rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted);">Effort Distribution by T-Shirt Complexity</span>
+                  <span style="font-size: 0.78rem; color: var(--sap-blue); font-weight: 700;" id="chart-total-summary">765 Interface Days</span>
+                </div>
+                <div id="chart-tshirt-bars"></div>
+              </div>
+
+              <!-- Lifecycle Phase Breakdown Matrix -->
+              <div style="background: var(--bg-surface); border-radius: var(--radius-sm); border: 1px solid var(--border-light); overflow: hidden;">
+                <div style="padding: 0.85rem 1rem; border-bottom: 1px solid var(--border-light); background: var(--bg-subtle); display:flex; justify-content:space-between; align-items:center;">
+                  <strong style="font-size: 0.85rem; color: var(--text-main);">Lifecycle Phase Breakdown Matrix</strong>
+                  <span style="font-size: 0.75rem; color: var(--text-muted);">Person-Days across Entire Project</span>
+                </div>
+                <div class="table-scroll-wrap" style="margin: 0; border: none; border-radius: 0;">
+                  <table class="clean-table" style="font-size: 0.82rem;">
+                    <thead>
+                      <tr>
+                        <th>Phase</th>
+                        <th>Small</th>
+                        <th>Medium</th>
+                        <th>Large</th>
+                        <th>XL</th>
+                        <th>Total Days</th>
+                        <th>Approx. Cost</th>
+                      </tr>
+                    </thead>
+                    <tbody id="estimator-matrix-tbody">
+                      <!-- Rendered dynamically -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <!-- Scope of Effort & SAP Methodology Callout -->
+              <div class="effort-scope-explanation">
+                <div class="scope-title-badge">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--sap-blue)" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                  <span>Methodology Rationale: What is Included in Build Effort?</span>
+                </div>
+                <p style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1.45; margin-bottom: 0.5rem;">
+                  The <strong>Build & Refactoring</strong> phase accounts for converting Java mappings/UDFs to Groovy/JavaScript, configuring SAP Cloud Connector tunnels, and managing security credentials (OAuth 2.0 token profiles, mTLS keystores).
+                </p>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.5rem; font-size: 0.78rem; color: var(--text-muted);">
+                  <div>• <strong>Fixed Setup (40d):</strong> Discovery, Cloud ALM, TPM setup</div>
+                  <div>• <strong>Project Management (15%):</strong> Agile sprints, dependency tracking</div>
+                  <div>• <strong>Hypercare (10%):</strong> Post-go-live 24/7 coverage & PO decommissioning</div>
+                  <div>• <strong>Blended Model:</strong> Role-based blended rate ($600–$900 USD)</div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION: TOOLING LIMITATIONS ("THE GOTCHAS") -->
+    <section class="section-wrapper section-alt" id="limitations">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-tagline">Architectural Realism & Tooling Boundary Analysis</div>
+          <h2 class="section-title">Tooling Limitations (The "Gotchas")</h2>
+          <p class="section-description">
+            Transparent analysis of what the <strong>SAP Migration Assessment</strong> tool and <strong>Migration Wizard</strong> <em>cannot</em> automatically migrate. Identifying these technical roadblocks upfront prevents cost overruns and design regressions.
+          </p>
+        </div>
+
+        <div class="gotchas-grid" id="gotchas-grid">
+          <!-- Card 1: ccBPM -->
+          <div class="gotcha-card">
+            <div class="gotcha-header">
+              <span class="gotcha-meta-tag">Architectural Redesign</span>
+              <span class="gotcha-severity-pill high">High Severity</span>
+            </div>
+            <h3 class="gotcha-title">ccBPM & Stateful Process Orchestration</h3>
+            <p class="gotcha-statement">
+              The automated tooling cannot convert ccBPM or NetWeaver BPM workflows. Stateful correlations, multi-step sync/async bridges, and human approval steps have zero automated runtime in Cloud Integration.
+            </p>
+            <div class="gotcha-box-section impact">
+              <div class="gotcha-box-label">Technical Impact:</div>
+              Cannot execute in stateless iFlows; attempting direct port causes transaction failures.
+            </div>
+            <div class="gotcha-box-section remediation">
+              <div class="gotcha-box-label">Engineering Remediation:</div>
+              Decompose into decoupled event-driven iFlows using SAP Event Mesh/JMS, or migrate stateful multi-day workflows to <strong>SAP Build Process Automation</strong>.
+            </div>
+          </div>
+
+          <!-- Card 2: Java UDFs -->
+          <div class="gotcha-card">
+            <div class="gotcha-header">
+              <span class="gotcha-meta-tag">Scripting Modernization</span>
+              <span class="gotcha-severity-pill high">High Severity</span>
+            </div>
+            <h3 class="gotcha-title">Custom Java Mappings & User-Defined Functions (UDFs)</h3>
+            <p class="gotcha-statement">
+              Complex Java UDFs (Queue / All-Values execution modes) and standalone Java mapping archives (.jar) are flagged for manual rework. Legacy NetWeaver mapping APIs do not exist in Cloud Integration.
+            </p>
+            <div class="gotcha-box-section impact">
+              <div class="gotcha-box-label">Technical Impact:</div>
+              Imports will fail compilation in Cloud Integration; message transformations halt.
+            </div>
+            <div class="gotcha-box-section remediation">
+              <div class="gotcha-box-label">Engineering Remediation:</div>
+              Rewrite Java logic into modern <strong>Groovy 3.x</strong> scripts. Groovy interfaces directly with Camel Exchange headers and streaming XML/JSON parsers with 4x less memory footprint.
+            </div>
+          </div>
+
+          <!-- Card 3: Deprecated Adapters -->
+          <div class="gotcha-card">
+            <div class="gotcha-header">
+              <span class="gotcha-meta-tag">Adapter Parity</span>
+              <span class="gotcha-severity-pill medium">Medium Severity</span>
+            </div>
+            <h3 class="gotcha-title">Deprecated Adapters & Custom Adapter Modules</h3>
+            <p class="gotcha-statement">
+              Proprietary on-premise adapters (BC, CIDX, MarketSet) and custom Java Enterprise Beans (EJB) module processor chains have no 1:1 runtime on SAP BTP.
+            </p>
+            <div class="gotcha-box-section impact">
+              <div class="gotcha-box-label">Technical Impact:</div>
+              Custom payload encryption, compression, or header transformation modules cannot run.
+            </div>
+            <div class="gotcha-box-section remediation">
+              <div class="gotcha-box-label">Engineering Remediation:</div>
+              Modernize protocol to REST/OData APIs via SAP API Management. Replace EJB modules with modular Groovy script steps or pre-exit pipelines.
+            </div>
+          </div>
+
+          <!-- Card 4: Database Lookups -->
+          <div class="gotcha-card">
+            <div class="gotcha-header">
+              <span class="gotcha-meta-tag">Latency Bottleneck</span>
+              <span class="gotcha-severity-pill medium">Medium Severity</span>
+            </div>
+            <h3 class="gotcha-title">External Database & RFC Lookups in Mappings</h3>
+            <p class="gotcha-statement">
+              Graphical message mappings containing synchronous JDBC or RFC lookups inside mapping iterations cause severe network latency across the Cloud Connector tunnel.
+            </p>
+            <div class="gotcha-box-section impact">
+              <div class="gotcha-box-label">Technical Impact:</div>
+              Per-record roundtrip latency compounds, causing thread starvation and Cloud Connector timeout errors.
+            </div>
+            <div class="gotcha-box-section remediation">
+              <div class="gotcha-box-label">Engineering Remediation:</div>
+              Re-architect using <strong>Request-Reply</strong> or <strong>Content Enricher</strong> patterns prior to mapping, caching master datasets into Cloud Integration memory or Global Variables.
+            </div>
+          </div>
+
+          <!-- Card 5: Sync/Async Bridges -->
+          <div class="gotcha-card">
+            <div class="gotcha-header">
+              <span class="gotcha-meta-tag">Pattern Decoupling</span>
+              <span class="gotcha-severity-pill medium">Medium Severity</span>
+            </div>
+            <h3 class="gotcha-title">Sync-to-Async / Async-to-Sync Bridges</h3>
+            <p class="gotcha-statement">
+              Dual-stack sync/async bridges built on legacy ABAP Integration Engine pipelines do not translate to default Cloud Integration point-to-point templates.
+            </p>
+            <div class="gotcha-box-section impact">
+              <div class="gotcha-box-label">Technical Impact:</div>
+              Synchronous callers waiting on asynchronous backend responses encounter connection timeouts.
+            </div>
+            <div class="gotcha-box-section remediation">
+              <div class="gotcha-box-label">Engineering Remediation:</div>
+              Implement asynchronous decoupled architectures using Cloud Integration JMS queues, or expose webhook-based callback endpoints to consumers.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION: TARGET ARCHITECTURE TOPOLOGIES & DECISION TREE -->
+    <section class="section-wrapper" id="topologies">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-tagline">Deployment Strategy</div>
+          <h2 class="section-title">Target Architecture Topologies & Decision Guide</h2>
+          <p class="section-description">
+            Determine the right runtime topology for your enterprise workloads: <strong>SAP Cloud Integration</strong> (Multi-Tenant BTP) vs. <strong>Edge Integration Cell</strong> (On-Premise Kubernetes) vs. <strong>SAP Cloud Connector</strong> (Secure Hybrid Tunnel).
+          </p>
+        </div>
+
+        <div class="topology-decision-grid" id="topologies-grid">
+          <div class="topology-decision-card">
+            <div class="decision-question">
+              Does data sovereignty or regulatory compliance mandate that payloads remain behind your firewall?
+            </div>
+            <div class="decision-recommendation">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span>Deploy Edge Integration Cell (On-Prem K8s)</span>
+            </div>
+            <p class="decision-details">
+              Keeps message execution completely on-premise inside your private Kubernetes cluster (OpenShift, SUSE Rancher) while retaining centralized design-time governance on SAP BTP.
+            </p>
+          </div>
+
+          <div class="topology-decision-card">
+            <div class="decision-question">
+              Are you processing high-volume ground-to-ground traffic between on-premise systems (e.g. Shop Floor / MES to ERP)?
+            </div>
+            <div class="decision-recommendation">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span>Deploy Edge Integration Cell</span>
+            </div>
+            <p class="decision-details">
+              Eliminates sub-second latency constraints and avoids internet egress bandwidth costs by processing local traffic locally without roundtripping to the public cloud.
+            </p>
+          </div>
+
+          <div class="topology-decision-card">
+            <div class="decision-question">
+              Is your architecture cloud-first, connecting SaaS endpoints (Salesforce, Workday, Ariba, S/4HANA Cloud)?
+            </div>
+            <div class="decision-recommendation">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span>Adopt SAP Cloud Integration (BTP Multi-Tenant)</span>
+            </div>
+            <p class="decision-details">
+              Fully managed multi-tenant runtime on SAP BTP with auto-scaling, elastic compute, automatic zero-downtime SAP kernel updates, and global reach.
+            </p>
+          </div>
+
+          <div class="topology-decision-card">
+            <div class="decision-question">
+              Do you have existing on-premise SAP ECC or database systems that cloud apps must access securely?
+            </div>
+            <div class="decision-recommendation">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span>Deploy SAP Cloud Connector (Hybrid Tunnel)</span>
+            </div>
+            <p class="decision-details">
+              Reverse-proxy TLS tunnel establishing outbound-only secure connections with zero inbound firewall ports opened, with full X.509 principal propagation.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: ENTERPRISE ARCHITECTURE TRANSITION BLUEPRINT (INTERACTIVE) -->
+    <section class="section-wrapper section-alt" id="architecture">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-tagline">Modernization Architecture Blueprint</div>
+          <h2 class="section-title">Enterprise Architecture Transition Blueprint</h2>
+          <p class="section-description">
+            Interactive side-by-side transition blueprint comparing on-premise dual-stack SAP Process Orchestration with cloud-native SAP Integration Suite and on-premise Edge Integration Cell runtimes.
+          </p>
+        </div>
+
+        <div class="arch-blueprint-wrapper">
+          <!-- Architecture View Toggle Bar -->
+          <div class="arch-toggle-bar">
+            <button class="arch-toggle-btn active" id="arch-btn-target" onclick="switchArchView('target')">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path></svg>
+              <span>Target: SAP Integration Suite & Edge Integration Cell</span>
+            </button>
+            <button class="arch-toggle-btn" id="arch-btn-legacy" onclick="switchArchView('legacy')">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>
+              <span>Legacy: Dual-Stack SAP PO 7.5 On-Premise</span>
+            </button>
+          </div>
+
+          <!-- Architecture Visual Topology Cards -->
+          <div class="arch-diagram-grid" id="arch-diagram-grid">
+            <!-- Rendered dynamically by switchArchView() -->
+          </div>
+
+          <!-- Component Transition Bridge Table -->
+          <div class="arch-bridge-comparison-box">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem;">
+              <strong style="font-size: 0.92rem; color: var(--text-main);">Component Architectural Bridge & Modernization Path</strong>
+              <span style="font-size: 0.75rem; color: var(--text-muted);">Direct Mapping Reference</span>
+            </div>
+            <div class="table-scroll-wrap" style="margin: 0;">
+              <table class="clean-table" style="font-size: 0.82rem;">
+                <thead>
+                  <tr>
+                    <th>Legacy Component (PO)</th>
+                    <th>Target Architecture (IS)</th>
+                    <th>Runtime Deployment</th>
+                    <th>Modernization Strategy</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>ABAP Integration Engine</strong></td>
+                    <td>SAP Cloud Integration (CPI)</td>
+                    <td><span class="preview-pill" style="color:var(--status-positive);">Multi-Tenant Cloud / EIC</span></td>
+                    <td>Replace with standard camel-based iFlow pipelines and decoupled async JMS queues.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Java Adapter Engine (AAE)</strong></td>
+                    <td>Cloud Integration Adapters + Cloud Connector</td>
+                    <td><span class="preview-pill" style="color:var(--sap-blue);">Hybrid Tunnel</span></td>
+                    <td>Direct protocol modernizations: replace SOAP/RFC with REST/OData APIs; SFTP with webhooks.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>ccBPM / NW BPM Orchestration</strong></td>
+                    <td>SAP Build Process Automation + Stateless iFlows</td>
+                    <td><span class="preview-pill" style="color:var(--status-warning);">Cloud Native</span></td>
+                    <td>Decompose monolithic stateful workflows into event-driven stateless micro-integrations.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Java UDFs & Mappings</strong></td>
+                    <td>Groovy Scripts & JavaScript Functions</td>
+                    <td><span class="preview-pill" style="color:var(--status-positive);">Native Engine</span></td>
+                    <td>Re-code Java UDFs into streamlined Groovy scripts; utilize standard XML/JSON converters.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>B2B Add-On (TPM / EDI)</strong></td>
+                    <td>SAP Integration Advisor (MIG/MAG) + TPM</td>
+                    <td><span class="preview-pill" style="color:var(--sap-blue);">AI Crowdsourced</span></td>
+                    <td>Adopt crowdsourced EDI libraries (ANSI X12, EDIFACT) and automated schema mappings.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Local Ground-to-Ground Traffic</strong></td>
+                    <td>Edge Integration Cell (Kubernetes)</td>
+                    <td><span class="preview-pill" style="color:var(--status-info);">Local Edge Node</span></td>
+                    <td>Execute integration runtimes locally behind customer firewalls without cloud hair-pinning.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: RECOMMENDED STARTING STEPS (READINESS CHECKLIST) -->
+    <section class="section-wrapper" id="starting-steps">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-tagline">Foundational Readiness</div>
+          <h2 class="section-title">Recommended Starting Steps (Readiness Checklist)</h2>
+          <p class="section-description">
+            Six foundational steps recommended by SAP to evaluate landscape scope, establish governance, and initiate your migration roadmap.
+          </p>
+        </div>
+
+        <!-- 6 Steps Actionable Grid (Readiness Checklist) -->
+        <div class="readiness-grid" id="quest-grid"></div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: END-TO-END 6-PHASE ROADMAP -->
+    <section class="section-wrapper section-alt" id="roadmap">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-tagline">End-to-End Delivery Methodology</div>
+          <h2 class="section-title">End-to-End 6-Phase Roadmap</h2>
+          <p class="section-description">
+            A structured, proven 6-phase migration roadmap guiding enterprise teams from initial discovery through cutover and hypercare.
+          </p>
+        </div>
+
+        <div class="roadmap-game-stage">
+          <!-- Interactive Stage Path Navigation -->
+          <div class="stage-path-nav" id="realm-path-nav"></div>
+
+          <!-- Dynamic Active Stage Content Box -->
+          <div class="stage-content-box" id="realm-content-box"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: REAL-WORLD CASE STUDIES -->
+    <section class="section-wrapper section-alt" id="case-studies">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-tagline">Customer References</div>
+          <h2 class="section-title">Verified Enterprise Case Studies</h2>
+          <p class="section-description">
+            Real-world migration examples across Automotive, Retail, and Power Utilities demonstrating TCO reduction, latency improvements, and zero production disruption.
+          </p>
+        </div>
+
+        <div class="cases-cards-grid" id="case-studies-grid"></div>
+      </div>
+    </section>
+
+
+
+    <!-- SECTION 6: CHALLENGES & TOP 10 RECOMMENDATIONS -->
+    <section class="section-wrapper section-alt" id="best-practices">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-tagline">Risk Mitigation & Best Practices</div>
+          <h2 class="section-title">Challenges, Mitigations & Top 10 Recommendations</h2>
+          <p class="section-description">
+            Proactively address technical hurdles and align your project team with SAP’s 10 golden migration recommendations.
+          </p>
+        </div>
+
+        <div class="challenges-deck" id="challenges-deck"></div>
+
+        <h3 style="font-size: 1.25rem; margin-bottom: 1rem;">Top 10 Enterprise Recommendations</h3>
+        <div class="top10-layout" id="top10-layout"></div>
+      </div>
+    </section>
+
+    <!-- SECTION 7: FREE SAP MIGRATION FACTORY CONCIERGE -->
+    <section class="section-wrapper" id="factory">
+      <div class="container">
+        <div class="factory-card-banner">
+          <div>
+            <span class="notice-pill" style="margin-bottom: 0.6rem; display: inline-block;">Official SAP Service</span>
+            <h2 style="font-size: 1.85rem; margin-bottom: 0.5rem;">Free SAP Migration Factory Assessment</h2>
+            <p style="color: var(--text-secondary); font-size: 0.92rem; margin-bottom: 1rem;">
+              Take advantage of SAP's complimentary 2–3 week assessment engagement. SAP product engineers inspect your PI/PO metadata, evaluate adapter dependencies, and deliver a personalized migration plan at zero cost.
+            </p>
+
+            <ul class="factory-list">
+              <li>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Personalized migration plan & executive roadmap</span>
+              </li>
+              <li>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>1-hour presentation of findings with SAP architects</span>
+              </li>
+              <li>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Detailed effort estimation per scenario & complexity analysis</span>
+              </li>
+            </ul>
+
+            <div style="margin-top: 1.5rem; display: flex; gap: 0.75rem; flex-wrap: wrap;">
+              <button class="btn btn-primary" onclick="openFactoryModal()">
+                <span>Open Application Concierge</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+              </button>
+              <a href="https://www.sap.com/registration/free-migration-factory-for-integration.html" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+                <span>Official SAP Registration</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- 6 Application Steps -->
+          <div class="factory-steps-box">
+            <div style="font-size: 0.82rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.25rem;">
+              How to Apply (6 Steps)
+            </div>
+            <div class="factory-step-item"><span class="factory-step-pill">1</span><span>Visit the SAP IS Migration Landing Page</span></div>
+            <div class="factory-step-item"><span class="factory-step-pill">2</span><span>Click "Apply for your free assessment"</span></div>
+            <div class="factory-step-item"><span class="factory-step-pill">3</span><span>Submit registration form with landscape details</span></div>
+            <div class="factory-step-item"><span class="factory-step-pill">4</span><span>SAP Migration Factory team contacts you</span></div>
+            <div class="factory-step-item"><span class="factory-step-pill">5</span><span>Provide PI/PO read-only access for scanning</span></div>
+            <div class="factory-step-item"><span class="factory-step-pill">6</span><span>Receive personalized plan & attend results readout</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 8: EXPERT MIGRATION ADVISORY -->
+    <section class="expert-advisory-section" id="advisory">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-tagline">Independent Advisory & Architecture Review</div>
+          <h2 class="section-title">Expert Migration Advisory</h2>
+          <p class="section-description">
+            Direct technical consultation with an enterprise SAP integration architect. Review your Migration Assessment reports, validate T-shirt sizing, calibrate custom Java/Groovy complexity, and de-risk production cutover windows.
+          </p>
+        </div>
+
+        <div class="expert-advisory-card">
+          <!-- Left: Profile & Direct Channels -->
+          <div>
+            <div class="contact-profile-card" style="margin-bottom: 1.25rem;">
+              <div class="profile-avatar">JN</div>
+              <div class="profile-info">
+                <div class="profile-name">Jigar Nalvaya</div>
+                <div class="profile-role">SAP Integration Architect & Migration Advisory Lead</div>
+                <div class="profile-phone">
+                  <span>+91 9374448058</span>
+                  <button class="btn-copy-chip" onclick="copyContactNumber('+91 9374448058')" title="Copy Phone Number">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    <span>Copy</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="contact-actions-grid">
+              <a href="https://wa.me/919374448058?text=Hello%20Jigar,%20I%20would%20like%20quick%20migration%20assistance%20for%20SAP%20PI/PO%20to%20SAP%20Integration%20Suite." target="_blank" rel="noopener noreferrer" class="contact-action-btn whatsapp">
+                <div class="action-btn-icon">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.886-9.888 9.886m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.652c1.746.951 3.71 1.452 5.711 1.453h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                </div>
+                <div>
+                  <div style="font-weight: 700; font-size: 0.95rem;">WhatsApp Chat</div>
+                  <div style="font-size: 0.76rem; opacity: 0.95;">Direct message on WhatsApp</div>
+                </div>
+              </a>
+
+              <a href="tel:+919374448058" class="contact-action-btn phone">
+                <div class="action-btn-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                </div>
+                <div>
+                  <div style="font-weight: 700; font-size: 0.95rem;">Direct Call</div>
+                  <div style="font-size: 0.76rem; opacity: 0.95;">+91 9374448058</div>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          <!-- Right: Capabilities & Scope -->
+          <div style="background: var(--bg-surface); padding: 1.5rem; border-radius: var(--radius-sm); border: 1px solid var(--border-light);">
+            <div style="font-size: 0.78rem; text-transform: uppercase; font-weight: 800; color: var(--sap-blue); margin-bottom: 0.75rem;">
+              Advisory Capabilities:
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 0.65rem; font-size: 0.84rem; color: var(--text-secondary);">
+              <div style="display:flex; align-items:flex-start; gap:0.5rem;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--status-positive)" stroke-width="3" style="flex-shrink:0; margin-top:0.2rem;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span><strong>Landscape Assessment Audit:</strong> Validation of Migration Assessment extraction data, scenario readiness, and T-shirt sizing calibration.</span>
+              </div>
+              <div style="display:flex; align-items:flex-start; gap:0.5rem;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--status-positive)" stroke-width="3" style="flex-shrink:0; margin-top:0.2rem;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span><strong>Custom Java UDF & Groovy Migration:</strong> Analysis of complex mapping archives, Java modules, and Groovy script re-architecture.</span>
+              </div>
+              <div style="display:flex; align-items:flex-start; gap:0.5rem;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--status-positive)" stroke-width="3" style="flex-shrink:0; margin-top:0.2rem;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span><strong>ccBPM Decomposition:</strong> Redesign of stateful correlation workflows into SAP Build Process Automation or stateless iFlows.</span>
+              </div>
+              <div style="display:flex; align-items:flex-start; gap:0.5rem;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--status-positive)" stroke-width="3" style="flex-shrink:0; margin-top:0.2rem;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span><strong>Cutover & Hypercare Playbook:</strong> Queue draining protocol, parallel run strategies, and zero-downtime cutover planning.</span>
+              </div>
+            </div>
+            <div style="margin-top: 1rem; font-size: 0.76rem; color: var(--text-muted); border-top: 1px solid var(--border-light); padding-top: 0.75rem;">
+              Response typically within 2–4 business hours for enterprise migration architecture inquiries.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- COLLAPSIBLE RESOURCE HUB SIDEBAR DRAWER -->
+  <div class="sidebar-backdrop" id="sidebar-backdrop" onclick="closeResourceSidebar()"></div>
+  <aside class="resource-sidebar-drawer" id="resource-sidebar-drawer" aria-label="PO2Suite Resource Sidebar">
+    <div class="sidebar-header">
+      <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span style="font-size: 1.1rem;">📚</span>
+        <h3 style="font-size: 1.05rem;">PO2Suite Resource Hub</h3>
+      </div>
+      <button class="btn-icon" onclick="closeResourceSidebar()" style="width: 30px; height: 30px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </div>
+
+    <!-- Search in Sidebar -->
+    <div class="sidebar-search-box">
+      <input type="text" id="sidebar-search-input" class="sidebar-search-input" placeholder="Search SAP Notes, guides, tools..." />
+    </div>
+
+    <!-- Collapsible Categories Tree -->
+    <div class="sidebar-categories-tree" id="sidebar-categories-tree"></div>
+  </aside>
+
+  <!-- FLOATING PERSISTENT RESOURCE HUB BUTTON -->
+  <button class="floating-resource-pill-btn" onclick="openResourceSidebar()">
+    <span>📚 Resource Hub</span>
+    <span style="background: rgba(255,255,255,0.25); padding: 0.1rem 0.45rem; border-radius: 999px; font-size: 0.72rem;">60+</span>
+  </button>
+
+  <!-- NATIVE HTML5 DIALOG: STARTING STEP TECHNICAL DETAILS -->
+  <dialog class="native-dialog" id="quest-modal">
+    <button class="modal-close-icon" onclick="closeQuestPopup()" aria-label="Close dialog">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+    </button>
+    <div id="quest-modal-body"></div>
+  </dialog>
+
+  <!-- NATIVE HTML5 DIALOG: SAP MIGRATION FACTORY READINESS -->
+  <dialog class="native-dialog" id="factory-modal">
+    <button class="modal-close-icon" onclick="closeFactoryModal()" aria-label="Close dialog">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+    </button>
+    <div class="notice-pill" style="margin-bottom: 0.5rem; display: inline-block;">Official SAP Engagement</div>
+    <h3 style="font-size: 1.35rem; margin-bottom: 0.35rem;">SAP Migration Factory Prerequisites Checklist</h3>
+    <p style="font-size: 0.86rem; color: var(--text-muted); margin-bottom: 1.25rem;">
+      Before submitting your request to your SAP Account Executive, ensure you have gathered the following landscape prerequisites:
+    </p>
+
+    <div style="display: flex; flex-direction: column; gap: 0.65rem; margin-bottom: 1.5rem;">
+      <div class="check-row-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--status-positive)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        <div>
+          <strong>SAP Customer Number & S-User ID:</strong>
+          <div style="font-size: 0.78rem; color: var(--text-muted);">Required to authorize an official migration assessment request on me.sap.com</div>
+        </div>
+      </div>
+      <div class="check-row-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--status-positive)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        <div>
+          <strong>PI/PO System Version & Stack Architecture:</strong>
+          <div style="font-size: 0.78rem; color: var(--text-muted);">NetWeaver version (7.31, 7.4, 7.5), SP level, and dual vs single stack footprint</div>
+        </div>
+      </div>
+      <div class="check-row-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--status-positive)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        <div>
+          <strong>Read-Only Extraction Service User:</strong>
+          <div style="font-size: 0.78rem; color: var(--text-muted);">Technical user with authorizations to read ESR Directory objects and ICO configurations</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="display: flex; justify-content: flex-end; gap: 0.5rem;">
+      <button class="btn btn-secondary btn-sm" onclick="closeFactoryModal()">Close</button>
+      <a href="https://www.sap.com/registration/free-migration-factory-for-integration.html" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">
+        <span>Go to SAP Registration Form</span>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+      </a>
+    </div>
+  </dialog>
+
+  <!-- NATIVE HTML5 DIALOG: QUICK MIGRATION ASSISTANCE / CONTACT -->
+  <dialog class="native-dialog" id="contact-modal">
+      <button class="modal-close-icon" onclick="closeContactModal()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+      
+      <div class="notice-pill" style="margin-bottom: 0.6rem; display: inline-block;">Direct Expert Assistance</div>
+      <h3 style="font-size: 1.45rem; margin-bottom: 0.35rem;">Contact for Quick Migration Assistance</h3>
+      <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1.25rem;">
+        Get immediate, direct guidance on your SAP PI/PO to SAP Integration Suite migration project from an enterprise architect.
+      </p>
+
+      <!-- Expert Card Profile -->
+      <div class="contact-profile-card">
+        <div class="profile-avatar">JN</div>
+        <div class="profile-info">
+          <div class="profile-name">Jigar Nalvaya</div>
+          <div class="profile-role">SAP Integration Architect & Migration Advisory Lead</div>
+          <div class="profile-phone">
+            <span>+91 9374448058</span>
+            <button class="btn-copy-chip" onclick="copyContactNumber('+91 9374448058')" title="Copy Phone Number">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <span>Copy</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Action Buttons -->
+      <div class="contact-actions-grid">
+        <a href="https://wa.me/919374448058?text=Hello%20Jigar,%20I%20would%20like%20quick%20migration%20assistance%20for%20SAP%20PI/PO%20to%20SAP%20Integration%20Suite." target="_blank" rel="noopener noreferrer" class="contact-action-btn whatsapp">
+          <div class="action-btn-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.886-9.888 9.886m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.652c1.746.951 3.71 1.452 5.711 1.453h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          </div>
+          <div>
+            <div style="font-weight: 700; font-size: 0.95rem;">WhatsApp Chat</div>
+            <div style="font-size: 0.76rem; opacity: 0.95;">Message directly on WhatsApp</div>
+          </div>
+        </a>
+
+        <a href="tel:+919374448058" class="contact-action-btn phone">
+          <div class="action-btn-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+          </div>
+          <div>
+            <div style="font-weight: 700; font-size: 0.95rem;">Direct Call</div>
+            <div style="font-size: 0.76rem; opacity: 0.95;">Call +91 9374448058</div>
+          </div>
+        </a>
+      </div>
+
+      <!-- Scope of Quick Assistance -->
+      <div style="margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid var(--border-light);">
+        <div style="font-size: 0.75rem; text-transform: uppercase; font-weight: 700; color: var(--text-muted); margin-bottom: 0.5rem;">Assistance Capabilities:</div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; font-size: 0.8rem; color: var(--text-secondary);">
+          <div style="display:flex; align-items:center; gap:0.4rem;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--accent-emerald)" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <span>Landscape Assessment Review</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:0.4rem;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--accent-emerald)" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <span>Custom Java UDF & Groovy Migration</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:0.4rem;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--accent-emerald)" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <span>Effort Calibration & Scope Review</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:0.4rem;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--accent-emerald)" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <span>Cutover & Hypercare Guidance</span>
+          </div>
+        </div>
+      </div>
+  </dialog>
+
+  <!-- TOAST BAR -->
+  <div class="toast-bar" id="toast-bar"></div>
+
+  <!-- SITE FOOTER -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-columns">
+        <div>
+          <div class="brand-wrapper" style="margin-bottom: 0.85rem;">
+            <div class="brand-logo-mark">P</div>
+            <div class="brand-title-wrap">
+              <span class="brand-name">PO2Suite</span>
+              <span class="brand-subtitle">Enterprise Migration Navigator</span>
+            </div>
+          </div>
+          <p style="font-size: 0.84rem; color: var(--text-muted); max-width: 300px; margin-bottom: 0.75rem;">
+            The authoritative single source of truth for planning, sizing, and executing migrations from SAP PI/PO to SAP Integration Suite on SAP BTP.
+          </p>
+          <div style="font-size: 0.75rem; color: var(--text-dim);">
+            Reference Edition: October 2026 | Joule for Consultants
+          </div>
+        </div>
+
+        <div>
+          <div class="footer-col-title">Navigation</div>
+          <ul class="footer-links-list">
+            <li><a href="#starting-steps">Recommended Starting Steps</a></li>
+            <li><a href="#roadmap">6-Phase Roadmap</a></li>
+            <li><a href="#estimator">Budget & Effort Estimator</a></li>
+            <li><a href="#case-studies">Customer Case Studies</a></li>
+            <li><a href="#best-practices">Top 10 Recommendations</a></li>
+            <li><a href="javascript:void(0)" onclick="openContactModal()">Quick Migration Assistance</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="footer-col-title">Official SAP Portals</div>
+          <ul class="footer-links-list">
+            <li><a href="https://help.sap.com/docs/integration-suite" target="_blank" rel="noopener noreferrer">SAP Help Portal</a></li>
+            <li><a href="https://me.sap.com" target="_blank" rel="noopener noreferrer">SAP Support Portal & Notes</a></li>
+            <li><a href="https://api.sap.com" target="_blank" rel="noopener noreferrer">SAP Business Accelerator Hub</a></li>
+            <li><a href="https://learning.sap.com" target="_blank" rel="noopener noreferrer">SAP Learning Journeys</a></li>
+            <li><a href="https://community.sap.com" target="_blank" rel="noopener noreferrer">SAP Community Blogs</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="footer-col-title">Accelerators</div>
+          <ul class="footer-links-list">
+            <li><a href="https://www.sap.com/registration/free-migration-factory-for-integration.html" target="_blank" rel="noopener noreferrer">SAP Migration Factory</a></li>
+            <li><a href="https://help.sap.com/docs/cloud-connector" target="_blank" rel="noopener noreferrer">SAP Cloud Connector</a></li>
+            <li><a href="https://help.sap.com/docs/edge-integration-cell" target="_blank" rel="noopener noreferrer">Edge Integration Cell</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>
+          &copy; 2026 PO2Suite. Comprehensive SAP PI/PO to Integration Suite Reference Portal.
+        </div>
+        <div style="display: flex; gap: 1.25rem;">
+          <a href="javascript:void(0)" onclick="openResourceSidebar()" style="color: var(--text-muted);">Resource Sidebar</a>
+          <a href="#estimator" style="color: var(--text-muted);">Effort Estimator ($ / €)</a>
+          <a href="#roadmap" style="color: var(--text-muted);">6-Phase Roadmap</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

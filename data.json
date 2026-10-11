@@ -1,0 +1,390 @@
+{
+  "assumptions": [
+    {
+      "title": "Target Architecture Scope",
+      "detail": "Target landscape assumes SAP Integration Suite on SAP BTP with optional Edge Integration Cell for on-premise local execution."
+    },
+    {
+      "title": "Automated Tooling Extraction",
+      "detail": "Assumes ~70% automated extraction feasibility for standard Small/Medium ICOs via SAP Migration Wizard; complex mappings require manual refactoring."
+    },
+    {
+      "title": "Backend Remediation Exclusions",
+      "detail": "Excludes backend SAP ECC / S/4HANA ABAP custom code remediation, backend IDoc partner profile re-pointing, and network firewall provisioning."
+    },
+    {
+      "title": "Blended Rate Delivery Model",
+      "detail": "Standard rate reflects a global delivery model (approx. 20% Onshore Architecture/Lead + 80% Offshore Build & QA)."
+    }
+  ],
+  "toolingLimitations": [
+    {
+      "id": "gotcha-ccbpm",
+      "tag": "Architectural Redesign Required",
+      "severity": "High",
+      "title": "ccBPM & Stateful Process Orchestration",
+      "limitation": "The SAP Migration Assessment tool and Migration Wizard cannot automatically convert ccBPM or NetWeaver BPM processes.",
+      "technicalImpact": "Stateful correlations, multi-step sync/async bridges, and long-running human workflows cannot execute in stateless Cloud Integration iFlows.",
+      "remediation": "Decompose into stateless event-driven iFlows using SAP Event Mesh/JMS, or migrate human approval and multi-day stateful workflows to SAP Build Process Automation."
+    },
+    {
+      "id": "gotcha-java-udf",
+      "tag": "Scripting Conversion",
+      "severity": "High",
+      "title": "Custom Java Mappings & User-Defined Functions (UDFs)",
+      "limitation": "Complex Java User-Defined Functions (Execution Type: All Values of Queue / Value Queue) and standalone Java mapping archives (.jar) are not auto-converted.",
+      "technicalImpact": "Java mappings that rely on legacy NetWeaver runtime libraries (e.g., com.sap.aii.mapping.api) fail in Cloud Integration.",
+      "remediation": "Rewrite Java logic into Groovy 3.x scripts. Groovy provides direct access to Camel Exchange headers, properties, and streaming XML/JSON parsers with significantly lower memory overhead."
+    },
+    {
+      "id": "gotcha-deprecated-adapters",
+      "tag": "Adapter Parity",
+      "severity": "Medium",
+      "title": "Deprecated Adapters & Custom Adapter Modules",
+      "limitation": "Legacy proprietary adapters (BC, CIDX, RNIF 1.1, MarketSet) and custom Java Enterprise Beans (EJB) adapter modules have no direct 1:1 runtime on SAP BTP.",
+      "technicalImpact": "Pipelines relying on module chain modifications (e.g., custom payload compression, encryption, header injection) cannot be imported as-is.",
+      "remediation": "Modernize communication protocols: replace RFC/SOAP with REST/OData APIs via SAP API Management, and replace custom EJB modules with modular Groovy script steps or pre-exit pipelines."
+    },
+    {
+      "id": "gotcha-db-lookups",
+      "tag": "Latency & Anti-Pattern",
+      "severity": "Medium",
+      "title": "External Database & RFC Lookups in Mappings",
+      "limitation": "Graphical message mappings containing synchronous JDBC or RFC lookups inside mapping iterations are flagged as high-risk performance bottlenecks.",
+      "technicalImpact": "Executing round-trip database queries for each XML record across the Cloud Connector hybrid tunnel causes severe network latency and thread starvation.",
+      "remediation": "Re-architect using Request-Reply or Content Enricher patterns before the mapping step, caching reference datasets into Cloud Integration memory or Global Variables."
+    },
+    {
+      "id": "gotcha-sync-async",
+      "tag": "Pattern Decoupling",
+      "severity": "Medium",
+      "title": "Sync-to-Async / Async-to-Sync Bridges",
+      "limitation": "Dual-stack Sync/Async bridges built on legacy ABAP Integration Engine pipelines do not translate to default Cloud Integration templates.",
+      "technicalImpact": "Synchronous callers waiting on asynchronous backend responses can encounter connection timeouts if migrated as a single point-to-point iFlow.",
+      "remediation": "Implement asynchronous decoupled patterns utilizing Cloud Integration JMS queues, or expose webhook-based callback endpoints to synchronous consumers."
+    }
+  ],
+  "topologies": {
+    "decisionCriteria": [
+      {
+        "question": "Does data sovereignty or regulatory compliance mandate that payloads remain behind your firewall?",
+        "recommendation": "Deploy Edge Integration Cell (On-Premise Kubernetes Runtime)",
+        "details": "Edge Integration Cell keeps message execution completely on-premise while retaining centralized governance and design-time tooling on SAP BTP."
+      },
+      {
+        "question": "Are you processing high-volume ground-to-ground traffic between on-premise systems (e.g. Shop Floor / MES to ERP)?",
+        "recommendation": "Deploy Edge Integration Cell",
+        "details": "Eliminates latency and internet egress charges by processing ground-to-ground traffic locally without hair-pinning payloads to the cloud."
+      },
+      {
+        "question": "Is your architecture cloud-first, connecting SaaS endpoints (Salesforce, Workday, Ariba, S/4HANA Cloud)?",
+        "recommendation": "Adopt SAP Cloud Integration (Multi-Tenant BTP Runtime)",
+        "details": "Fully managed multi-tenant runtime on SAP BTP with auto-scaling, elastic compute, automatic zero-downtime updates, and global reach."
+      },
+      {
+        "question": "Do you have existing on-premise SAP ECC or database systems that cloud apps must access securely?",
+        "recommendation": "Deploy SAP Cloud Connector (Hybrid Inverted Tunnel)",
+        "details": "Provides a reverse-proxy TLS tunnel requiring zero inbound ports opened in your corporate firewall, with full X.509 principal propagation."
+      }
+    ]
+  },
+  "startingSteps": [
+    {
+      "id": 1,
+      "number": "01",
+      "category": "Architecture & Licensing",
+      "title": "Acquire SAP Integration Suite Entitlements",
+      "objective": "Provision Cloud Integration runtime tenant and establish BTP subaccounts",
+      "prerequisites": "SAP BTP Global Account with enterprise agreement (CPEA or Pay-As-You-Go)",
+      "businessOutcome": "Standardized multi-tenant integration environment ready for developer onboarding and hybrid tunnel connectivity.",
+      "details": "Request an SAP Integration Suite tenant in SAP BTP. Recommended edition for migration is Standard or Premium depending on throughput volume, Trading Partner Management (TPM) requirements, and Edge Integration Cell needs.",
+      "checklist": [
+        "Provision SAP BTP Subaccount and assign Cloud Integration entitlements",
+        "Run the automated Integration Suite Booster in SAP BTP Cockpit",
+        "Configure custom Identity Provider (IAS) role collections for integration developers"
+      ],
+      "link": "https://help.sap.com/docs/integration-suite",
+      "icon": "☁️"
+    },
+    {
+      "id": 2,
+      "number": "02",
+      "category": "Landscape Governance",
+      "title": "Execute ISA-M Methodology Assessment",
+      "objective": "Establish enterprise integration policy and style guide across cloud and on-premise",
+      "prerequisites": "Enterprise architecture charter and catalog of existing business capabilities",
+      "businessOutcome": "Documented integration guidelines preventing architecture sprawl and governing protocol standards.",
+      "details": "Adopt SAP's Integration Solution Advisory Methodology (ISA-M) to classify integration domains (A2A, B2B, B2G, Event-Driven) and prescribe target architectural blueprints for development teams.",
+      "checklist": [
+        "Define integration styles (Process, Data, B2B, User-centric, IoT/Event)",
+        "Formulate protocol governance: sunset legacy RFC/SOAP in favor of REST/OData APIs",
+        "Publish design guidelines for asynchronous queuing and exception handling"
+      ],
+      "link": "https://www.sap.com/services/integration-solution-advisory-methodology.html",
+      "icon": "📐"
+    },
+    {
+      "id": 3,
+      "number": "03",
+      "category": "Testing & Automation",
+      "title": "Establish Automated Regression Testing Strategy",
+      "objective": "Implement automated payload comparison across legacy PO and target Cloud Integration",
+      "prerequisites": "Sample production message archives and baseline test scripts",
+      "businessOutcome": "Drastic reduction in business testing cycles with guaranteed payload parity and zero functional regressions.",
+      "details": "Testing consumes 30–40% of migration effort. Establish regression tooling early (SAP Migration Wizard, Figaf, or Int4) to compare production PI/PO payloads against new Integration Suite iFlow outputs automatically.",
+      "checklist": [
+        "Enable message payload persistence on key production PI/PO channels for test sample collection",
+        "Implement automated payload diff and schema comparison pipelines",
+        "Prepare unit and regression test suites for Wave 0 pilot interfaces"
+      ],
+      "link": "https://help.sap.com/docs/integration-suite",
+      "icon": "🧪"
+    },
+    {
+      "id": 4,
+      "number": "04",
+      "category": "Team Enablement",
+      "title": "Upskill Integration Team to Cloud Integration & Groovy",
+      "objective": "Train PI/PO architects and developers on Cloud Integration, Camel EIPs, and Groovy scripting",
+      "prerequisites": "Assigned development resources and access to SAP Learning Hub",
+      "businessOutcome": "Internal team self-sufficiency, eliminating costly long-term external contractor dependencies.",
+      "details": "Transition legacy Java/ABAP integration skills to modern cloud patterns: Apache Camel Enterprise Integration Patterns (EIP), Groovy 3.x scripting, Cloud Integration Partner Directory, and Cloud ALM.",
+      "checklist": [
+        "Complete SAP Learning Journey: Developing with SAP Integration Suite",
+        "Standardize Groovy reusable utility scripts for mapping, headers, and error handling",
+        "Review Enterprise Integration Patterns (Content-Based Router, Splitter, Aggregator)"
+      ],
+      "link": "https://learning.sap.com/learning-journeys/developing-with-sap-integration-suite",
+      "icon": "🎓"
+    },
+    {
+      "id": 5,
+      "number": "05",
+      "category": "Automated Tooling",
+      "title": "Execute Self-Service Migration Assessment Tool",
+      "objective": "Extract and analyze on-premise PI/PO ICO configurations and classify technical complexity",
+      "prerequisites": "SAP Cloud Connector established with read-only extraction service user on PI/PO",
+      "businessOutcome": "Objective, data-driven interface inventory classified into Small, Medium, Large, and Extra Large tiers.",
+      "details": "Connect the SAP Migration Assessment tool in SAP BTP to your PI/PO system via SAP Cloud Connector. Extract Integrated Configuration Objects (ICOs), evaluate migration readiness, and generate automated effort reports.",
+      "checklist": [
+        "Configure SAP Cloud Connector with access to PI/PO Directory and ESR APIs",
+        "Run data extraction in analysis mode across all active communication channels",
+        "Review generated PDF/Excel readiness reports to calibrate project T-shirt sizing"
+      ],
+      "link": "https://help.sap.com/docs/migration-assessment",
+      "icon": "⚙️"
+    },
+    {
+      "id": 6,
+      "number": "06",
+      "category": "Pre-Built Content",
+      "title": "Inspect SAP Business Accelerator Hub for Pre-Delivered Packages",
+      "objective": "Identify standard integration packages on api.sap.com to eliminate custom build effort",
+      "prerequisites": "Catalog of connected third-party SaaS systems and target SAP applications",
+      "businessOutcome": "20–30% reduction in net build effort by adopting standard, vendor-supported integration content.",
+      "details": "The SAP Business Accelerator Hub contains 3,500+ pre-built, production-ready integration packages for S/4HANA, Salesforce, Workday, ServiceNow, Ariba, Concur, and government e-invoicing mandates.",
+      "checklist": [
+        "Search api.sap.com for standard connectors to third-party endpoints",
+        "Evaluate pre-delivered SAP B2B Trading Partner packages for EDIFACT / X12",
+        "Adopt pre-built packages directly into your Cloud Integration tenant workspace"
+      ],
+      "link": "https://api.sap.com",
+      "icon": "📦"
+    }
+  ],
+  "phases": {
+    "1": {
+      "num": "Phase 01",
+      "name": "Discovery & Initiation",
+      "title": "Phase 1: Discovery & Initiation",
+      "duration": "2 – 4 Weeks",
+      "criticalRisk": "Undocumented Legacy Interfaces & Outdated Routing Logic",
+      "riskMitigation": "Execute automated discovery via ESR extraction; conduct functional stakeholder alignment to decommission zombie interfaces before sizing.",
+      "milestone": "Landscape scope defined, project charter approved, stakeholder RACI signed off",
+      "description": "Audit the current PI/PO footprint, document existing interfaces, confirm compliance boundaries, and align leadership on strategic business drivers.",
+      "checklist": [
+        { "text": "Catalog current PI/PO landscape (Dual-stack vs Single-stack, NetWeaver 7.31/7.4/7.5)", "sub": "Record system IDs, active software components, and Basis kernel levels" },
+        { "text": "Document all existing integration scenarios & communication channels", "sub": "Collect sender/receiver systems, protocols, custom adapters, and volume profiles" },
+        { "text": "Define strategic business drivers and qualitative migration goals", "sub": "Map objectives against reduced TCO, cloud agility, scalability, and S/4HANA readiness" },
+        { "text": "Establish Project RACI Matrix and sign-off accountability", "sub": "Ensure business process owners and functional leads are committed to testing waves" }
+      ],
+      "showRaci": true
+    },
+    "2": {
+      "num": "Phase 02",
+      "name": "Migration Assessment",
+      "title": "Phase 2: Migration Assessment",
+      "duration": "4 – 6 Weeks",
+      "criticalRisk": "Custom Java Mappings, Unsupported Adapters & ccBPM Dependencies",
+      "riskMitigation": "Run SAP Migration Assessment tool; catalog custom Java archives and flag interfaces requiring complete Groovy refactoring or architectural redesign.",
+      "milestone": "Assessment report generated, scenario complexity categorized, effort baseline approved",
+      "description": "Run automated extraction against the SAP PI/PO Enterprise Services Repository (ESR) and Integration Directory (ID). Categorize each ICO by technical complexity and quantify development days.",
+      "checklist": [
+        { "text": "Configure & run the SAP Migration Assessment Tool (or apply for SAP Migration Factory)", "sub": "Ensure Java runtime, configure Cloud Connector, and run data extractor in analysis mode" },
+        { "text": "Analyze ICO readiness & classification", "sub": "Identify interfaces ready for automated extraction vs those requiring manual re-design" },
+        { "text": "Generate scenario effort estimation report", "sub": "Audit breakdown: Async A2A, Sync A2A, B2B/EDI, BPM scenarios, and technical pass-throughs" },
+        { "text": "Review custom components (Java UDFs, custom adapter modules, RFCs)", "sub": "Plan replacement with Groovy scripts, standard adapters, and modern REST/OData endpoints" }
+      ],
+      "showEffortBaseline": true
+    },
+    "3": {
+      "num": "Phase 03",
+      "name": "Planning & Design",
+      "title": "Phase 3: Planning & Design",
+      "duration": "6 – 8 Weeks",
+      "criticalRisk": "Complex Stateful Workflows & High-Throughput Ground-to-Ground Bottlenecks",
+      "riskMitigation": "Formulate topology decision between pure Cloud Integration and Edge Integration Cell; redesign stateful flows into SAP Build Process Automation.",
+      "milestone": "Target architecture blueprint approved, security posture established, templates finalized",
+      "description": "Formulate the future-state cloud architecture. Determine whether pure cloud-native, Edge Integration Cell, or hybrid Cloud Connector is required, and establish standard iFlow patterns.",
+      "checklist": [
+        { "text": "Score interface complexity using the 7-Factor Scoring Matrix", "sub": "Rate mapping complexity, routing rules, adapter types, security, volume, dependencies, error handling" },
+        { "text": "Target Architecture Decision: Pure Cloud vs Hybrid vs Edge Integration Cell", "sub": "Analyze data sovereignty laws, latency sensitivity, and on-premise system accessibility" },
+        { "text": "Design decoupled pipeline processing concept (EIP standards)", "sub": "Establish standardized inbound, routing, transformation, and outbound flow templates" },
+        { "text": "Formulate ccBPM & BPM replacement strategy", "sub": "Transition long-running stateful workflows to SAP Build Process Automation or stateless iFlows" }
+      ],
+      "showComplexityScorer": true
+    },
+    "4": {
+      "num": "Phase 04",
+      "name": "Wave Prioritization & Sizing",
+      "title": "Phase 4: Wave Prioritization & Planning",
+      "duration": "Continuous",
+      "criticalRisk": "Business Criticality Alignment & Functional Team Capacity Bottlenecks",
+      "riskMitigation": "Establish a Wave 0 non-critical pilot to prove hybrid connectivity and pipeline patterns; schedule high-risk waves around business peak seasons.",
+      "milestone": "Wave schedule locked, team staffing onboarded, sprint backlog prioritized",
+      "description": "Group interfaces into logical migration waves based on technical dependencies, business criticality, and early quick wins to build team confidence and validate operational readiness.",
+      "checklist": [
+        { "text": "Apply 6-Factor Prioritization Model with weighted criteria", "sub": "Complexity (weight 5), Business Criticality (w=4), Dependencies (w=3), Volume (w=2), Resources (w=3), Quick Wins (w=4)" },
+        { "text": "Sequence Wave 0 (Pilot / Non-Critical Quick Wins)", "sub": "Validate end-to-end deployment, Cloud Connector tunnel, and monitoring with low-risk interfaces" },
+        { "text": "Establish team structure and FTE commitments", "sub": "Staff Program Manager, Integration Architect, Integration Developers, Test Leads, and Basis Admins" },
+        { "text": "Check SAP Business Accelerator Hub for pre-built packages", "sub": "Save 20-30% development effort by adopting standard pre-delivered SAP content" }
+      ],
+      "showTeamFte": true
+    },
+    "5": {
+      "num": "Phase 05",
+      "name": "Execution & Testing",
+      "title": "Phase 5: Execution & Testing",
+      "duration": "8 – 12+ Wks/Wave",
+      "criticalRisk": "Cross-System Regression, Partner Coordinate Latency & Payload Discrepancies",
+      "riskMitigation": "Mandate automated three-tier testing (UT, IT, UAT) with payload diff comparisons; establish early engagement with external B2B trading partners.",
+      "milestone": "Development complete, unit testing certified, regression & UAT sign-off obtained",
+      "description": "Execute the core build and testing cycle for each wave following the 6-step wave execution sequence and three-tier testing strategy.",
+      "checklist": [
+        { "text": "Step 1: Develop new iFlows (or auto-convert via Migration Toolkit)", "sub": "Import ICOs into Cloud Integration package; review generated flows and routing condition logic" },
+        { "text": "Step 2: Configure communication adapters & credential artifacts", "sub": "Setup Cloud Connector mappings, certificates, endpoint URLs, and authentication aliases" },
+        { "text": "Step 3: Map data transformations & migrate custom logic", "sub": "Import ESR message mappings; rewrite legacy Java User-Defined Functions (UDFs) to Groovy" },
+        { "text": "Step 4: Execute Three-Tier Testing Strategy (UT, IT, UAT)", "sub": "Validate individual components, cross-system integration, and obtain business sign-off" }
+      ],
+      "showTestingTiers": true
+    },
+    "6": {
+      "num": "Phase 06",
+      "name": "Cutover & Hypercare",
+      "title": "Phase 6: Cutover & Hypercare",
+      "duration": "1 – 2 Wks + Hypercare",
+      "criticalRisk": "Unplanned Downtime & In-Flight Message Loss During Live Switchover",
+      "riskMitigation": "Execute rigid queue draining protocol; lock PI communication channels and verify zero pending messages in SMQ1/SMQ2 before redirecting DNS/endpoints.",
+      "milestone": "PI/PO interfaces decommissioned, IS flows productive, hypercare transitioned to BAU",
+      "description": "Transition traffic smoothly to SAP Integration Suite with zero unplanned downtime. Execute the cutover checklist, manage parallel runs where applicable, and maintain 24/7 hypercare support.",
+      "checklist": [
+        { "text": "Verify technical prerequisites (tenants provisioned, security deployed, certs valid)", "sub": "All target Cloud Integration packages deployed and showing 'Started' status" },
+        { "text": "Execute connectivity sanity tests with all external endpoints", "sub": "Confirm ping and handshake with B2B partners, cloud apps, and on-premise SAP systems" },
+        { "text": "Cutover window: Stop PI/PO sender communication channels & drain queues", "sub": "Ensure zero messages stuck in PI queues (SMQ1/SMQ2) before channel redirection" },
+        { "text": "Activate SAP Integration Suite endpoints & redirect traffic", "sub": "Update DNS, firewall rules, or partner webhook URLs to point to new cloud endpoints" }
+      ],
+      "showCutoverChecklist": true
+    }
+  },
+  "caseStudies": [
+    {
+      "id": "case-1",
+      "industry": "Automotive Manufacturing",
+      "title": "Global Automotive Tier-1 Supplier",
+      "image": "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=800&q=80",
+      "footprint": "~800 Interfaces (PI/PO 7.5 Dual-Stack)",
+      "scope": "Cloud Integration, API Management, OData, SAP BTP",
+      "target": "S/4HANA Cloud, Ariba, Salesforce SFDC, 30+ OEM Partners",
+      "timeline": "14 Months (5 Phased Waves)",
+      "migrated": "~700 Interfaces Migrated, ~100 Retired",
+      "keyBenefits": [
+        "Streamlined automotive supply chain with zero assembly line disruption",
+        "Cut overall integration operational TCO by 38% annually",
+        "Replaced complex legacy ccBPM scenarios with asynchronous iFlows",
+        "Gained real-time end-to-end telemetry across all OEM EDI messages"
+      ]
+    },
+    {
+      "id": "case-2",
+      "industry": "Retail & Consumer Goods",
+      "title": "Omnichannel Fashion & Apparel Retailer",
+      "image": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=800&q=80",
+      "footprint": "250+ Interfaces (SAP PI 7.4)",
+      "scope": "SAP Integration Suite (Cloud Integration & API Management)",
+      "target": "E-Commerce, POS Systems, 3PL Warehouses across 10+ Countries",
+      "timeline": "8 Months (Discovery to Production)",
+      "migrated": "210 Active Interfaces Modernized to REST/APIs",
+      "keyBenefits": [
+        "Enabled rapid partner onboarding from 3 weeks down to 2 days",
+        "Migrated point-to-point batch files into real-time REST API endpoints",
+        "Automated 72% of interface transformations using Migration Toolkit",
+        "Unified B2B vendor inventory exchange via Trading Partner Management"
+      ]
+    },
+    {
+      "id": "case-3",
+      "industry": "Utilities & Energy",
+      "title": "Major European Power & Utilities Provider",
+      "image": "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=800&q=80",
+      "footprint": "450+ Interfaces (SAP PO 7.5 Single-Stack)",
+      "scope": "Full Migration to IS, OData, Event Mesh & Edge Integration Cell",
+      "target": "Smart Grid Telemetry, Smart Meter Data, Billing, Regulatory Portals",
+      "timeline": "18 Months (Strict Compliance Roadmaps)",
+      "migrated": "420 Interfaces Modernized, Edge Deployed",
+      "keyBenefits": [
+        "Achieved 50% reduction in end-to-end integration latency for smart metering",
+        "Deployed Edge Integration Cell on-premise to comply with national energy privacy laws",
+        "Replaced synchronous RFC polling with real-time Event Mesh publish/subscribe",
+        "Zero compliance penalties during audit transitions"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "chal-1",
+      "title": "1. Loss of Tribal Knowledge & Undocumented Custom Logic",
+      "desc": "PI/PO systems running for 10–15 years have accumulated complex graphical mappings with embedded Java UDFs whose original authors have left the organization.",
+      "mitigation": "Run automated metadata extraction with SAP Migration Assessment tool. Isolate all custom Java UDFs and conduct structured reverse-engineering workshops with functional owners."
+    },
+    {
+      "id": "chal-2",
+      "title": "2. High Testing Burden Across Connected Systems",
+      "desc": "Integration testing often represents 40–50% of total project effort. Co-ordinating with dozens of third-party vendors and internal application teams creates scheduling bottlenecks.",
+      "mitigation": "Adopt automated testing accelerators (SAP Migration Wizard, Figaf, or Int4) that capture live production PI/PO payloads and execute automated regression assertions against Integration Suite."
+    },
+    {
+      "id": "chal-3",
+      "title": "3. ccBPM & Stateful Process Dependencies",
+      "desc": "Cross-Component BPM (ccBPM) or NetWeaver BPM orchestrations containing stateful correlations, multicasters, and human approvals cannot be auto-migrated to stateless iFlows.",
+      "mitigation": "Architecturally decouple business logic: migrate human tasks and stateful processes to SAP Build Process Automation, while converting pure integration steps to decoupled, event-driven iFlows."
+    },
+    {
+      "id": "chal-4",
+      "title": "4. Deprecated Adapters & Unsupported Protocols",
+      "desc": "Legacy interfaces utilizing deprecated adapters (BC, CIDX, RNIF, or custom adapter modules) require protocol modernization.",
+      "mitigation": "Transition to modern REST/OData APIs managed through SAP API Management, or leverage SAP Integration Advisor (MIGs/MAGs) for standardized B2B/EDI protocols."
+    }
+  ],
+  "recommendations": [
+    { "num": "01", "text": "Establish Wave 0 Quick Wins", "sub": "Begin with 5–10 simple, non-critical point-to-point interfaces to validate the end-to-end delivery pipeline and hybrid connectivity." },
+    { "num": "02", "text": "Clean Before You Migrate", "sub": "Audit interface traffic logs in PI/PO. On average, 15–25% of interfaces have had zero traffic in the past 12 months and should be retired rather than migrated." },
+    { "num": "03", "text": "Leverage Pre-Packaged Content", "sub": "Before building custom iFlows, check the SAP Business Accelerator Hub (api.sap.com). Standard packages save 20–30% in development effort." },
+    { "num": "04", "text": "Standardize Integration Patterns", "sub": "Implement an enterprise Integration Architecture Guide (ISA-M) with standardized templates for error handling, logging, and routing." },
+    { "num": "05", "text": "Automate Regression Testing", "sub": "Deploy automated testing tools to compare production PI/PO message payloads with Cloud Integration outputs to compress UAT cycles." },
+    { "num": "06", "text": "Upskill the Team Early", "sub": "Train internal developers on Apache Camel Enterprise Integration Patterns (EIP), Groovy scripting, and SAP Cloud ALM before starting complex waves." },
+    { "num": "07", "text": "Consolidate B2B with Integration Advisor", "sub": "Utilize SAP Integration Advisor crowdsourced ML to accelerate EDIFACT and ANSI X12 mapping generation by up to 60%." },
+    { "num": "08", "text": "Deploy SAP Cloud ALM for Monitoring", "sub": "Implement SAP Cloud ALM alongside Cloud Integration from Day 1 for centralized end-to-end message tracking and proactive alerting." },
+    { "num": "09", "text": "Carefully Plan Cutover & Parallel Runs", "sub": "Establish clear cutover playbooks with queue-draining procedures, rollback plans, and temporary parallel runs for high-criticality flows." },
+    { "num": "10", "text": "Engage the SAP Migration Factory", "sub": "Take advantage of SAP's complimentary 2–3 week assessment service to gain official validation on interface inventory and complexity sizing." }
+  ]
+}
