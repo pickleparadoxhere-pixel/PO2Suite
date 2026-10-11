@@ -749,14 +749,15 @@ a:hover {
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--sap-blue), #10b981);
+  background: linear-gradient(135deg, #0f3d75 0%, #1b5eb8 100%);
   color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 800;
-  font-size: 1.35rem;
-  box-shadow: 0 4px 12px rgba(0, 112, 242, 0.25);
+  font-weight: 700;
+  font-size: 1.25rem;
+  letter-spacing: 0.02em;
+  box-shadow: 0 2px 8px rgba(15, 61, 117, 0.2);
   flex-shrink: 0;
 }
 
@@ -2921,27 +2922,320 @@ dialog.native-dialog::backdrop {
   font-weight: 600;
 }
 
-/* EXPERT ADVISORY SECTION & CARDS */
+/* EXPERT ADVISORY SECTION & CARDS (SAP MORNING HORIZON THEME) */
 .expert-advisory-section {
   background: var(--bg-surface);
   border-top: 1px solid var(--border-light);
-  padding: 4rem 0;
+  padding: 4.5rem 0;
 }
 
+.expert-advisory-section .section-title {
+  color: #32363A;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.expert-advisory-section .section-description {
+  color: #6A6D70;
+  line-height: 1.6;
+}
+
+/* Flattened Container: Single clean white surface (#FFFFFF), delicate border (#D9D9D9), subtle drop shadow */
 .expert-advisory-card {
-  background: var(--bg-subtle);
-  border: 1px solid var(--border-light);
-  border-radius: var(--radius-md);
-  padding: 2.25rem;
+  background: #FFFFFF;
+  border: 1px solid #D9D9D9;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
   display: grid;
-  grid-template-columns: 1.1fr 1fr;
-  gap: 2rem;
+  grid-template-columns: 1fr 1.25fr;
+  align-items: stretch;
+  overflow: hidden;
+  padding: 0;
+}
+
+/* Left: Profile & Direct Channels */
+.advisory-profile-col {
+  padding: 2.75rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-right: 1px solid #EDEDED;
+  background: #FFFFFF;
+  text-align: left;
+}
+
+.advisory-profile-meta {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.25rem;
+}
+
+/* Avatar: Refined, muted gradient rather than loud teal */
+.advisory-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0F3D75 0%, #1B5EB8 100%);
+  color: #FFFFFF;
+  display: flex;
   align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.25rem;
+  letter-spacing: 0.02em;
+  box-shadow: 0 2px 6px rgba(15, 61, 117, 0.18);
+  flex-shrink: 0;
+}
+
+.advisory-profile-info {
+  flex: 1;
+  text-align: left;
+}
+
+.advisory-profile-name {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #32363A;
+  margin: 0 0 0.25rem 0;
+  line-height: 1.25;
+}
+
+.advisory-profile-role {
+  font-size: 0.85rem;
+  color: #6A6D70;
+  margin: 0 0 0.75rem 0;
+  font-weight: 400;
+  line-height: 1.45;
+}
+
+/* Phone link & hover-revealed copy icon */
+.advisory-phone-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.advisory-phone-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #32363A;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.advisory-phone-link:hover {
+  color: #0070F2;
+  text-decoration: none;
+}
+
+.advisory-phone-icon {
+  color: #6A6D70;
+  transition: color 0.15s ease;
+}
+
+.advisory-phone-link:hover .advisory-phone-icon {
+  color: #0070F2;
+}
+
+.advisory-copy-btn {
+  background: transparent;
+  border: none;
+  padding: 0.25rem;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #6A6D70;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.4;
+  transition: opacity 0.2s ease, color 0.2s ease, background 0.2s ease;
+}
+
+.advisory-phone-wrapper:hover .advisory-copy-btn {
+  opacity: 1;
+}
+
+.advisory-copy-btn:hover {
+  color: #0070F2;
+  background: #EBF3FF;
+}
+
+/* Understated Secondary Buttons (side-by-side) */
+.advisory-actions-row {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+
+.btn-advisory-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  background: #FFFFFF;
+  border: 1px solid #D9D9D9;
+  border-radius: 6px;
+  padding: 0.65rem 1.15rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #32363A;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+}
+
+.btn-advisory-secondary .advisory-btn-svg {
+  color: #6A6D70;
+  transition: color 0.2s ease, stroke 0.2s ease, fill 0.2s ease;
+}
+
+.btn-advisory-secondary:hover {
+  background: #FFFFFF;
+  border-color: #0070F2;
+  color: #0070F2;
+  text-decoration: none;
+  box-shadow: 0 2px 6px rgba(0, 112, 242, 0.12);
+}
+
+.btn-advisory-secondary:hover .advisory-btn-svg {
+  color: #0070F2;
+}
+
+/* Right: Capabilities (Flattened hierarchy) */
+.advisory-capabilities-col {
+  padding: 2.75rem 2.75rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: #FFFFFF;
+  text-align: left;
+}
+
+.advisory-capabilities-heading {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #32363A;
+  margin: 0 0 1.35rem 0;
+  text-align: left;
+}
+
+.advisory-capabilities-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.advisory-capability-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  text-align: left;
+}
+
+.advisory-capability-chevron {
+  width: 14px;
+  height: 14px;
+  color: #0070F2;
+  flex-shrink: 0;
+  margin-top: 0.28rem;
+  transition: transform 0.2s ease;
+}
+
+.advisory-capability-item:hover .advisory-capability-chevron {
+  transform: translateX(2px);
+}
+
+.capability-title {
+  color: #32363A;
+  font-weight: 600;
+  margin-right: 0.35rem;
+}
+
+.capability-desc {
+  color: #6A6D70;
+  font-weight: 400;
+}
+
+.advisory-sla-note {
+  font-size: 0.78rem;
+  color: #6A6D70;
+  border-top: 1px solid #EDEDED;
+  padding-top: 1.15rem;
+  margin-top: 1.75rem;
+  line-height: 1.5;
+  text-align: left;
+}
+
+/* Dark theme overrides for Advisory section */
+[data-theme="dark"] .expert-advisory-card,
+[data-theme="dark"] .advisory-profile-col,
+[data-theme="dark"] .advisory-capabilities-col {
+  background: var(--bg-surface);
+}
+
+[data-theme="dark"] .expert-advisory-card {
+  border-color: var(--border-light);
+}
+
+[data-theme="dark"] .advisory-profile-col {
+  border-right-color: var(--border-light);
+  border-bottom-color: var(--border-light);
+}
+
+[data-theme="dark"] .advisory-profile-name,
+[data-theme="dark"] .advisory-capabilities-heading,
+[data-theme="dark"] .capability-title,
+[data-theme="dark"] .advisory-phone-link {
+  color: var(--text-main);
+}
+
+[data-theme="dark"] .advisory-profile-role,
+[data-theme="dark"] .capability-desc,
+[data-theme="dark"] .advisory-sla-note,
+[data-theme="dark"] .expert-advisory-section .section-description {
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] .advisory-sla-note {
+  border-top-color: var(--border-light);
+}
+
+[data-theme="dark"] .btn-advisory-secondary {
+  background: var(--bg-subtle);
+  border-color: var(--border-light);
+  color: var(--text-main);
+}
+
+[data-theme="dark"] .btn-advisory-secondary:hover {
+  background: var(--bg-surface);
+  border-color: var(--sap-blue);
+  color: var(--sap-blue);
 }
 
 @media (max-width: 860px) {
   .expert-advisory-card {
     grid-template-columns: 1fr;
+  }
+  .advisory-profile-col {
+    padding: 2rem 1.5rem;
+    border-right: none;
+    border-bottom: 1px solid #EDEDED;
+  }
+  .advisory-capabilities-col {
+    padding: 2rem 1.5rem;
   }
 }
 
