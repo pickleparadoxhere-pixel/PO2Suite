@@ -2958,7 +2958,8 @@ dialog.native-dialog::backdrop {
   padding: 2.75rem 2.5rem;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
+  gap: 1.75rem;
   border-right: 1px solid #EDEDED;
   background: #FFFFFF;
   text-align: left;
@@ -2970,7 +2971,24 @@ dialog.native-dialog::backdrop {
   gap: 1.25rem;
 }
 
-/* Avatar: Refined, muted gradient rather than loud teal */
+/* Avatar: Wrapper, Photo Support & Muted Gradient Fallback */
+.advisory-avatar-wrapper {
+  position: relative;
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+}
+
+.advisory-avatar-img {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #D9D9D9;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  flex-shrink: 0;
+}
+
 .advisory-avatar {
   width: 56px;
   height: 56px;
@@ -2996,48 +3014,65 @@ dialog.native-dialog::backdrop {
   font-size: 1.25rem;
   font-weight: 700;
   color: #32363A;
-  margin: 0 0 0.25rem 0;
-  line-height: 1.25;
+  margin: 0 0 0.15rem 0;
+  line-height: 1.2;
 }
 
 .advisory-profile-role {
   font-size: 0.85rem;
   color: #6A6D70;
-  margin: 0 0 0.75rem 0;
+  margin: 0 0 0.45rem 0;
   font-weight: 400;
-  line-height: 1.45;
+  line-height: 1.35;
 }
 
-/* Phone link & hover-revealed copy icon */
-.advisory-phone-wrapper {
+/* Contact Links Stack (Phone & LinkedIn) */
+.advisory-contact-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-top: 0.35rem;
+}
+
+.advisory-phone-wrapper,
+.advisory-linkedin-wrapper {
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
 }
 
-.advisory-phone-link {
+.advisory-contact-link {
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  font-size: 0.92rem;
+  font-size: 0.88rem;
   font-weight: 600;
   color: #32363A;
   text-decoration: none;
   transition: color 0.15s ease;
 }
 
-.advisory-phone-link:hover {
+.advisory-contact-link:hover {
   color: #0070F2;
   text-decoration: none;
 }
 
-.advisory-phone-icon {
+.contact-link-icon {
   color: #6A6D70;
+  flex-shrink: 0;
   transition: color 0.15s ease;
 }
 
-.advisory-phone-link:hover .advisory-phone-icon {
+.advisory-contact-link:hover .contact-link-icon {
   color: #0070F2;
+}
+
+.linkedin-brand-icon {
+  color: #0A66C2;
+}
+
+.advisory-contact-link:hover .linkedin-brand-icon {
+  color: #004182;
 }
 
 .advisory-copy-btn {
@@ -3198,6 +3233,7 @@ dialog.native-dialog::backdrop {
 [data-theme="dark"] .advisory-profile-name,
 [data-theme="dark"] .advisory-capabilities-heading,
 [data-theme="dark"] .capability-title,
+[data-theme="dark"] .advisory-contact-link,
 [data-theme="dark"] .advisory-phone-link {
   color: var(--text-main);
 }
