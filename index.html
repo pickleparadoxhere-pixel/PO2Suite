@@ -61,8 +61,7 @@
         <nav class="section-menu-nav" aria-label="Section Navigation">
           <a href="#estimator" class="menu-nav-item">Effort & Budget Estimator</a>
           <a href="#limitations" class="menu-nav-item">Tooling Limitations</a>
-          <a href="#topologies" class="menu-nav-item">Target Topologies</a>
-          <a href="#architecture" class="menu-nav-item">Architecture Blueprint</a>
+          <a href="#topologies" class="menu-nav-item">Target Topologies & Architecture</a>
           <a href="#starting-steps" class="menu-nav-item">Readiness Checklist</a>
           <a href="#roadmap" class="menu-nav-item">6-Phase Roadmap</a>
           <a href="#case-studies" class="menu-nav-item">Case Studies</a>
@@ -492,350 +491,212 @@
       </div>
     </section>
 
-    <!-- SECTION: TARGET ARCHITECTURE TOPOLOGIES & DECISION TREE -->
+    <!-- SECTION: TARGET ARCHITECTURE TOPOLOGIES & DECISION GUIDE -->
     <section class="section-wrapper" id="topologies">
       <div class="container">
         <div class="section-head">
-          <div class="section-tagline">Deployment Strategy</div>
+          <div class="section-tagline">Deployment Strategy & Modernization Levers</div>
           <h2 class="section-title">Target Architecture Topologies & Decision Guide</h2>
           <p class="section-description">
-            Determine the right runtime topology for your enterprise workloads: <strong>SAP Cloud Integration</strong> (Multi-Tenant BTP) vs. <strong>Edge Integration Cell</strong> (On-Premise Kubernetes) vs. <strong>SAP Cloud Connector</strong> (Secure Hybrid Tunnel).
+            SAP Process Orchestration was a monolithic tool. SAP Integration Suite is modular. Modernization requires evaluating both the synergistic runtime execution topologies (Cloud vs. Edge vs. Hybrid Tunnel) and the 4 foundational modernization pillars below.
           </p>
         </div>
 
-        <div class="topology-decision-grid" id="topologies-grid">
-          <div class="topology-decision-card">
-            <div class="decision-question">
-              Does data sovereignty or regulatory compliance mandate that payloads remain behind your firewall?
+        <!-- TOPOLOGY DECISION MATRIX -->
+        <div class="topology-matrix-container">
+          <div class="topology-matrix-header-bar">
+            <div class="matrix-title-wrap">
+              <span class="matrix-badge">Runtime Topology Matrix</span>
+              <h3 class="matrix-title">Runtime Topology Decision Matrix</h3>
             </div>
-            <div class="decision-recommendation">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-              <span>Deploy Edge Integration Cell (On-Prem K8s)</span>
-            </div>
-            <p class="decision-details">
-              Keeps message execution completely on-premise inside your private Kubernetes cluster (OpenShift, SUSE Rancher) while retaining centralized design-time governance on SAP BTP.
-            </p>
+            <span class="matrix-synergy-note">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+              Synergistic Architecture: Components often work together (e.g., Cloud Integration + Cloud Connector) rather than being mutually exclusive choices.
+            </span>
           </div>
 
-          <div class="topology-decision-card">
-            <div class="decision-question">
-              Are you processing high-volume ground-to-ground traffic between on-premise systems (e.g. Shop Floor / MES to ERP)?
-            </div>
-            <div class="decision-recommendation">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-              <span>Deploy Edge Integration Cell</span>
-            </div>
-            <p class="decision-details">
-              Eliminates sub-second latency constraints and avoids internet egress bandwidth costs by processing local traffic locally without roundtripping to the public cloud.
-            </p>
-          </div>
-
-          <div class="topology-decision-card">
-            <div class="decision-question">
-              Is your architecture cloud-first, connecting SaaS endpoints (Salesforce, Workday, Ariba, S/4HANA Cloud)?
-            </div>
-            <div class="decision-recommendation">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-              <span>Adopt SAP Cloud Integration (BTP Multi-Tenant)</span>
-            </div>
-            <p class="decision-details">
-              Fully managed multi-tenant runtime on SAP BTP with auto-scaling, elastic compute, automatic zero-downtime SAP kernel updates, and global reach.
-            </p>
-          </div>
-
-          <div class="topology-decision-card">
-            <div class="decision-question">
-              Do you have existing on-premise SAP ECC or database systems that cloud apps must access securely?
-            </div>
-            <div class="decision-recommendation">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-              <span>Deploy SAP Cloud Connector (Hybrid Tunnel)</span>
-            </div>
-            <p class="decision-details">
-              Reverse-proxy TLS tunnel establishing outbound-only secure connections with zero inbound firewall ports opened, with full X.509 principal propagation.
-            </p>
+          <div class="table-responsive-wrapper">
+            <table class="topology-decision-table" aria-label="Target Architecture Topology Decision Matrix">
+              <thead>
+                <tr>
+                  <th scope="col" style="width: 22%;">Runtime Topology & Component</th>
+                  <th scope="col" style="width: 26%;">Primary Enterprise Use Case</th>
+                  <th scope="col" style="width: 26%;">Technical Description</th>
+                  <th scope="col" style="width: 26%;">Operational Considerations & Prerequisites</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="topology-name-cell">
+                    <div class="topology-cell-inner">
+                      <div class="topology-icon-badge btp">☁️</div>
+                      <div>
+                        <strong>SAP Cloud Integration (BTP)</strong>
+                        <span class="topology-subtag">Multi-Tenant Cloud Runtime</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    Cloud-first strategy, SaaS connectivity (Salesforce, Ariba, Workday), and standard hybrid routing.
+                  </td>
+                  <td>
+                    Fully managed, multi-tenant execution runtime hosted on SAP BTP.
+                  </td>
+                  <td>
+                    <div class="consideration-tag default">Default Engine</div>
+                    <div class="consideration-text">Auto-scaling and zero-downtime SAP kernel updates. Message payloads are processed in the SAP-managed cloud region.</div>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="topology-name-cell">
+                    <div class="topology-cell-inner">
+                      <div class="topology-icon-badge edge">🛡️</div>
+                      <div>
+                        <strong>Edge Integration Cell (EIC)</strong>
+                        <span class="topology-subtag">Customer-Managed Kubernetes</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    Strict data sovereignty, local ground-to-ground low latency, and extreme on-premise payload volumes.
+                  </td>
+                  <td>
+                    Customer-managed runtime that processes messages locally within a private Kubernetes cluster (zero cloud payload egress).
+                  </td>
+                  <td>
+                    <div class="consideration-tag warning">High Overhead</div>
+                    <div class="consideration-text">Requires customer-provisioned Kubernetes (e.g., SUSE Rancher, OpenShift, AKS), external PostgreSQL, and Redis. Centralized design/monitoring remains on SAP BTP.</div>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="topology-name-cell">
+                    <div class="topology-cell-inner">
+                      <div class="topology-icon-badge scc">🔒</div>
+                      <div>
+                        <strong>SAP Cloud Connector (SCC)</strong>
+                        <span class="topology-subtag">Hybrid Reverse-Proxy Tunnel</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    Secure hybrid connectivity to <em>any</em> private network system (S/4HANA Private Cloud, legacy ECC, local databases).
+                  </td>
+                  <td>
+                    Reverse-proxy TLS tunnel establishing outbound-only secure connections without opening inbound firewall ports.
+                  </td>
+                  <td>
+                    <div class="consideration-tag mandatory">Mandatory for Migration</div>
+                    <div class="consideration-text">Required by SAP Migration Assessment and Cloud Integration tools to securely extract PI/PO ESR/ID artifacts.</div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
-      </div>
-    </section>
 
-    <!-- SECTION 2: ENTERPRISE ARCHITECTURE TRANSITION BLUEPRINT & DECISION FRAMEWORK -->
-    <section class="section-wrapper section-alt" id="architecture">
-      <div class="container">
-        <div class="section-head">
-          <div class="section-tagline">Architectural Decision Framework</div>
-          <h2 class="section-title">Enterprise Architecture Transition Blueprint</h2>
-          <p class="section-description">
-            A practical decision-making engine for enterprise architects. Select your integration scenario below to evaluate target topologies (BTP Multi-Tenant vs. Edge Integration Cell), 5R migration treatments, protocol shifts, and tooling feasibility.
-          </p>
-        </div>
-
-        <div class="arch-blueprint-wrapper">
-          <!-- Architecture View Mode Navigation Tabs -->
-          <div class="arch-view-tabs" role="tablist" aria-label="Architecture Blueprint Views">
-            <button class="arch-view-tab-btn active" id="arch-tab-scenarios" onclick="switchArchTab('scenarios')" role="tab" aria-selected="true">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>
-              <span>Scenario Decision Advisor</span>
-            </button>
-            <button class="arch-view-tab-btn" id="arch-tab-matrix" onclick="switchArchTab('matrix')" role="tab" aria-selected="false">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
-              <span>5R Migration Treatment Matrix</span>
-            </button>
-            <button class="arch-view-tab-btn" id="arch-tab-blueprint" onclick="switchArchTab('blueprint')" role="tab" aria-selected="false">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
-              <span>Layered Reference Architecture</span>
-            </button>
+        <!-- 4 ADDITIONAL ARCHITECTURAL AREAS TO COVER -->
+        <div class="arch-modernization-section">
+          <div class="modernization-section-header">
+            <span class="section-tagline">Modular Architecture Pillars</span>
+            <h3 class="modernization-section-title">Beyond Runtime: 4 Critical Modernization Levers</h3>
+            <p class="modernization-section-desc">
+              SAP Process Orchestration (PO) was a monolithic tool. SAP Integration Suite is modular. Limiting the architecture section strictly to "Where does the message process?" misses critical modernization levers that enterprise architects must plan for during a migration.
+            </p>
           </div>
 
-          <!-- VIEW PANE 1: SCENARIO DECISION ADVISOR -->
-          <div class="arch-tab-pane active" id="arch-pane-scenarios">
-            <div class="arch-scenario-picker-header">
-              <span class="arch-scenario-picker-title">Step 1: Select Your Integration Scenario / Workload</span>
-              <span class="arch-scenario-picker-subtitle">Click a scenario to inspect the target deployment topology, 5R treatment, protocol shift, and governance guardrails:</span>
-            </div>
-
-            <!-- Scenario Selection Grid -->
-            <div class="arch-scenario-chips-grid" id="arch-scenario-chips-grid">
-              <!-- Rendered dynamically by script.js -->
-            </div>
-
-            <!-- Dynamic Decision Card Display Container -->
-            <div class="arch-active-decision-box" id="arch-active-decision-box">
-              <!-- Rendered dynamically by script.js -->
-            </div>
-          </div>
-
-          <!-- VIEW PANE 2: 5R MIGRATION TREATMENT MATRIX -->
-          <div class="arch-tab-pane" id="arch-pane-matrix" style="display: none;">
-            <div class="arch-matrix-intro">
-              <h3 style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.25rem;">
-                5R Architecture Portfolio Treatment Framework
-              </h3>
-              <p style="font-size: 0.82rem; color: var(--text-secondary); margin: 0;">
-                How to classify your legacy SAP PI/PO interface catalog across the 5 modernization pathways based on technical feasibility, operational value, and cloud fit:
-              </p>
-            </div>
-
-            <div class="arch-5r-cards-grid">
-              <!-- Replatform -->
-              <div class="arch-5r-card">
-                <div class="arch-5r-card-top">
-                  <span class="badge-5r replatform">1. Replatform</span>
-                  <span class="arch-5r-volume">~60–70% of Catalog</span>
+          <div class="modernization-blocks-grid">
+            <!-- 1. Separation of Design-Time vs. Run-Time -->
+            <div class="modernization-card">
+              <div class="mod-card-top">
+                <div class="mod-icon-pill control-plane">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
+                  <span>The Control Plane</span>
                 </div>
-                <h4 class="arch-5r-title">Automated 1:1 Migration</h4>
-                <p class="arch-5r-desc">Standard Integrated Configurations (ICOs) with graphical mappings, SOAP, IDoc, HTTP, and standard adapters.</p>
-                <div class="arch-5r-meta">
-                  <div class="arch-5r-meta-item">
-                    <span class="arch-5r-key">Tooling Enabler:</span>
-                    <span class="arch-5r-val">SAP Migration Wizard</span>
-                  </div>
-                  <div class="arch-5r-meta-item">
-                    <span class="arch-5r-key">Target Runtime:</span>
-                    <span class="arch-5r-val">Cloud Integration (CPI)</span>
-                  </div>
-                  <div class="arch-5r-meta-item">
-                    <span class="arch-5r-key">Effort Tier:</span>
-                    <span class="arch-5r-val" style="color: var(--status-positive);">Small (3.5 Days)</span>
-                  </div>
-                </div>
+                <span class="mod-num">01</span>
               </div>
-
-              <!-- Refactor -->
-              <div class="arch-5r-card">
-                <div class="arch-5r-card-top">
-                  <span class="badge-5r refactor">2. Refactor</span>
-                  <span class="arch-5r-volume">~15–20% of Catalog</span>
-                </div>
-                <h4 class="arch-5r-title">Scripting & Protocol Modernization</h4>
-                <p class="arch-5r-desc">Interfaces with Java User-Defined Functions (UDFs), legacy custom adapter modules, RFC lookups, or custom Java archives.</p>
-                <div class="arch-5r-meta">
-                  <div class="arch-5r-meta-item">
-                    <span class="arch-5r-key">Tooling Enabler:</span>
-                    <span class="arch-5r-val">Groovy 3.x / Content Enricher</span>
-                  </div>
-                  <div class="arch-5r-meta-item">
-                    <span class="arch-5r-key">Target Runtime:</span>
-                    <span class="arch-5r-val">Cloud Integration (Native Camel)</span>
-                  </div>
-                  <div class="arch-5r-meta-item">
-                    <span class="arch-5r-key">Effort Tier:</span>
-                    <span class="arch-5r-val" style="color: var(--sap-blue);">Medium / Large (7–14.5d)</span>
-                  </div>
-                </div>
+              <h4 class="mod-card-title">1. Separation of Design-Time vs. Run-Time</h4>
+              <div class="mod-concept-box">
+                <strong class="mod-concept-label">The Concept:</strong>
+                <p class="mod-concept-text">
+                  Clarify that even if a customer chooses the Edge Integration Cell for local execution (<strong>Run-Time</strong>), all interface building, security configuration, and monitoring telemetry (<strong>Design-Time</strong>) are strictly managed centrally in the SAP BTP cloud console.
+                </p>
               </div>
-
-              <!-- Re-architect -->
-              <div class="arch-5r-card">
-                <div class="arch-5r-card-top">
-                  <span class="badge-5r rearchitect">3. Re-architect</span>
-                  <span class="arch-5r-volume">~10–15% of Catalog</span>
-                </div>
-                <h4 class="arch-5r-title">Stateless & Event-Driven Redesign</h4>
-                <p class="arch-5r-desc">Complex ccBPM, NetWeaver BPM stateful orchestrations, dual-stack Sync/Async bridges, and heavy 100MB+ batch files.</p>
-                <div class="arch-5r-meta">
-                  <div class="arch-5r-meta-item">
-                    <span class="arch-5r-key">Tooling Enabler:</span>
-                    <span class="arch-5r-val">SAP Build + SAP Event Mesh</span>
-                  </div>
-                  <div class="arch-5r-meta-item">
-                    <span class="arch-5r-key">Target Runtime:</span>
-                    <span class="arch-5r-val">Build Process Automation + CPI</span>
-                  </div>
-                  <div class="arch-5r-meta-item">
-                    <span class="arch-5r-key">Effort Tier:</span>
-                    <span class="arch-5r-val" style="color: var(--status-critical);">Extra Large (25.5 Days)</span>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Replace -->
-              <div class="arch-5r-card">
-                <div class="arch-5r-card-top">
-                  <span class="badge-5r replace">4. Replace</span>
-                  <span class="arch-5r-volume">~5–10% of Catalog</span>
-                </div>
-                <h4 class="arch-5r-title">Standard Cloud Pre-Packaged Content</h4>
-                <p class="arch-5r-desc">Bespoke legacy integrations connecting SAP to SuccessFactors, Ariba, Concur, Salesforce that now have official SAP packages.</p>
-                <div class="arch-5r-meta">
-                  <div class="arch-5r-meta-item">
-                    <span class="arch-5r-key">Tooling Enabler:</span>
-                    <span class="arch-5r-val">SAP Business Accelerator Hub</span>
-                  </div>
-                  <div class="arch-5r-meta-item">
-                    <span class="arch-5r-key">Target Runtime:</span>
-                    <span class="arch-5r-val">Pre-Packaged Cloud Content</span>
-                  </div>
-                  <div class="arch-5r-meta-item">
-                    <span class="arch-5r-key">Effort Tier:</span>
-                    <span class="arch-5r-val" style="color: var(--status-positive);">Low (Configuration Only)</span>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Retire -->
-              <div class="arch-5r-card">
-                <div class="arch-5r-card-top">
-                  <span class="badge-5r retire">5. Retire</span>
-                  <span class="arch-5r-volume">~15–25% Scope Reduction</span>
-                </div>
-                <h4 class="arch-5r-title">Landscape Cleanup & Decommissioning</h4>
-                <p class="arch-5r-desc">Dormant, duplicate, test, or obsolete interfaces identified during ST03N workload analysis and Message Monitoring historical audits.</p>
-                <div class="arch-5r-meta">
-                  <div class="arch-5r-meta-item">
-                    <span class="arch-5r-key">Tooling Enabler:</span>
-                    <span class="arch-5r-val">ST03N / Migration Assessment</span>
-                  </div>
-                  <div class="arch-5r-meta-item">
-                    <span class="arch-5r-key">Target Runtime:</span>
-                    <span class="arch-5r-val">Decommissioned / Archived</span>
-                  </div>
-                  <div class="arch-5r-meta-item">
-                    <span class="arch-5r-key">Effort Tier:</span>
-                    <span class="arch-5r-val" style="color: var(--status-positive);">Zero Migration Cost</span>
-                  </div>
-                </div>
+              <div class="mod-takeaway">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--status-positive)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Single pane of glass governance with local execution sovereignty.</span>
               </div>
             </div>
-          </div>
 
-          <!-- VIEW PANE 3: LAYERED TARGET REFERENCE ARCHITECTURE -->
-          <div class="arch-tab-pane" id="arch-pane-blueprint" style="display: none;">
-            <div class="arch-blueprint-diagram-wrap">
-              <div class="arch-tier-block tier-cloud">
-                <div class="arch-tier-header">
-                  <div class="arch-tier-title-wrap">
-                    <span class="arch-tier-pill">Tier 1</span>
-                    <strong class="arch-tier-title">Cloud & External Ecosystem</strong>
-                  </div>
-                  <span class="arch-tier-desc">SaaS Apps, B2B Trading Partners, Hyperscalers, Mobile & Third-Party APIs</span>
+            <!-- 2. API Management (The Security Layer) -->
+            <div class="modernization-card">
+              <div class="mod-card-top">
+                <div class="mod-icon-pill security">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                  <span>The Security Layer</span>
                 </div>
-                <div class="arch-tier-cards-row">
-                  <div class="arch-tier-card">
-                    <div class="arch-tc-header"><span>🌐 SaaS & Enterprise Clouds</span><span class="preview-pill">Public Cloud</span></div>
-                    <p class="arch-tc-body">Salesforce, Workday, SAP Ariba, SuccessFactors, ServiceNow connecting over HTTPS REST/OData APIs.</p>
-                  </div>
-                  <div class="arch-tier-card">
-                    <div class="arch-tc-header"><span>🤝 B2B Trading Partners</span><span class="preview-pill">Secure B2B</span></div>
-                    <p class="arch-tc-body">Suppliers, 3PLs, Banks exchanging EDIFACT, ANSI X12, cXML via AS2, OFTP2, and Secure SFTP.</p>
-                  </div>
-                  <div class="arch-tier-card">
-                    <div class="arch-tc-header"><span>⚡ Client Apps & Consumers</span><span class="preview-pill">Omnichannel</span></div>
-                    <p class="arch-tc-body">Mobile apps, customer web portals, and microservices consuming protected REST/GraphQL APIs.</p>
-                  </div>
-                </div>
+                <span class="mod-num">02</span>
               </div>
-
-              <!-- Connecting Bus Arrow -->
-              <div class="arch-connector-bridge">
-                <div class="arch-conn-line"></div>
-                <span class="arch-conn-badge">Public Ingress: TLS 1.3 / OAuth 2.0 / API Keys / MTLS</span>
-                <div class="arch-conn-line"></div>
+              <h4 class="mod-card-title">2. API Management (The Security Layer)</h4>
+              <div class="mod-concept-box">
+                <strong class="mod-concept-label">Why It's Needed:</strong>
+                <p class="mod-concept-text">
+                  In legacy PO landscapes, interfaces were often exposed directly to external consumers via SOAP or REST sender channels. In the Integration Suite, <strong>SAP API Management</strong> should sit in front of Cloud Integration to handle security policies, API key validation, spike arrests, rate limiting, and threat protection before payloads ever hit the iFlow processing engine.
+                </p>
               </div>
-
-              <div class="arch-tier-block tier-btp">
-                <div class="arch-tier-header">
-                  <div class="arch-tier-title-wrap">
-                    <span class="arch-tier-pill" style="background: rgba(0, 112, 242, 0.15); color: var(--sap-blue);">Tier 2</span>
-                    <strong class="arch-tier-title">SAP Integration Suite Integration Hub (SAP BTP)</strong>
-                  </div>
-                  <span class="arch-tier-desc">Central Control Plane, Multi-Tenant Execution Runtimes, AI Governance & Event Bus</span>
-                </div>
-                <div class="arch-tier-cards-row btp-grid">
-                  <div class="arch-tier-card highlight-btp">
-                    <div class="arch-tc-header"><strong>SAP API Management</strong><span class="preview-pill" style="color:var(--sap-blue);">Edge Gateway</span></div>
-                    <p class="arch-tc-body">Traffic shaping, spike arrest, rate limiting, OAuth token validation, developer catalog, and analytics.</p>
-                  </div>
-                  <div class="arch-tier-card highlight-btp">
-                    <div class="arch-tc-header"><strong>Cloud Integration (CPI)</strong><span class="preview-pill" style="color:var(--status-positive);">Multi-Tenant</span></div>
-                    <p class="arch-tc-body">Camel-based orchestration runtime, Groovy scripting engine, mapping transformations, and JMS queues.</p>
-                  </div>
-                  <div class="arch-tier-card highlight-btp">
-                    <div class="arch-tc-header"><strong>Integration Advisor & TPM</strong><span class="preview-pill" style="color:var(--status-warning);">AI B2B</span></div>
-                    <p class="arch-tc-body">Crowdsourced MIG/MAG machine learning mapping, centralized Trading Partner Management directory.</p>
-                  </div>
-                  <div class="arch-tier-card highlight-btp">
-                    <div class="arch-tc-header"><strong>SAP Event Mesh / BPA</strong><span class="preview-pill" style="color:var(--status-info);">Async / BPM</span></div>
-                    <p class="arch-tc-body">Event-driven asynchronous messaging, pub/sub topics, and human workflow task routing via SAP Build.</p>
-                  </div>
-                </div>
+              <div class="mod-takeaway">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--status-positive)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Shields integration compute from DDoS, unauthorized traffic, and consumer spikes.</span>
               </div>
+            </div>
 
-              <!-- Connecting Bus Arrow -->
-              <div class="arch-connector-bridge">
-                <div class="arch-conn-line"></div>
-                <span class="arch-conn-badge">Hybrid Ingress: Inverted TLS Tunnel (Zero Open Inbound Firewall Ports)</span>
-                <div class="arch-conn-line"></div>
+            <!-- 3. Trading Partner Management (The B2B/EDI Layer) -->
+            <div class="modernization-card">
+              <div class="mod-card-top">
+                <div class="mod-icon-pill b2b">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                  <span>The B2B/EDI Layer</span>
+                </div>
+                <span class="mod-num">03</span>
               </div>
+              <h4 class="mod-card-title">3. Trading Partner Management (The B2B/EDI Layer)</h4>
+              <div class="mod-concept-box">
+                <strong class="mod-concept-label">Why It's Needed:</strong>
+                <p class="mod-concept-text">
+                  Customers migrating off the SAP PO B2B Add-On must adopt <strong>Trading Partner Management (TPM)</strong> and the <strong>Integration Advisor</strong>. This area manages trading partner profiles, AS2 connectivity, and EDIFACT/X12 message implementation guidelines using machine learning, shifting away from manual PO mapping.
+                </p>
+              </div>
+              <div class="mod-takeaway">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--status-positive)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Cuts EDI onboarding cycles by 60–80% using crowdsourced AI mapping guidelines (MAGs).</span>
+              </div>
+            </div>
 
-              <div class="arch-tier-block tier-onprem">
-                <div class="arch-tier-header">
-                  <div class="arch-tier-title-wrap">
-                    <span class="arch-tier-pill" style="background: rgba(22, 101, 52, 0.12); color: var(--status-positive);">Tier 3</span>
-                    <strong class="arch-tier-title">Enterprise On-Premise & Edge Perimeter</strong>
-                  </div>
-                  <span class="arch-tier-desc">Corporate Datacenter, Manufacturing Plants, Customer Private Kubernetes & ERP Core</span>
+            <!-- 4. Event-Driven Architecture (Event Mesh) -->
+            <div class="modernization-card">
+              <div class="mod-card-top">
+                <div class="mod-icon-pill event-mesh">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                  <span>The Event Bus</span>
                 </div>
-                <div class="arch-tier-cards-row">
-                  <div class="arch-tier-card">
-                    <div class="arch-tc-header"><strong>SAP Cloud Connector</strong><span class="preview-pill" style="color:var(--sap-blue);">Hybrid Tunnel</span></div>
-                    <p class="arch-tc-body">Active/Standby reverse proxy tunnel. Forwards RFC, BAPI, IDoc, and HTTP calls to on-premise targets with X.509 user propagation.</p>
-                  </div>
-                  <div class="arch-tier-card">
-                    <div class="arch-tc-header"><strong>Edge Integration Cell</strong><span class="preview-pill" style="color:var(--status-positive);">Local K8s Runtime</span></div>
-                    <p class="arch-tc-body">Local Kubernetes pods executing ground-to-ground traffic behind firewalls with sub-millisecond latency and offline resilience.</p>
-                  </div>
-                  <div class="arch-tier-card">
-                    <div class="arch-tc-header"><strong>Core Systems & Plant Floor</strong><span class="preview-pill">Protected LAN</span></div>
-                    <p class="arch-tc-body">SAP ECC 6.0, S/4HANA On-Prem, Manufacturing Execution Systems (MES), SCADA, Legacy Oracle/SQL DBs.</p>
-                  </div>
-                </div>
+                <span class="mod-num">04</span>
+              </div>
+              <h4 class="mod-card-title">4. Event-Driven Architecture (Event Mesh)</h4>
+              <div class="mod-concept-box">
+                <strong class="mod-concept-label">Why It's Needed:</strong>
+                <p class="mod-concept-text">
+                  Legacy PO heavily relied on synchronous RFC polling or continuous database JDBC polling, which consumes high network bandwidth and system resources. Modernizing to the cloud requires introducing <strong>SAP Event Mesh</strong> or <strong>Advanced Event Mesh</strong> to transition interfaces to a modern, asynchronous publish/subscribe (Pub/Sub) pattern.
+                </p>
+              </div>
+              <div class="mod-takeaway">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--status-positive)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Decouples systems asynchronously and eliminates continuous polling overhead.</span>
               </div>
             </div>
           </div>
         </div>
       </div>
     </section>
+
 
     <!-- SECTION 3: RECOMMENDED STARTING STEPS (READINESS CHECKLIST) -->
     <section class="section-wrapper" id="starting-steps">
