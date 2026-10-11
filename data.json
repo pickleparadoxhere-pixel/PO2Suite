@@ -154,7 +154,7 @@
         "Standardize Groovy reusable utility scripts for mapping, headers, and error handling",
         "Review Enterprise Integration Patterns (Content-Based Router, Splitter, Aggregator)"
       ],
-      "link": "https://learning.sap.com/learning-journeys/developing-with-sap-integration-suite",
+      "link": "https://learning.sap.com/courses/sap-process-orchestration-to-sap-integration-suite-migration",
       "icon": "🎓"
     },
     {
@@ -171,7 +171,7 @@
         "Run data extraction in analysis mode across all active communication channels",
         "Review generated PDF/Excel readiness reports to calibrate project T-shirt sizing"
       ],
-      "link": "https://help.sap.com/docs/migration-assessment",
+      "link": "https://help.sap.com/docs/integration-suite/isuite-migration-assessment/migration-assessment?locale=en-US",
       "icon": "⚙️"
     },
     {

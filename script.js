@@ -147,99 +147,99 @@ const RESOURCES = [
     id: "doc-mg-overview",
     category: "docs",
     categoryLabel: "Documentation",
-    title: "Migration Guide – Overview",
-    description: "Primary SAP end-to-end documentation covering migration phases, tooling prerequisites, landscape mapping, and cutover strategies.",
-    topic: "Core Migration Guide",
+    title: "Migration Guide for SAP Process Orchestration",
+    description: "Primary official SAP end-to-end documentation covering migration phases, tooling prerequisites, landscape mapping, and cutover strategies.",
+    topic: "Official Core Migration Guide",
     tags: ["Migration", "Landscape Assessment", "PI/PO"],
-    link: "https://help.sap.com/docs/integration-suite/migration-guide/overview"
+    link: "https://help.sap.com/docs/migration-guide-po/migration-guide-for-sap-process-orchestration/c344b1c395144095834a961699293889.html"
+  },
+  {
+    id: "doc-transition-is",
+    category: "docs",
+    categoryLabel: "Documentation",
+    title: "Migration Guide: Transition to SAP Integration Suite",
+    description: "Methodology and step-by-step transition guidelines outlining planning phases, landscape architecture, and tooling paths to SAP Integration Suite.",
+    topic: "Transition Planning & Architecture",
+    tags: ["Landscape Assessment", "Migration", "PI/PO"],
+    link: "https://help.sap.com/docs/migration-guide-po/migration-guide-for-sap-process-orchestration/transition-to-sap-integration-suite?locale=en-"
   },
   {
     id: "doc-intro-is",
     category: "docs",
     categoryLabel: "Documentation",
-    title: "Introduction to SAP Integration Suite",
-    description: "Strategic executive overview highlighting business advantages of moving from monolithic on-premise PO to modular cloud integration services.",
-    topic: "Architecture & Benefits",
+    title: "SAP Integration Suite Main Documentation",
+    description: "Core SAP Help documentation for SAP Integration Suite covering overall architecture, capabilities, administration, and runtime management.",
+    topic: "Product Overview & Architecture",
     tags: ["Integration Suite", "Modernization", "SAP BTP"],
-    link: "https://help.sap.com/docs/integration-suite"
+    link: "https://help.sap.com/docs/integration-suite/sap-integration-suite"
   },
   {
-    id: "doc-landscape-assessment",
+    id: "doc-cloud-integration",
     category: "docs",
     categoryLabel: "Documentation",
-    title: "Landscape Assessment Guide",
-    description: "Methodology to audit existing integration footprints, system dependencies, active message volumes, and design future-proof target cloud topologies.",
-    topic: "Architecture Planning",
-    tags: ["Landscape Assessment", "Migration", "PI/PO"],
-    link: "https://help.sap.com/docs/integration-suite/migration-guide/landscape-assessment"
+    title: "SAP Cloud Integration Documentation",
+    description: "Comprehensive guide to message processing pipelines, Apache Camel integration patterns, Groovy scripting, and adapter configurations.",
+    topic: "iFlow Development & Pipelines",
+    tags: ["Cloud Integration", "iFlow", "Modernization"],
+    link: "https://help.sap.com/docs/cloud-integration"
   },
   {
-    id: "doc-connectivity-migration",
+    id: "doc-connectivity-scc",
     category: "docs",
     categoryLabel: "Documentation",
-    title: "Connectivity Migration Guide",
-    description: "Detailed protocols for transitioning connectivity channels from on-premise adapters (IDoc, RFC, SFTP, JDBC, SOAP) to SAP Cloud Connector and Cloud Integration.",
-    topic: "Connectivity",
+    title: "Using SAP Cloud Connector with Cloud Integration Adapters",
+    description: "Protocols and setup procedures for routing Cloud Integration channels through the secure inverted TLS hybrid tunnel to on-premise systems.",
+    topic: "Hybrid Intranet Connectivity",
     tags: ["IDOC / RFC / SOAP / REST", "Cloud Integration", "Hybrid Integration"],
-    link: "https://help.sap.com/docs/integration-suite/migration-guide/connectivity"
+    link: "https://help.sap.com/docs/integration-suite/sap-integration-suite/using-sap-cloud-connector-with-cloud-integration-adapters"
   },
   {
     id: "doc-security-migration",
     category: "docs",
     categoryLabel: "Documentation",
-    title: "Security in Migration",
-    description: "Comprehensive security blueprint addressing mutual TLS certificates, User-Exchange token flows, secret stores, and regulatory compliance standards.",
-    topic: "Security & Compliance",
+    title: "Security in SAP Integration Suite",
+    description: "Security architecture reference covering mTLS certificate governance, User-Exchange token propagation, credential stores, and role collections.",
+    topic: "Security & Certificate Governance",
     tags: ["Security", "SAP BTP", "Interface Governance"],
-    link: "https://help.sap.com/docs/integration-suite/migration-guide/security"
+    link: "https://help.sap.com/docs/integration-suite/sap-integration-suite/security-in-sap-integration-suite"
   },
   {
     id: "doc-error-handling",
     category: "docs",
     categoryLabel: "Documentation",
-    title: "Error Handling & Logging Strategy",
-    description: "Modern architectural patterns replacing legacy alert rules with Exception Subprocesses, custom retry headers, JMS dead-letter queues, and Cloud ALM logging.",
-    topic: "Error Handling & Governance",
+    title: "Handling Errors in Cloud Integration",
+    description: "Modern architectural error-handling patterns: Exception Subprocesses, custom retry headers, JMS Dead-Letter Queues, and alert notifications.",
+    topic: "Exception Handling Patterns",
     tags: ["Error Handling", "iFlow", "Interface Governance"],
-    link: "https://help.sap.com/docs/integration-suite/migration-guide/error-handling"
+    link: "https://help.sap.com/docs/cloud-integration/sap-cloud-integration/handle-errors"
   },
   {
-    id: "doc-interface-governance",
+    id: "doc-edge-cell-scope",
     category: "docs",
     categoryLabel: "Documentation",
-    title: "Interface Governance Across Multi-Cloud",
-    description: "Guidelines for managing CI/CD pipelines, package naming standards, transport management via CTS+ or Cloud Transport Management (cTMS), and API lifecycles.",
-    topic: "Governance",
-    tags: ["Interface Governance", "SAP BTP", "Modernization"],
-    link: "https://help.sap.com/docs/integration-suite/migration-guide/governance"
+    title: "Edge Integration Cell Supported Features & Limitations",
+    description: "Detailed runtime scope, adapter availability, Kubernetes prerequisites, and operational boundaries for on-premise Edge Integration Cell deployments.",
+    topic: "On-Premise K8s Scope & Boundaries",
+    tags: ["Edge Integration Cell", "Hybrid Integration", "Security"],
+    link: "https://help.sap.com/docs/SAP_INTEGRATION_SUITE/sap-integration-suite/supported-features-and-limitations-of-edge-integration-cell"
   },
   {
     id: "doc-pipeline-concept",
     category: "docs",
     categoryLabel: "Documentation",
-    title: "Pipeline Concept in Cloud Integration",
-    description: "Pattern framework establishing reusable, decoupled multi-flow pipelines emulating PI/PO 4-step pipeline processing (Inbound, Validation, Transformation, Outbound).",
-    topic: "Design Patterns",
+    title: "Cloud Integration Pipeline Concept (SAP Community Guide)",
+    description: "Reusable multi-flow pipeline pattern emulating legacy PI/PO 4-step pipeline processing (Inbound, Validation, Transformation, Outbound).",
+    topic: "Reusable Processing Patterns",
     tags: ["Pipeline Concept", "iFlow", "Modernization"],
-    link: "https://help.sap.com/docs/integration-suite/pipeline-concept"
-  },
-  {
-    id: "doc-modernization-recs",
-    category: "docs",
-    categoryLabel: "Documentation",
-    title: "Modernization Recommendations",
-    description: "Best practice recommendations to modernize interfaces: migrating SOAP to REST/OData APIs, file transfers to event-driven webhooks, and point-to-point to pub/sub.",
-    topic: "Modernization",
-    tags: ["Modernization", "API Management", "B2B / EDI"],
-    link: "https://help.sap.com/docs/integration-suite/modernization"
+    link: "https://community.sap.com/t5/technology-blog-posts-by-sap/cloud-integration-pipeline-concept/ba-p/13495447"
   },
   {
     id: "doc-integration-advisor",
     category: "docs",
     categoryLabel: "Documentation",
     title: "SAP Integration Advisor Documentation",
-    description: "Using machine learning and crowdsourced knowledge bases for creating Message Implementation Guidelines (MIGs) and Mapping Guidelines (MAGs).",
-    topic: "AI-Assisted Mapping",
+    description: "Using crowdsourced machine learning intelligence to create standardized Message Implementation Guidelines (MIGs) and Mapping Guidelines (MAGs).",
+    topic: "AI-Assisted Mapping (MIGs/MAGs)",
     tags: ["Integration Advisor", "B2B / EDI", "Modernization"],
     link: "https://help.sap.com/docs/integration-advisor"
   },
@@ -247,11 +247,11 @@ const RESOURCES = [
     id: "doc-tpm",
     category: "docs",
     categoryLabel: "Documentation",
-    title: "SAP Trading Partner Management (TPM)",
-    description: "Cloud-native replacement for PI/PO B2B Add-on: manage trading partner profiles, agreements, interchange envelopes, and EDIFACT/X12 standards.",
-    topic: "B2B & EDI",
+    title: "Trading Partner Management in SAP Integration Suite",
+    description: "Cloud-native replacement for PI/PO B2B Add-on: manage trading partner profiles, agreements, interchange envelopes, and EDI standards.",
+    topic: "B2B & EDI Management",
     tags: ["Trading Partner Management", "B2B / EDI"],
-    link: "https://help.sap.com/docs/trading-partner-management"
+    link: "https://help.sap.com/docs/integration-suite/sap-integration-suite/trading-partner-management"
   },
 
   // Tools & Accelerators
@@ -260,28 +260,48 @@ const RESOURCES = [
     category: "tools",
     categoryLabel: "Tool & Accelerator",
     title: "SAP Migration Assessment Tool",
-    description: "Included in Integration Suite license. Automatically extracts PI/PO landscape metadata, analyzes ICO complexity, evaluates readiness, and estimates migration effort per scenario.",
-    topic: "Landscape Discovery & Effort Estimation",
+    description: "Included in Integration Suite license. Automatically extracts PI/PO landscape metadata, analyzes ICO complexity, and estimates migration effort.",
+    topic: "Automated Discovery & Complexity Sizing",
     tags: ["Migration Assessment", "PI/PO", "Landscape Assessment"],
-    link: "https://help.sap.com/docs/migration-assessment"
+    link: "https://help.sap.com/docs/integration-suite/isuite-migration-assessment/migration-assessment?locale=en-US"
+  },
+  {
+    id: "tool-assessment-limits",
+    category: "tools",
+    categoryLabel: "Tool & Accelerator",
+    title: "Migration Assessment Known Limitations",
+    description: "Official SAP reference cataloging extraction boundaries, unsupported configurations, and known exceptions in the Migration Assessment application.",
+    topic: "Extraction Constraints & Coverage",
+    tags: ["Migration Assessment", "PI/PO", "Troubleshooting"],
+    link: "https://help.sap.com/docs/integration-suite/isuite-migration-assessment/known-limitations-of-migration-assessment"
   },
   {
     id: "tool-toolkit",
     category: "tools",
     categoryLabel: "Tool & Accelerator",
-    title: "Migration Toolkit (Cloud Integration)",
-    description: "Embedded within SAP Cloud Integration. Automatically ingests PI/PO ICO configurations and message mappings, converting them into deployable iFlow packages.",
+    title: "SAP Migration Tooling (Migration Wizard)",
+    description: "Embedded within Cloud Integration. Automatically ingests PI/PO Integrated Configuration Objects (ICOs) and converts them into standard deployable iFlow packages.",
     topic: "Automated iFlow Conversion",
     tags: ["Migration Toolkit", "iFlow", "ESR"],
-    link: "https://help.sap.com/docs/integration-suite/migration-toolkit"
+    link: "https://help.sap.com/docs/integration-suite/sap-integration-suite/what-is-migration-tooling"
+  },
+  {
+    id: "tool-toolkit-limits",
+    category: "tools",
+    categoryLabel: "Tool & Accelerator",
+    title: "Migration Tooling Known Limitations",
+    description: "Official guide to technical patterns that the Migration Wizard cannot automatically convert (Java UDFs, ccBPM, deprecated adapters).",
+    topic: "Tooling Anti-Patterns & Gotchas",
+    tags: ["Migration Toolkit", "iFlow", "Troubleshooting"],
+    link: "https://help.sap.com/docs/integration-suite/sap-integration-suite/known-limitations"
   },
   {
     id: "tool-advisor",
     category: "tools",
     categoryLabel: "Tool & Accelerator",
-    title: "SAP Integration Advisor",
-    description: "Machine-learning engine for creating interfaces and mapping proposals. Drastically cuts mapping design time by proposing fields based on industry crowdsourcing.",
-    topic: "ML-Based Mapping Acceleration",
+    title: "SAP Integration Advisor (AI-Assisted Mapping)",
+    description: "Crowdsourced machine-learning engine that proposes mapping guidelines (MAGs) automatically, cutting B2B EDI mapping effort by 60–80%.",
+    topic: "Crowdsourced Mapping Engine",
     tags: ["Integration Advisor", "B2B / EDI", "Modernization"],
     link: "https://help.sap.com/docs/integration-advisor"
   },
@@ -290,18 +310,18 @@ const RESOURCES = [
     category: "tools",
     categoryLabel: "Tool & Accelerator",
     title: "SAP Business Accelerator Hub",
-    description: "api.sap.com. Central repository of 3,500+ pre-built integration packages, APIs, connectors, and business events. Eliminates custom development for standard SAP scenarios.",
+    description: "Central repository of 3,500+ pre-built integration packages, APIs, connectors, and business events eliminating custom development for standard scenarios.",
     topic: "Pre-Built Integration Content",
     tags: ["Business Accelerator Hub", "Modernization", "iFlow"],
-    link: "https://api.sap.com"
+    link: "https://api.sap.com/"
   },
   {
     id: "tool-connector",
     category: "tools",
     categoryLabel: "Tool & Accelerator",
-    title: "SAP Cloud Connector",
+    title: "SAP Cloud Connector Documentation",
     description: "On-premise reverse proxy establishing secure TLS tunnels to SAP BTP without opening inbound firewall ports, enabling secure on-premise ERP/PI connectivity.",
-    topic: "Secure Hybrid Tunnel",
+    topic: "Inverted TLS Hybrid Tunnel",
     tags: ["Hybrid Integration", "Security", "SAP BTP"],
     link: "https://help.sap.com/docs/cloud-connector"
   },
@@ -309,127 +329,137 @@ const RESOURCES = [
     id: "tool-edge-cell",
     category: "tools",
     categoryLabel: "Tool & Accelerator",
-    title: "Edge Integration Cell",
-    description: "Containerized runtime deployed in customer Kubernetes (on-premise or private cloud) allowing cloud-designed iFlows to execute locally with zero cloud egress.",
-    topic: "On-Premise Hybrid Runtime",
+    title: "Edge Integration Cell Overview",
+    description: "Containerized deployment of Cloud Integration runtime operating locally in customer Kubernetes clusters (OpenShift, SUSE Rancher) for local processing.",
+    topic: "Private Kubernetes Runtime",
     tags: ["Edge Integration Cell", "Hybrid Integration", "Security"],
-    link: "https://help.sap.com/docs/edge-integration-cell"
+    link: "https://help.sap.com/docs/integration-suite/sap-integration-suite/what-is-sap-integration-suite-edge-integration-cell"
   },
   {
     id: "tool-factory",
     category: "tools",
     categoryLabel: "Tool & Accelerator",
-    title: "SAP Migration Factory (Free Assessment)",
-    description: "Official SAP-led consulting program providing free 2-3 week turnaround assessment, personalized migration plan, 1-hour executive results readout, and wave roadmap.",
-    topic: "Free SAP-Led Assessment Program",
+    title: "SAP Migration Factory (Request Free Assessment Form)",
+    description: "Official SAP-led consulting engagement request form providing 2-3 week turnaround assessment, personalized migration plan, and 1-hour executive readout.",
+    topic: "Free SAP-Led Assessment (Lead Request Form)",
     tags: ["Migration Assessment", "Migration", "Landscape Assessment"],
     link: "https://www.sap.com/registration/free-migration-factory-for-integration.html"
   },
 
   // Videos & Masterclasses
   {
-    id: "video-mig-po-is",
-    category: "videos",
-    categoryLabel: "Video Masterclass",
-    title: "Migrating SAP Process Orchestration to SAP Integration Suite",
-    description: "Keynote presentation from SAP Product Management explaining architectural differences, assessment tooling, and hybrid coexistence models.",
-    topic: "Migration Approaches & Best Practices",
-    tags: ["Migration", "Integration Suite", "Hybrid Integration"],
-    link: "https://www.sap.com/events/migration-masterclass.html"
-  },
-  {
     id: "video-cpi-playlist",
     category: "videos",
     categoryLabel: "Video Masterclass",
-    title: "SAP Academy – SAP Cloud Integration Playlist",
-    description: "Hands-on developer video series covering fundamental iFlow building blocks, script execution, message mappings, adapter configs, and security stores.",
+    title: "SAP Technology – Cloud Integration Developer Video Series",
+    description: "Hands-on developer video tutorials covering fundamental iFlow building blocks, script execution, message mappings, adapter configs, and security stores.",
     topic: "Core CPI Developer Enablement",
     tags: ["Cloud Integration", "iFlow", "Groovy Scripting"],
     link: "https://www.youtube.com/playlist?list=PLkzo92owKnVwZ_hL-3aNn47qXF6cM37"
   },
   {
-    id: "video-api-security",
+    id: "video-migration-overview",
     category: "videos",
     categoryLabel: "Video Masterclass",
-    title: "API Security Best Practices Masterclass",
-    description: "Deep dive into hardening cloud endpoints, implementing OAuth 2.0 mutual authentication, spike arrest policies, and preventing data leakage.",
-    topic: "Security & Policy Enforcement",
+    title: "Migrating from SAP PO to SAP Integration Suite (Architecture Replay)",
+    description: "Keynote presentation and technical deep dive explaining architectural differences, assessment tooling, and hybrid coexistence models.",
+    topic: "Architecture Keynote & Transition Roadmap",
+    tags: ["Migration", "Integration Suite", "Hybrid Integration"],
+    link: "https://www.youtube.com/watch?v=lUv3Veq6T5c"
+  },
+  {
+    id: "video-api-management",
+    category: "videos",
+    categoryLabel: "Video Masterclass",
+    title: "SAP API Management: Enterprise Security & Policy Enforcement",
+    description: "Technical guide to hardening cloud endpoints, implementing OAuth 2.0 mutual authentication, spike arrest policies, and preventing data leakage.",
+    topic: "API Proxy Policies & Threat Protection",
     tags: ["Security", "API Management"],
-    link: "https://www.youtube.com/watch?v=sap-api-security-guide"
+    link: "https://www.youtube.com/watch?v=4fG-50_t-v4"
   },
 
   // Expert Community Blogs
   {
-    id: "blog-elevate",
-    category: "blogs",
-    categoryLabel: "Expert Blog",
-    title: "Elevate from SAP PO and Modernize Your Integration Platform with IS",
-    description: "Executive strategic roadmap defining why organizations must modernize, the end-of-maintenance timeline, and modernization levers.",
-    topic: "Modernization Strategy",
-    tags: ["Modernization", "Migration", "Integration Suite"],
-    link: "https://community.sap.com/blogs/elevate-from-sap-po"
-  },
-  {
-    id: "blog-migration-tool",
-    category: "blogs",
-    categoryLabel: "Expert Blog",
-    title: "Migration Tool in Cloud Integration: Auto-Migrating ICOs",
-    description: "In-depth guide demonstrating how to select any PI/PO ICO and automatically generate structured Cloud Integration packages with mapping preserves.",
-    topic: "Automated Conversion Tooling",
-    tags: ["Migration Toolkit", "iFlow", "PI/PO"],
-    link: "https://community.sap.com/blogs/migration-tool-cloud-integration"
-  },
-  {
     id: "blog-master",
     category: "blogs",
     categoryLabel: "Expert Blog",
-    title: "Master Reference: SAP PO to IS Migration – Tool and Guidance",
-    description: "The authoritative master blog consolidating all links, roadmap updates, tool releases, and SAP recommendations in one living document.",
-    topic: "Central Reference Master Article",
+    title: "Master Blog: SAP Process Orchestration to SAP Integration Suite Migration",
+    description: "The authoritative master blog consolidating roadmap updates, tool releases, best practices, and official SAP recommendations in one living document.",
+    topic: "Consolidated Master Reference",
     tags: ["Migration", "Integration Suite", "Landscape Assessment"],
-    link: "https://community.sap.com/blogs/master-blog-sap-po-to-is-migration"
+    link: "https://community.sap.com/t5/technology-blog-posts-by-sap/master-blog-sap-process-orchestration-to-sap-integration-suite-migration/ba-p/14256400"
+  },
+  {
+    id: "blog-faq",
+    category: "blogs",
+    categoryLabel: "Expert Blog",
+    title: "FAQ: Migration from SAP Process Orchestration to SAP Integration Suite",
+    description: "Curated answers to the most frequent customer and partner questions regarding migration tools, licensing, hybrid runtimes, and cutover.",
+    topic: "Frequently Asked Technical Questions",
+    tags: ["Migration", "Integration Suite", "Troubleshooting"],
+    link: "https://community.sap.com/t5/integration-blog-posts/faq-migration-from-sap-process-orchestration-to-sap-integration-suite/ba-p/14284978"
   },
   {
     id: "blog-where-start",
     category: "blogs",
     categoryLabel: "Expert Blog",
-    title: "Migration from SAP PO/PI to IS – Where Do I Start?",
+    title: "Migration from SAP PO/PI to SAP Integration Suite – Where Do I Start?",
     description: "Practical step-by-step guidance written from field implementation experience covering team setup, wave structure, and governance.",
     topic: "Field Implementation Guide",
     tags: ["Migration", "PI/PO", "Modernization"],
-    link: "https://community.sap.com/blogs/migration-po-pi-to-is-where-start"
+    link: "https://community.sap.com/t5/technology-blog-posts-by-members/migration-from-sap-po-pi-to-sap-integration-suite-where-do-i-start/ba-p/13551735"
+  },
+  {
+    id: "blog-modernize",
+    category: "blogs",
+    categoryLabel: "Expert Blog",
+    title: "Modernize Integration with SAP Integration Suite",
+    description: "Strategic executive overview highlighting business advantages, architectural levers, and ROI of modernizing legacy integration landscapes.",
+    topic: "Platform Transition Levers",
+    tags: ["Modernization", "Migration", "Integration Suite"],
+    link: "https://community.sap.com/t5/technology-blog-posts-by-sap/modernize-integration-with-sap-integration-suite/ba-p/13576632"
+  },
+  {
+    id: "blog-testing",
+    category: "blogs",
+    categoryLabel: "Expert Blog",
+    title: "Testing Strategy for Migration from SAP Process Orchestration to SAP Integration Suite",
+    description: "Comprehensive blueprint for establishing automated regression testing, payload diff comparisons, and minimizing business validation cycles.",
+    topic: "Automated Regression & Test Tools",
+    tags: ["Testing", "iFlow", "Migration"],
+    link: "https://community.sap.com/t5/technology-blog-posts-by-sap/testing-strategy-for-migration-from-sap-process-orchestration-to-sap/ba-p/13568852"
   },
 
   // Learning Journeys & Certifications
   {
-    id: "learn-mig-is",
+    id: "learn-course-mig",
     category: "learning",
     categoryLabel: "Learning Journey",
-    title: "Learning Journey: Migrating to SAP Integration Suite",
-    description: "Official interactive learning curriculum on learning.sap.com taking architects and developers through every phase of real-world migration projects.",
-    topic: "End-to-End Certification Path",
+    title: "SAP Process Orchestration to SAP Integration Suite Migration Course",
+    description: "Official free interactive course on learning.sap.com taking architects and developers through every phase of real-world migration projects.",
+    topic: "Official Free Self-Paced Training Course",
     tags: ["Migration", "Integration Suite", "Cloud Integration"],
-    link: "https://learning.sap.com/learning-journeys/migrating-to-sap-integration-suite"
+    link: "https://learning.sap.com/courses/sap-process-orchestration-to-sap-integration-suite-migration"
   },
   {
     id: "learn-c-cpi-15",
     category: "learning",
     categoryLabel: "Official Certification",
-    title: "SAP Certified - Integration Developer",
+    title: "SAP Certified Associate - Integration Developer",
     description: "The global industry-standard credential validating mastery over Cloud Integration, API Management, Open Connectors, Integration Advisor, and security.",
-    topic: "Official Certification",
+    topic: "Official Certification Credential",
     tags: ["Integration Suite", "Cloud Integration", "API Management"],
     link: "https://learning.sap.com/certifications/sap-certified-associate-integration-developer"
   },
   {
-    id: "learn-opensap-btp",
+    id: "learn-dev-is",
     category: "learning",
-    categoryLabel: "openSAP Course",
-    title: "openSAP: SAP BTP & Cloud Integration Essentials",
-    description: "Free community video course with real-world weekly assignments, hands-on tenant exercises, and practitioner forums.",
-    topic: "Foundational Enablement",
-    tags: ["SAP BTP", "Cloud Integration"],
-    link: "https://open.sap.com/courses/btp-integration"
+    categoryLabel: "Learning Journey",
+    title: "Developing with SAP Integration Suite Learning Journey",
+    description: "Comprehensive developer enablement curriculum covering core integration developer competencies on SAP Business Technology Platform.",
+    topic: "Comprehensive Developer Curriculum",
+    tags: ["SAP BTP", "Cloud Integration", "Integration Suite"],
+    link: "https://learning.sap.com/learning-journeys/developing-with-sap-integration-suite"
   }
 ];
 
@@ -500,7 +530,7 @@ let STARTING_STEPS = [
       "Standardize Groovy reusable utility scripts for mapping, headers, and error handling",
       "Review Enterprise Integration Patterns (Content-Based Router, Splitter, Aggregator)"
     ],
-    link: "https://learning.sap.com/learning-journeys/developing-with-sap-integration-suite",
+    link: "https://learning.sap.com/courses/sap-process-orchestration-to-sap-integration-suite-migration",
     icon: "🎓"
   },
   {
@@ -517,7 +547,7 @@ let STARTING_STEPS = [
       "Run data extraction in analysis mode across all active communication channels",
       "Review generated PDF/Excel readiness reports to calibrate project T-shirt sizing"
     ],
-    link: "https://help.sap.com/docs/migration-assessment",
+    link: "https://help.sap.com/docs/integration-suite/isuite-migration-assessment/migration-assessment?locale=en-US",
     icon: "⚙️"
   },
   {
@@ -2085,6 +2115,11 @@ const CATEGORY_MAP = {
 };
 
 function renderSidebarResources() {
+  const pillBadge = document.getElementById("resource-hub-pill-badge");
+  if (pillBadge) {
+    pillBadge.textContent = `${RESOURCES.length} Verified`;
+  }
+
   const container = document.getElementById("sidebar-categories-tree");
   if (!container) return;
 
