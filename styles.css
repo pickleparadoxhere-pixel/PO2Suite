@@ -829,33 +829,7 @@ a:hover {
   border: 1px solid transparent;
 }
 
-.contact-action-btn.whatsapp {
-  background: #25d366;
-  color: #ffffff !important;
-  box-shadow: 0 3px 10px rgba(37, 211, 102, 0.25);
-}
 
-.contact-action-btn.whatsapp:hover {
-  background: #20bd5a;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(37, 211, 102, 0.35);
-  text-decoration: none;
-  color: #ffffff !important;
-}
-
-.contact-action-btn.phone {
-  background: var(--sap-blue);
-  color: #ffffff !important;
-  box-shadow: 0 3px 10px rgba(0, 112, 242, 0.25);
-}
-
-.contact-action-btn.phone:hover {
-  background: var(--sap-blue-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0, 112, 242, 0.35);
-  text-decoration: none;
-  color: #ffffff !important;
-}
 
 .action-btn-icon {
   display: flex;
@@ -3051,6 +3025,7 @@ dialog.native-dialog::backdrop {
 }
 
 .advisory-phone-wrapper,
+.advisory-email-wrapper,
 .advisory-linkedin-wrapper {
   display: inline-flex;
   align-items: center;
@@ -3105,7 +3080,8 @@ dialog.native-dialog::backdrop {
   transition: opacity 0.2s ease, color 0.2s ease, background 0.2s ease;
 }
 
-.advisory-phone-wrapper:hover .advisory-copy-btn {
+.advisory-phone-wrapper:hover .advisory-copy-btn,
+.advisory-email-wrapper:hover .advisory-copy-btn {
   opacity: 1;
 }
 
@@ -3114,10 +3090,10 @@ dialog.native-dialog::backdrop {
   background: #EBF3FF;
 }
 
-/* Understated Secondary Buttons (side-by-side 3-column grid) */
+/* Understated Secondary Buttons (side-by-side 2-column grid) */
 .advisory-actions-row {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 0.75rem;
   align-items: center;
   margin-top: 1.75rem;

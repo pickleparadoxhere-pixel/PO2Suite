@@ -39,7 +39,7 @@ With SAP Process Orchestration (PI/PO) mainstream maintenance ending by December
    - Real-time querying across 60+ curated SAP Notes, whitepapers, best practices, and official guides.
 
 8. **Expert Migration Advisory:**
-   - Direct architecture advisory led by **Jigar Nalvaya** (+91 9374448058) with instant WhatsApp and telephone channels.
+   - Direct architecture advisory led by **Jagdeesh** via [LinkedIn](https://www.linkedin.com/in/jagdeesh-cpi/) and [deltalearninghub@gmail.com](mailto:deltalearninghub@gmail.com).
 
 ---
 
@@ -78,4 +78,4 @@ Then navigate to `http://localhost:8080` in your browser.
 ## 📄 License & Attribution
 
 Designed and architected for SAP Integration teams modernizing to SAP BTP.  
-Author & Advisory: **Jigar Nalvaya** (+91 9374448058)
+Author & Advisory: **Jagdeesh** ([LinkedIn](https://www.linkedin.com/in/jagdeesh-cpi/) | [deltalearninghub@gmail.com](mailto:deltalearninghub@gmail.com))

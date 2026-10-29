@@ -1867,16 +1867,20 @@ function closeContactModal() {
   }
 }
 
-function copyContactNumber(num) {
+function copyContactText(text, label = "Contact") {
   if (navigator.clipboard) {
-    navigator.clipboard.writeText(num).then(() => {
-      showToast(`Copied ${num} to clipboard!`);
+    navigator.clipboard.writeText(text).then(() => {
+      showToast(`Copied ${text} to clipboard!`);
     }).catch(() => {
-      showToast(`Phone: ${num}`);
+      showToast(`${label}: ${text}`);
     });
   } else {
-    showToast(`Phone: ${num}`);
+    showToast(`${label}: ${text}`);
   }
+}
+
+function copyContactNumber(num) {
+  copyContactText(num, "Phone");
 }
 
 function initDialogListeners() {
